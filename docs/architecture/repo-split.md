@@ -1,54 +1,63 @@
-# QuantGod 四仓库拆分架构
+# 四仓库拆分架构
 
-## 拆分目标
+QuantGod 已从单一混合仓库拆分为 Backend、Frontend、Infra、Docs 四个仓库。拆分目标不是简单移动目录，而是建立清晰的维护边界，让小模块改动尽量只影响一个仓库。
 
-QuantGod 原始仓库同时包含 MT5/MQL5、Node dashboard server、Python tools、Vue frontend、Cloudflare/Infra 和大量文档。随着 Phase 1、Phase 2、Phase 3 功能加入，单仓库维护成本开始变高。
-
-四仓库拆分的目标是：
-
-1. 让后端交易/研究/治理逻辑和前端 UI 解耦。
-2. 让 Infra 可以单独维护部署、同步和批量测试。
-3. 让文档成为独立 contract hub，避免 README 越来越长。
-4. 降低小模块改动的 blast radius。
-5. 让 CI 护栏按仓库职责分别执行。
-
-## 仓库拓扑
+## 仓库关系
 
 ```text
 QuantGodBackend
-  ├─ exposes localhost /api/*
-  ├─ serves Dashboard/vue-dist for operator workbench
-  └─ writes/reads MT5 runtime artifacts under local runtime directories
+  提供 localhost /api/*
 
 QuantGodFrontend
-  ├─ builds Vue app into dist/
-  ├─ calls QuantGodBackend /api/* only
-  └─ never reads QuantGod_*.json/csv files directly
+  通过 service layer 调用 /api/*
+  构建 dist/
 
 QuantGodInfra
-  ├─ pulls/tests four repos
-  ├─ builds QuantGodFrontend
-  ├─ syncs dist/ into QuantGodBackend/Dashboard/vue-dist
-  └─ manages Cloudflare/docs/deploy helper scripts
+  管理 workspace、批量 pull/test/build、同步 frontend dist
 
 QuantGodDocs
-  ├─ stores architecture docs
-  ├─ stores API contract
-  ├─ stores runbooks and safety docs
-  └─ validates links and contract JSON
+  记录架构、API contract、运维和安全边界
 ```
 
-## Local-first 原则
+## Backend 保留内容
 
-QuantGod 不是公网交易 API。Backend API 应该保持 localhost operator 面板用途。Telegram 只推送，不接受命令。AI 和 Vibe Coding 都是 advisory/research-only。MT5/HFM live pilot 仍由 EA 内部 safety guard、Kill Switch、授权锁和 dryRun 边界保护。
+Backend 负责本地交易研究与受控执行面：
 
-## 提交顺序建议
+- `MQL5/` EA、preset、MT5 Files runtime 边界。
+- `Dashboard/` Node server、API route、`vue-dist/` 静态产物。
+- `tools/` Python 工具，包括 AI、ParamLab、Governance、Vibe Coding、notify。
+- `tests/` 后端测试、Node API contract 测试、safety guard。
 
-涉及四仓库联动时，建议顺序是：
+Backend 不应该再包含 Vue 源码、Cloudflare 源码或长篇文档中心。
 
-1. `QuantGodBackend`：新增兼容 endpoint 或调整 envelope。
-2. `QuantGodDocs`：更新 `api-contract.json` 和 Markdown 文档。
-3. `QuantGodFrontend`：消费新 endpoint。
-4. `QuantGodInfra`：如果 build/sync/test 方式变化，再更新 workspace 脚本。
+## Frontend 保留内容
 
-这样能避免前端先调用不存在的 endpoint，或者 Infra 同步一个 contract 未定义的页面。
+Frontend 只负责 Vue 工作台源码：
+
+- `src/` Vue components、services、workspaces。
+- `package.json`、Vite 配置、前端测试和 contract guard。
+- UI 组件库、KlineCharts、Monaco、Ant Design Vue。
+
+Frontend 不应该读取 `/QuantGod_*.json` 或 `/QuantGod_*.csv`，也不应该包含 `MQL5/`、`Dashboard/`、`tools/`。
+
+## Infra 保留内容
+
+Infra 负责四仓库联动：
+
+- workspace 配置和 helper。
+- 批量 pull/status/test/build。
+- 前端 dist 同步到 Backend `Dashboard/vue-dist`。
+- Cloudflare 或其他部署配置。
+
+Infra 不应该包含交易策略、EA、Vue 页面实现或运行时凭据。
+
+## Docs 保留内容
+
+Docs 是四仓库的 contract hub：
+
+- 架构与模块边界。
+- API contract 和 safety defaults。
+- Phase 1/2/3 交付状态。
+- 本地 runbook、Telegram、MT5/HFM live pilot 运维说明。
+
+Docs 不应该包含可执行交易代码、runtime 文件或任何 token/key。

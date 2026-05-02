@@ -1,56 +1,39 @@
-# Frontend API Client Rules
+# 前端 API Client 规则
 
-## 规则
+Frontend 必须把所有运行时数据访问封装在 `src/services/*` 中。
 
-Frontend 只能调用：
-
-```text
-/api/*
-```
-
-Frontend 禁止调用：
-
-```text
-/QuantGod_*.json
-/QuantGod_*.csv
-C:\...\MQL5\Files\...
-../QuantGodBackend/...
-```
-
-## 为什么禁止直接读文件
-
-直接读 runtime 文件会造成：
-
-1. 前端和 backend 文件布局耦合。
-2. CSV/JSON schema 改动无法统一 envelope。
-3. CI 很难检测真实数据路径漂移。
-4. 拆仓库后 frontend 无法独立开发和测试。
-
-## 推荐 service wrapper
+## 允许
 
 ```js
-async function fetchJson(url, fallback = null) {
-  const response = await fetch(url, {
-    headers: { Accept: 'application/json' },
-    cache: 'no-store',
-  })
-  if (!response.ok) return fallback
-  return response.json()
-}
-
-export function loadGovernanceAdvisor() {
-  return fetchJson('/api/governance/advisor')
-}
+await fetch('/api/governance/advisor')
+await fetch('/api/ai-analysis/latest')
+await fetch('/api/vibe-coding/strategies')
 ```
 
-## CI Guard
+## 禁止
 
-`QuantGodFrontend` 应运行：
-
-```powershell
-npm run contract
-npm test
-npm run build
+```js
+await fetch('/QuantGod_GovernanceAdvisor.json')
+await fetch('/QuantGod_TradeJournal.csv')
+await fetch('/MQL5/Files/QuantGod_Dashboard.json')
 ```
 
-Contract guard 应允许 UI 展示 `QuantGod_*.json` 这种文件名文本，但必须禁止 `/QuantGod_*.json` 或 `/QuantGod_*.csv` 本地路径读取。
+## 组件约束
+
+Vue component 只调用 service function，不直接写 raw fetch。这样做可以统一：
+
+- base URL。
+- error handling。
+- retry / timeout。
+- loading state。
+- API contract guard。
+
+## Contract 更新顺序
+
+当 Backend route 变化时：
+
+1. Backend 新增或修改 route。
+2. Docs 更新 `docs/contracts/api-contract.json`。
+3. Docs 重新生成 `docs/backend/api-contract.md`。
+4. Frontend service wrapper 消费新 endpoint。
+5. Frontend CI 运行 contract guard。

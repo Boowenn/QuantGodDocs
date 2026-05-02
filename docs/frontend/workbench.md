@@ -1,25 +1,37 @@
-# Vue Workbench
+# Vue 工作台
 
-## 功能域
+QuantGodFrontend 是唯一 active operator frontend。旧 Dashboard 只保留归档或重定向，不再作为 active fallback。
 
-Vue Workbench 应按功能域拆分：
+## 推荐结构
 
-- Dashboard overview
-- MT5 monitor
-- Governance Advisor
-- ParamLab
-- Trades and journal
-- Research / Shadow / Candidate
-- AI Analysis V1
-- AI Analysis V2 Debate
-- Kline workspace
-- Vibe Coding workspace
-- Notify / Telegram status
+```text
+src/
+├── app/
+│   ├── AppShell.vue
+│   ├── navigation.js
+│   └── routes.js
+├── workspaces/
+│   ├── ai-analysis/
+│   ├── ai-v2/
+│   ├── kline/
+│   ├── vibe-coding/
+│   ├── governance/
+│   ├── paramlab/
+│   ├── mt5-monitor/
+│   └── research/
+├── services/
+├── stores/
+├── components/
+└── styles/
+```
 
-## 维护原则
+## 模块化目标
 
-1. UI 组件不直接 `fetch()`，应调用 `src/services/*`。
-2. 数据加载、错误处理、fallback 和 response normalization 应在 service layer 完成。
-3. 新增 API 先更新 docs contract，再更新 service wrapper。
-4. 大组件逐步拆分，不再把所有页面堆到 `App.vue`。
-5. Ant Design Vue 是标准 UI 基础；KlineCharts 和 Monaco Editor 是专业组件，不要重写底层。
+- `App.vue` 只保留 app shell 和全局状态入口。
+- 每个 workspace 单独维护自己的组件、状态和 API wrapper。
+- 图表、表格、卡片、编辑器等通用 UI 放到 shared components。
+- service 层统一错误处理和 loading 状态。
+
+## 安全展示
+
+前端可以展示 AI、Governance、ParamLab 和 MT5 状态，但不能修改 live preset 或绕过后端 guard。任何受控动作必须由 Backend 明确暴露 endpoint，并在 UI 上显示安全状态。

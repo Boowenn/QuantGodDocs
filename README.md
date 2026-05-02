@@ -1,6 +1,6 @@
 # QuantGodDocs
 
-QuantGodDocs 是 QuantGod 四仓库体系的文档中心。它不承载后端运行代码、不承载前端源码、不承载 Cloudflare/部署脚本，也不保存任何 MT5 账号信息、Telegram token、OpenRouter key 或其他凭据。
+QuantGodDocs 是 QuantGod 四仓库体系的文档中心。它只保存架构、API、运维、Phase 状态、安全边界和维护规则，不承载后端运行代码、前端源码、Cloudflare 部署脚本，也不保存 MT5 账号信息、Telegram token、OpenRouter key 或其他凭据。
 
 ## 四仓库职责
 
@@ -17,7 +17,8 @@ QuantGodDocs 是 QuantGod 四仓库体系的文档中心。它不承载后端运
 - [模块边界](docs/architecture/module-boundaries.md)
 - [仓库联动 Contract](docs/architecture/linkage-contract.md)
 - [后端 API Contract](docs/backend/api-contract.md)
-- [安全边界](docs/backend/safety-boundaries.md)
+- [后端安全边界](docs/backend/safety-boundaries.md)
+- [前端工作台](docs/frontend/workbench.md)
 - [前端 API Client 规则](docs/frontend/api-client.md)
 - [Infra workspace 自动化](docs/infra/workspace-automation.md)
 - [本地运行 Runbook](docs/ops/runbook-local.md)
@@ -35,11 +36,12 @@ QuantGodDocs 是 QuantGod 四仓库体系的文档中心。它不承载后端运
 ## 本地检查
 
 ```powershell
-python scripts/check_docs_links.py
+python scripts/check_docs_links.py --root .
 python scripts/check_api_contract_matches_backend.py --contract docs/contracts/api-contract.json
+python -m unittest discover tests -v
 ```
 
-如果本地同时 clone 了 `QuantGodBackend`，可以做 route 对齐检查：
+如果本地同时 clone 了 `QuantGodBackend`，可以做跨仓库 route 对齐检查：
 
 ```powershell
 python scripts/check_api_contract_matches_backend.py `
@@ -52,5 +54,6 @@ python scripts/check_api_contract_matches_backend.py `
 1. 文档必须使用多行 Markdown，不要把整篇文档压成一行。
 2. 文档中的相对链接必须能解析到真实文件。
 3. API contract 必须保持 JSON 可解析。
-4. 安全边界文档优先级高于功能文档；任何新功能都不能突破 Kill Switch、授权锁、dryRun、只读数据面和 push-only 通知边界。
-5. 如果改动影响前端调用路径，先改 Backend contract，再更新 Docs，最后改 Frontend。
+4. 安全边界文档优先级高于功能文档。
+5. 任何新功能都不能突破 Kill Switch、授权锁、dryRun、只读数据面和 push-only 通知边界。
+6. 如果改动影响前端调用路径，先改 Backend contract，再更新 Docs，最后改 Frontend。

@@ -1,35 +1,35 @@
-# Workspace Automation
+# Workspace 自动化
 
-## 推荐目录结构
-
-```text
-C:\QuantGod\
-  QuantGodBackend\
-  QuantGodFrontend\
-  QuantGodInfra\
-  QuantGodDocs\
-```
+`QuantGodInfra/scripts/qg-workspace.py` 是四仓库联动入口。
 
 ## 常用命令
 
 ```powershell
-cd C:\QuantGod\QuantGodInfra
 python scripts\qg-workspace.py --workspace workspace\quantgod.workspace.json status
 python scripts\qg-workspace.py --workspace workspace\quantgod.workspace.json pull
 python scripts\qg-workspace.py --workspace workspace\quantgod.workspace.json test
+python scripts\qg-workspace.py --workspace workspace\quantgod.workspace.json verify
 python scripts\qg-workspace.py --workspace workspace\quantgod.workspace.json build-frontend
 python scripts\qg-workspace.py --workspace workspace\quantgod.workspace.json sync-frontend-dist
-python scripts\qg-workspace.py --workspace workspace\quantgod.workspace.json verify
 ```
 
-## test 命令应该覆盖
+## Test 语义
+
+`test` 应该覆盖：
 
 - Backend Python unittest。
-- Backend Node/API contract tests。
+- Backend Node API contract test。
 - Backend `tools/ci_guard.py`。
-- Frontend contract guard。
-- Frontend unit tests。
-- Frontend build。
-- Docs link/contract checks。
+- Frontend contract guard、unit test、build。
+- Docs link/contract/unit test。
 
-Node/API contract tests 必须硬失败，不能 `check=False`。
+Node API contract test 不能使用 `check=False`，也不能依赖 shell glob。应由 Python 枚举 test 文件，或直接运行 `npm test`。
+
+## Verify 语义
+
+`verify` 应该检查：
+
+- Backend 不含 `frontend/` 和 `cloudflare/`。
+- Frontend 不含 `MQL5/`、`Dashboard/`、`tools/`。
+- Infra 不含交易代码和 Vue 页面实现。
+- Docs 不含 runtime 文件和执行代码。

@@ -1,43 +1,49 @@
-# Phase 3 总结
+# Phase 3：Vibe Coding、AI V2 与 K 线增强
 
-Phase 3 增加更高层的研究能力，但仍不改变实盘安全链路。
+Phase 3 是可选增强阶段，包含 Vibe Coding 策略工作台、AI 多智能体 V2 和 K 线增强。
 
-## Module H：Vibe Coding
+## Module H：Vibe Coding 策略工作台
 
-Vibe Coding 把自然语言策略想法转换为 sandboxed Python strategy code，然后进入 research-only backtest 和 AI 分析。
-
-实盘晋级路径仍然固定为：
+核心流程：
 
 ```text
-Backtest -> ParamLab -> Governance -> Version Gate -> manual authorization
+自然语言描述
+  -> AI 生成 Python BaseStrategy
+  -> 安全检查
+  -> Monaco Editor 微调
+  -> research-only backtest
+  -> AI 回测分析
+  -> 迭代
 ```
 
-任何 generated strategy 都不能直接进入 live preset，也不能生成交易命令。
+Vibe Coding 到实盘必须经过：
 
-## Module I：AI Analysis V2
+```text
+回测 -> ParamLab -> Governance -> Version Gate -> 手动授权
+```
 
-已落地方向：
+## Module I：AI 多智能体 V2
 
-- `NewsAgent`
-- `SentimentAgent`
-- `BullAgent`
-- `BearAgent`
-- `DecisionAgentV2`
-- 本地 RAG-like memory。
-- debate-style reasoning。
+V2 从 3 Agent 扩展为多 Agent：
 
-Bull / Bear debate 只为 DecisionAgent 提供 evidence。它不能触发交易、修改 Governance 决策或绕过 Kill Switch。
+- TechnicalAgent
+- RiskAgent
+- NewsAgent
+- SentimentAgent
+- BullAgent
+- BearAgent
+- DecisionAgent V2
 
-## Module J：K-line Enhancement
+编排分为采集、辩论、决策三轮。Bull/Bear 辩论只能作为 DecisionAgent 的参考。
 
-已落地方向：
+## Module J：K 线增强
 
-- AI BUY / SELL / HOLD overlay 数据。
-- Vibe indicator overlay descriptors。
-- realtime polling config。
+K 线增强包括：
 
-这些增强只影响展示和研究，不影响 MT5 live execution。
+- AI BUY/SELL/HOLD overlay。
+- Vibe Coding 指标 overlay。
+- 30s 轮询实时行情配置。
 
-## 安全边界
+## 验收状态
 
-Vibe Coding 生成代码不能实盘交易。RAG memory 只保存分析案例和 reasoning，不保存账户信息、API key、Telegram token 或 MT5 凭据。
+Phase 3 已进入可用状态。后续维护重点是 strategy snapshot、backtest run versioning 和 Frontend 工作台模块化。

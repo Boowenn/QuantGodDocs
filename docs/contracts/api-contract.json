@@ -89,6 +89,12 @@
         },
         {
           "method": "POST",
+          "path": "/api/paramlab/auto-tester",
+          "mode": "guarded-control",
+          "description": "ParamLab auto-tester base route alias; action routes remain guarded."
+        },
+        {
+          "method": "POST",
           "path": "/api/paramlab/auto-tester/:action",
           "mode": "guarded-control",
           "description": "ParamLab auto-tester actions; must not bypass Version Gate or live authorization."
@@ -704,6 +710,12 @@
           "path": "/api/vibe-coding/strategies",
           "mode": "read-only",
           "description": "List generated strategy versions."
+        },
+        {
+          "method": "GET",
+          "path": "/api/vibe-coding/strategy",
+          "mode": "read-only",
+          "description": "Vibe Coding strategy detail base route alias."
         },
         {
           "method": "GET",

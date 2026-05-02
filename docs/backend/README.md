@@ -1,15 +1,16 @@
-# Backend 文档入口
+# Backend 文档
 
-Backend 是 QuantGod 的本地 API、MT5 runtime、AI 分析、Vibe Coding、Governance 和 ParamLab 中心。
+Backend 是 QuantGod 的本地交易研究与受控执行仓库，负责 MT5/HFM、Node API、Python tools、MQL5 EA、ParamLab、Governance、AI 分析、Vibe Coding 后端和通知服务。
 
-核心文档：
+## 关键入口
 
-- [API Contract / 接口契约](api-contract.md)
+- [API Contract](api-contract.md)
 - [安全边界](safety-boundaries.md)
 
-核心原则：
+## Backend 维护原则
 
-1. API local-first，不作为公网交易 API。
-2. 读数据和 advisory 分析可以通过 `/api/*` 暴露给 Vue。
-3. 下单、平仓、撤单、preset 修改不能由 AI、Telegram、Vibe Coding 或前端触发。
-4. Backend CI guard 只检查 backend/MQL5/API/safety，不再检查 Vue 源码。
+1. 新增 `/api/*` route 时，同步更新 Docs API contract。
+2. 修改 runtime JSON/CSV schema 时，同步更新 Frontend service wrapper。
+3. 后端 guard 只检查后端安全，不再检查 Vue 源码。
+4. 任何交易相关 action surface 都必须保留 dryRun、Kill Switch、authorization lock 和 EA guard。
+5. AI、Vibe Coding、Telegram 不得直接触发交易。

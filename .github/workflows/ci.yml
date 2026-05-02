@@ -17,6 +17,7 @@ jobs:
   docs-checks:
     name: Markdown and contract checks
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
 
@@ -24,7 +25,7 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Validate Markdown links and JSON
+      - name: Validate Markdown links, formatting, and JSON
         run: python scripts/check_docs_links.py --root .
 
       - name: Validate API contract standalone
@@ -43,4 +44,7 @@ jobs:
 
       - name: Secret hygiene
         run: |
-          ! grep -RInE 'TELEGRAM_BOT_TOKEN|OPENROUTER_API_KEY|ghp_[A-Za-z0-9]+' . --exclude-dir=.git --exclude='*.md' --exclude='*.json' --exclude='ci.yml'
+          ! grep -RInE 'TELEGRAM_BOT_TOKEN|OPENROUTER_API_KEY|ghp_[A-Za-z0-9]+' . \
+            --exclude-dir=.git \
+            --exclude='*.json' \
+            --exclude='ci.yml'
