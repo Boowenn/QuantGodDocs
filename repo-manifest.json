@@ -18,5 +18,15 @@
     "frontend": "https://github.com/Boowenn/QuantGodFrontend",
     "infra": "https://github.com/Boowenn/QuantGodInfra",
     "docs": "https://github.com/Boowenn/QuantGodDocs"
+  },
+  "schemaVersion": 1,
+  "workspace": "QuantGod",
+  "governance": {
+    "licenseFile": "LICENSE",
+    "securityPolicy": "SECURITY.md",
+    "contributionGuide": "CONTRIBUTING.md",
+    "codeOfConduct": "CODE_OF_CONDUCT.md",
+    "changelog": "CHANGELOG.md",
+    "checker": "scripts/check_repo_governance.py"
   }
 }
