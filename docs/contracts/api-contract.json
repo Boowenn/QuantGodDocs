@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "backendApiBaseUrl": "http://127.0.0.1:8080/api",
+  "groups": {
+    "aiAnalysisV1": [
+      "POST /api/ai-analysis/run",
+      "GET /api/ai-analysis/latest",
+      "GET /api/ai-analysis/history"
+    ],
+    "aiAnalysisV2": [
+      "POST /api/ai-analysis-v2/run",
+      "GET /api/ai-analysis-v2/latest",
+      "GET /api/ai-analysis-v2/history"
+    ],
+    "vibeCoding": [
+      "POST /api/vibe-coding/generate",
+      "POST /api/vibe-coding/backtest",
+      "GET /api/vibe-coding/strategies"
+    ],
+    "notify": [
+      "GET /api/notify/config",
+      "GET /api/notify/history",
+      "POST /api/notify/test"
+    ]
+  },
+  "safety": {
+    "localOnly": true,
+    "telegramPushOnly": true,
+    "aiAdvisoryOnly": true,
+    "vibeCodingResearchOnly": true
+  }
+}

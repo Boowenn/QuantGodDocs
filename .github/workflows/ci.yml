@@ -1,0 +1,25 @@
+name: QuantGod Docs CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Check docs
+        run: python scripts/check_docs_links.py
+      - name: Validate JSON contracts
+        run: |
+          python -m json.tool docs/contracts/repo-manifest.schema.json > /tmp/schema.json
+          python -m json.tool docs/contracts/api-contract.json > /tmp/api-contract.json

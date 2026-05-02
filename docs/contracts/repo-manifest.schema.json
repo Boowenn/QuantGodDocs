@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "QuantGod repo manifest",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "workspace",
+    "repos",
+    "contracts",
+    "safety"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "integer"
+    },
+    "workspace": {
+      "const": "QuantGod"
+    },
+    "repos": {
+      "type": "object"
+    },
+    "contracts": {
+      "type": "object"
+    },
+    "safety": {
+      "type": "object"
+    }
+  }
+}
