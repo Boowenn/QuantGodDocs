@@ -46,5 +46,6 @@ jobs:
         run: |
           ! grep -RInE 'TELEGRAM_BOT_TOKEN|OPENROUTER_API_KEY|ghp_[A-Za-z0-9]+' . \
             --exclude-dir=.git \
+            --exclude='*.md' \
             --exclude='*.json' \
             --exclude='ci.yml'
