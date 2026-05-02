@@ -16,9 +16,11 @@ Telegram 模块是 push-only 通知系统，只负责发送事件摘要，不接
 
 ## 环境变量
 
-```powershell
-$env:TELEGRAM_BOT_TOKEN = "<bot-token>"
-$env:TELEGRAM_CHAT_ID = "<chat-id>"
+环境变量通过本地 `.env` 文件注入，格式参考：
+
+```
+TELEGRAM_BOT_TOKEN — 通过 @BotFather 获取
+TELEGRAM_CHAT_ID   — 目标群组或频道的数字 ID
 ```
 
 不要把 token 或 chat id 提交到 Git。

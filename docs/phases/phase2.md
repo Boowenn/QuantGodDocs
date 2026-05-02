@@ -29,4 +29,14 @@ Phase 2 增加 integration test、coverage summary、API contract tests 和 spli
 
 ## 验收状态
 
-Phase 2 已验收。后续维护重点是保持 Frontend 零直接文件读取和 Telegram push-only。
+## 安全边界
+
+- Frontend 所有数据访问必须通过 `/api/*`，禁止直接读取本地 JSON/CSV 文件。
+- `apiClient.js` 强制校验路径前缀、拒绝绝对 URL 和运行时文件路径。
+- Telegram 为 push-only，不接受交易命令，不能绕过 Kill Switch 或授权锁。
+- CI guard 矩阵覆盖 API contract、workspace boundary、domain workspace 等 18 个检查。
+- 不引入 SQLite、Docker、Webhook 等新基础设施组件之前，API 安全边界不得弱化。
+
+## 验收状态
+
+Phase 2 已验收。

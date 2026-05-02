@@ -32,4 +32,13 @@ Phase 1 建立了 push/PR 自动测试基础，包括 Python tests、Node API te
 
 ## 验收状态
 
-Phase 1 已验收。后续维护重点是保持 AI advisory-only 和 K 线 read-only 数据边界。
+## 安全边界
+
+- AI 结果仅用于 advisory evidence，不得直接触发下单、平仓、撤单或 preset 变更。
+- K 线数据为 read-only，不提供任何写入或修改实盘参数的 API。
+- Kill Switch、授权锁、dryRun 必须保持生效，AI 不能绕过。
+- Phase 1 CI/CD 安全边界：guard scripts 仅检查文件结构、行尾格式和 forbidden markers，不具备执行权限。
+
+## 验收状态
+
+Phase 1 已验收。
