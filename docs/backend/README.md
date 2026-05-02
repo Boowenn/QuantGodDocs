@@ -1,55 +1,15 @@
-# 后端指南
+# Backend 文档入口
 
-## 仓库
+Backend 是 QuantGod 的本地 API、MT5 runtime、AI 分析、Vibe Coding、Governance 和 ParamLab 中心。
 
-`Boowenn/QuantGodBackend`
+核心文档：
 
-## 主要职责
+- [API Contract / 接口契约](api-contract.md)
+- [安全边界](safety-boundaries.md)
 
-- MT5 EA、HFM live/shadow/backtest 启动器。
-- Node dashboard/API server。
-- Governance、ParamLab、research stats、AI analysis、Vibe Coding、notification、bridge contracts 等 Python tools。
-- 后端 CI 与 API contract tests。
+核心原则：
 
-## 本地命令
-
-```powershell
-python -m unittest discover tests -v
-python -m pytest tests -q --cov=tools --cov-report=term-missing
-node --test tests/node/*.mjs
-Dashboard\start_dashboard.bat
-```
-
-## Runtime 文件
-
-典型 HFM runtime path：
-
-```text
-C:\Program Files\HFM Metatrader 5\MQL5\Files\
-```
-
-后端从 HFM Files 读取本地 runtime JSON/CSV，并通过 `/api/*` 提供规范化数据。
-
-## API 分组
-
-- `/api/mt5-readonly/*`
-- `/api/mt5-symbol-registry/*`
-- `/api/ai-analysis/*`
-- `/api/ai-analysis-v2/*`
-- `/api/governance/*`
-- `/api/paramlab/*`
-- `/api/trades/*`
-- `/api/research/*`
-- `/api/shadow/*`
-- `/api/dashboard/*`
-- `/api/notify/*`
-- `/api/vibe-coding/*`
-- `/api/kline/*`
-
-## 后端合并前检查
-
-- 不新增未受控的 live preset mutation。
-- API 不保存 broker credentials。
-- AI、Vibe、Telegram 路径不能发送 broker orders。
-- trading bridge 仍受 dryRun、Kill Switch、authorization locks 保护。
-- response shape 改动时同步 API contract tests 和 Docs。
+1. API local-first，不作为公网交易 API。
+2. 读数据和 advisory 分析可以通过 `/api/*` 暴露给 Vue。
+3. 下单、平仓、撤单、preset 修改不能由 AI、Telegram、Vibe Coding 或前端触发。
+4. Backend CI guard 只检查 backend/MQL5/API/safety，不再检查 Vue 源码。

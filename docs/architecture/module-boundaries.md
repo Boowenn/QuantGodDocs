@@ -1,54 +1,67 @@
 # 模块边界
 
-## Backend 拥有的模块
+## Backend 边界
 
-Backend 拥有所有会接触 MT5 runtime、HFM 本地文件、策略评估、Governance 或 AI evidence 写入的代码。
+Backend 负责：
 
-包括：
+- MT5/MQL5 EA 和 preset 安全检查。
+- Node dashboard server。
+- `/api/*` 本地 API。
+- Python tools：AI analysis、Vibe Coding、ParamLab、Governance、Notify、Kline overlay。
+- CI 中的 backend safety guard、API contract tests、Python unittest/pytest。
 
-- `MQL5/` 下的 MT5 EA 源码和 preset。
-- `Dashboard/` 下的 Node API server。
-- MT5 read-only bridge 与受控 trading bridge。
-- Governance Advisor。
-- ParamLab Runner、Auto Scheduler、Report Watcher、Recovery。
-- Strategy Version Registry 与 Version Promotion Gate。
-- Backend Backtest Loop。
-- AI Analysis V1/V2 agents 与 evidence writer。
-- Vibe Coding 策略生成、安全校验、registry、backtest connector。
-- Telegram push-only notify service。
+Backend 不负责：
 
-## Frontend 拥有的模块
+- Vue 源码维护。
+- Cloudflare 或 workspace 自动化。
+- 文档中心的长文档维护。
 
-Frontend 只拥有视觉工作台和 UI 状态：
+## Frontend 边界
 
-- Vue shell。
-- Ant Design Vue 页面层。
-- KlineCharts 渲染。
-- AI/Vibe Coding 面板。
-- API service wrappers。
-- Monaco editor UI。
+Frontend 负责：
 
-Frontend 不得包含 MT5 凭据、broker 凭据、Python 策略执行逻辑或本地 `MQL5/Files` 抓取逻辑。
+- Vue 3 operator workbench。
+- Ant Design Vue layout。
+- KlineCharts。
+- Monaco Editor。
+- `src/services/*` API client。
+- 前端 contract guard：禁止直接读 `QuantGod_*.json/csv`。
 
-## Infra 拥有的模块
+Frontend 不负责：
 
-Infra 负责胶水和部署：
+- 读取本地 runtime 文件。
+- 写 MT5 preset。
+- 发送订单、平仓、撤单。
+- 直接读取 backend repo 内部文件路径。
 
-- Cloudflare worker 文件。
-- workspace helper。
-- Frontend dist 到 Backend 静态目录的同步。
-- 多仓库 pull/build/test 命令。
-- 可选远程 dashboard 部署自动化。
+## Infra 边界
 
-Infra 不写策略逻辑，不改 Governance，不碰 live preset。
+Infra 负责：
 
-## Docs 拥有的模块
+- 四仓库 workspace 配置。
+- 批量 pull/status/test/verify。
+- frontend `dist/` 到 backend `Dashboard/vue-dist` 的同步。
+- Cloudflare 或静态发布配置。
 
-Docs 负责说明、契约、Runbook、Phase 设计和维护规则。以下变化必须同步文档：
+Infra 不负责：
 
-- API shape 改动。
-- 仓库边界改动。
-- operator workflow 改动。
-- 安全 gate 改动。
-- CI 或发布流程改动。
-- Phase 实装状态变化。
+- 交易逻辑。
+- UI 组件业务细节。
+- 后端 API handler 实现。
+
+## Docs 边界
+
+Docs 负责：
+
+- 架构说明。
+- API contract。
+- 安全边界。
+- Phase 文档。
+- 运维 runbook。
+- 文档链接和 contract 检查。
+
+Docs 不负责：
+
+- 可执行交易代码。
+- runtime artifact。
+- 账号、token、API key。

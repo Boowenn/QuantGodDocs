@@ -1,14 +1,9 @@
-# 变更记录
+# Changelog
 
 ## 2026-05-02
 
-- 完成四仓库拆分。
-- `QuantGodBackend` 保留 MT5/MQL5、Dashboard API、tools、tests、archive。
-- `QuantGodFrontend` 初始化 Vue operator workbench。
-- `QuantGodInfra` 初始化 workspace automation 与 Cloudflare 文件。
-- `QuantGodDocs` 初始化中文文档中心，并导入历史文档。
-- 文档正文统一改为中文，技术字段、命令和 API path 保留英文。
-
-## 维护方式
-
-本文件只记录重要结构变化。普通代码变更仍以各仓库 Git history 为准。
+- 将 QuantGod 拆分为 `QuantGodBackend`、`QuantGodFrontend`、`QuantGodInfra`、`QuantGodDocs` 四个仓库。
+- 修复 Backend CI guard：拆分后不再检查 frontend 源码，只保留 backend、MQL5、API 与安全边界检查。
+- 加固 Infra workspace：联动测试对 backend Node/API contract test 硬失败，并使用 portable workspace 配置。
+- 加固 Frontend API contract guard：禁止前端直接读取 runtime JSON/CSV，强制通过 `/api/*` service layer。
+- 初始化 Docs contract hub：补齐架构、API contract、runbook、phase 文档和自检脚本。

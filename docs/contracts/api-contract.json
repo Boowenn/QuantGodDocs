@@ -1,32 +1,777 @@
 {
   "schemaVersion": 1,
-  "backendApiBaseUrl": "http://127.0.0.1:8080/api",
-  "groups": {
-    "aiAnalysisV1": [
-      "POST /api/ai-analysis/run",
-      "GET /api/ai-analysis/latest",
-      "GET /api/ai-analysis/history"
-    ],
-    "aiAnalysisV2": [
-      "POST /api/ai-analysis-v2/run",
-      "GET /api/ai-analysis-v2/latest",
-      "GET /api/ai-analysis-v2/history"
-    ],
-    "vibeCoding": [
-      "POST /api/vibe-coding/generate",
-      "POST /api/vibe-coding/backtest",
-      "GET /api/vibe-coding/strategies"
-    ],
-    "notify": [
-      "GET /api/notify/config",
-      "GET /api/notify/history",
-      "POST /api/notify/test"
-    ]
+  "project": "QuantGod",
+  "generatedFrom": "Phase 1/2/3 design and current backend route surfaces",
+  "lastReviewed": "2026-05-02",
+  "repositories": {
+    "backend": "QuantGodBackend",
+    "frontend": "QuantGodFrontend",
+    "infra": "QuantGodInfra",
+    "docs": "QuantGodDocs"
   },
-  "safety": {
+  "safetyDefaults": {
     "localOnly": true,
-    "telegramPushOnly": true,
-    "aiAdvisoryOnly": true,
-    "vibeCodingResearchOnly": true
-  }
+    "advisoryOnly": true,
+    "readOnlyDataPlane": true,
+    "orderSendAllowed": false,
+    "closeAllowed": false,
+    "cancelAllowed": false,
+    "credentialStorageAllowed": false,
+    "livePresetMutationAllowed": false,
+    "canOverrideKillSwitch": false,
+    "canMutateGovernanceDecision": false,
+    "telegramCommandExecutionAllowed": false
+  },
+  "endpointGroups": [
+    {
+      "name": "backend-core-and-control",
+      "phase": "backend-core",
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "/api/latest",
+          "mode": "read-only",
+          "description": "Latest local dashboard state with service metadata."
+        },
+        {
+          "method": "GET",
+          "path": "/api/daily-review",
+          "mode": "read-only",
+          "description": "Daily review API wrapper."
+        },
+        {
+          "method": "GET",
+          "path": "/api/daily-autopilot",
+          "mode": "read-only",
+          "description": "Daily autopilot API wrapper."
+        },
+        {
+          "method": "GET",
+          "path": "/api/phase1",
+          "mode": "read-only",
+          "description": "Phase 1 workspace route/config alias."
+        },
+        {
+          "method": "GET",
+          "path": "/api/mt5-readonly",
+          "mode": "read-only",
+          "description": "MT5 read-only bridge snapshot alias."
+        },
+        {
+          "method": "GET",
+          "path": "/api/mt5-readonly/:endpoint",
+          "mode": "read-only",
+          "description": "Legacy MT5 read-only bridge endpoint wrapper."
+        },
+        {
+          "method": "GET",
+          "path": "/api/mt5-symbol-registry",
+          "mode": "read-only",
+          "description": "MT5 symbol registry."
+        },
+        {
+          "method": "GET",
+          "path": "/api/mt5-symbol-registry/:endpoint",
+          "mode": "read-only",
+          "description": "MT5 symbol registry sub-endpoint."
+        },
+        {
+          "method": "GET",
+          "path": "/api/mt5-backtest-loop",
+          "mode": "research-only",
+          "description": "Backend backtest loop status/result."
+        },
+        {
+          "method": "GET",
+          "path": "/api/mt5-backtest-loop/run",
+          "mode": "research-only",
+          "description": "Trigger research-only backend backtest loop."
+        },
+        {
+          "method": "POST",
+          "path": "/api/paramlab/auto-tester/:action",
+          "mode": "guarded-control",
+          "description": "ParamLab auto-tester actions; must not bypass Version Gate or live authorization."
+        },
+        {
+          "method": "GET",
+          "path": "/api/mt5-pending-worker/status",
+          "mode": "read-only",
+          "description": "Pending worker status."
+        },
+        {
+          "method": "POST",
+          "path": "/api/mt5-pending-worker/run",
+          "mode": "guarded-control",
+          "description": "Run pending worker under backend safety controls."
+        },
+        {
+          "method": "GET",
+          "path": "/api/mt5-adaptive-control/status",
+          "mode": "read-only",
+          "description": "Adaptive control status."
+        },
+        {
+          "method": "POST",
+          "path": "/api/mt5-adaptive-control/run",
+          "mode": "guarded-control",
+          "description": "Run adaptive control under backend safety controls."
+        },
+        {
+          "method": "GET",
+          "path": "/api/mt5-platform",
+          "mode": "read-only",
+          "description": "MT5 platform store base endpoint."
+        },
+        {
+          "method": "ANY",
+          "path": "/api/mt5-platform/:endpoint",
+          "mode": "guarded-control",
+          "description": "MT5 platform store sub-endpoints; not a direct order API."
+        },
+        {
+          "method": "GET",
+          "path": "/api/mt5-trading",
+          "mode": "guarded-control",
+          "description": "MT5 trading bridge status; defaults locked by dryRun/killSwitch."
+        },
+        {
+          "method": "ANY",
+          "path": "/api/mt5-trading/:endpoint",
+          "mode": "guarded-control",
+          "description": "MT5 trading bridge sub-endpoint; must remain guarded by backend and EA controls."
+        },
+        {
+          "method": "GET",
+          "path": "/api/mt5",
+          "mode": "guarded-control",
+          "description": "Compatibility alias for MT5 trading status."
+        },
+        {
+          "method": "ANY",
+          "path": "/api/mt5/:endpoint",
+          "mode": "guarded-control",
+          "description": "Compatibility alias for MT5 trading bridge sub-endpoints."
+        },
+        {
+          "method": "DELETE",
+          "path": "/api/mt5/order/:ticket",
+          "mode": "guarded-control",
+          "description": "Order cancel route; must remain blocked/guarded unless explicitly authorized."
+        }
+      ]
+    },
+    {
+      "name": "polymarket-research",
+      "phase": "backend-core",
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "/api/polymarket/history",
+          "mode": "read-only",
+          "description": "Polymarket research history."
+        },
+        {
+          "method": "GET",
+          "path": "/api/polymarket/real-trades",
+          "mode": "read-only",
+          "description": "Polymarket real/canary trades view."
+        },
+        {
+          "method": "GET",
+          "path": "/api/polymarket/radar",
+          "mode": "read-only",
+          "description": "Market radar JSON."
+        },
+        {
+          "method": "GET",
+          "path": "/api/polymarket/radar-ledger",
+          "mode": "read-only-csv",
+          "description": "Polymarket radar ledger."
+        },
+        {
+          "method": "GET",
+          "path": "/api/polymarket/markets",
+          "mode": "read-only",
+          "description": "Market search/list."
+        },
+        {
+          "method": "GET",
+          "path": "/api/polymarket/market",
+          "mode": "read-only",
+          "description": "Market detail."
+        },
+        {
+          "method": "GET",
+          "path": "/api/polymarket/book",
+          "mode": "read-only",
+          "description": "Order book / book snapshot."
+        },
+        {
+          "method": "GET",
+          "path": "/api/polymarket/asset-opportunities",
+          "mode": "read-only",
+          "description": "Asset opportunity list."
+        },
+        {
+          "method": "GET",
+          "path": "/api/polymarket/radar-worker",
+          "mode": "read-only",
+          "description": "Radar worker status."
+        },
+        {
+          "method": "GET",
+          "path": "/api/polymarket/radar-worker-ledger",
+          "mode": "read-only-csv",
+          "description": "Radar worker ledger."
+        },
+        {
+          "method": "GET",
+          "path": "/api/polymarket/cross-linkage",
+          "mode": "read-only",
+          "description": "Cross-market linkage output."
+        },
+        {
+          "method": "GET",
+          "path": "/api/polymarket/cross-market-linkage-ledger",
+          "mode": "read-only-csv",
+          "description": "Cross-market linkage ledger."
+        },
+        {
+          "method": "GET",
+          "path": "/api/polymarket/canary-executor-contract",
+          "mode": "read-only",
+          "description": "Canary executor contract/status."
+        },
+        {
+          "method": "GET",
+          "path": "/api/polymarket/canary-executor-ledger",
+          "mode": "read-only-csv",
+          "description": "Canary executor ledger."
+        },
+        {
+          "method": "GET",
+          "path": "/api/polymarket/auto-governance",
+          "mode": "read-only",
+          "description": "Polymarket auto-governance evidence."
+        },
+        {
+          "method": "GET",
+          "path": "/api/polymarket/auto-governance-ledger",
+          "mode": "read-only-csv",
+          "description": "Polymarket auto-governance ledger."
+        },
+        {
+          "method": "GET",
+          "path": "/api/polymarket/canary-executor-run",
+          "mode": "read-only",
+          "description": "Canary executor run output."
+        },
+        {
+          "method": "GET",
+          "path": "/api/polymarket/ai-score",
+          "mode": "read-only",
+          "description": "Polymarket AI score."
+        },
+        {
+          "method": "GET",
+          "path": "/api/polymarket/ai-score-ledger",
+          "mode": "read-only-csv",
+          "description": "Polymarket AI score ledger."
+        },
+        {
+          "method": "GET",
+          "path": "/api/polymarket/canary-exit-ledger",
+          "mode": "read-only-csv",
+          "description": "Canary exit ledger."
+        },
+        {
+          "method": "GET",
+          "path": "/api/polymarket/canary-order-audit-ledger",
+          "mode": "read-only-csv",
+          "description": "Canary order audit ledger."
+        },
+        {
+          "method": "GET",
+          "path": "/api/polymarket/canary-position-ledger",
+          "mode": "read-only-csv",
+          "description": "Canary position ledger."
+        },
+        {
+          "method": "GET",
+          "path": "/api/polymarket/analyze/history",
+          "mode": "read-only",
+          "description": "Single-market analysis history."
+        },
+        {
+          "method": "GET",
+          "path": "/api/polymarket/search",
+          "mode": "read-only",
+          "description": "Polymarket search endpoint."
+        },
+        {
+          "method": "POST",
+          "path": "/api/polymarket/single-market-request",
+          "mode": "research-only",
+          "description": "Queue/request single-market research analysis."
+        },
+        {
+          "method": "POST",
+          "path": "/api/polymarket/analyze",
+          "mode": "research-only",
+          "description": "Compatibility alias for single-market research request."
+        },
+        {
+          "method": "GET",
+          "path": "/api/polymarket/single-market-analysis",
+          "mode": "read-only",
+          "description": "Latest single-market analysis output."
+        },
+        {
+          "method": "GET",
+          "path": "/api/polymarket/single-market-analysis-ledger",
+          "mode": "read-only-csv",
+          "description": "Single-market analysis ledger."
+        }
+      ]
+    },
+    {
+      "name": "mt5-readonly",
+      "phase": "phase1",
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "/api/mt5-readonly/status",
+          "mode": "read-only",
+          "description": "MT5 read-only bridge status."
+        },
+        {
+          "method": "GET",
+          "path": "/api/mt5-readonly/account",
+          "mode": "read-only",
+          "description": "Account snapshot, no credentials."
+        },
+        {
+          "method": "GET",
+          "path": "/api/mt5-readonly/positions",
+          "mode": "read-only",
+          "description": "Open positions snapshot."
+        },
+        {
+          "method": "GET",
+          "path": "/api/mt5-readonly/orders",
+          "mode": "read-only",
+          "description": "Open/pending orders snapshot."
+        },
+        {
+          "method": "GET",
+          "path": "/api/mt5-readonly/symbols",
+          "mode": "read-only",
+          "description": "MT5 symbol list."
+        },
+        {
+          "method": "GET",
+          "path": "/api/mt5-readonly/quote",
+          "mode": "read-only",
+          "description": "Quote for one symbol."
+        },
+        {
+          "method": "GET",
+          "path": "/api/mt5-readonly/snapshot",
+          "mode": "read-only",
+          "description": "Combined MT5 monitor snapshot."
+        },
+        {
+          "method": "GET",
+          "path": "/api/mt5-readonly/kline",
+          "mode": "read-only",
+          "description": "K-line bars for KlineCharts."
+        },
+        {
+          "method": "GET",
+          "path": "/api/mt5-readonly/trades",
+          "mode": "read-only",
+          "description": "Trade markers for chart overlay."
+        },
+        {
+          "method": "GET",
+          "path": "/api/mt5-readonly/shadow-signals",
+          "mode": "read-only",
+          "description": "Shadow signal markers for chart overlay."
+        },
+        {
+          "method": "GET",
+          "path": "/api/shadow-signals",
+          "mode": "read-only",
+          "description": "Compatibility alias for shadow signal overlay."
+        }
+      ]
+    },
+    {
+      "name": "ai-analysis-v1",
+      "phase": "phase1",
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "/api/ai-analysis",
+          "mode": "advisory",
+          "description": "AI Analysis V1 config/status alias."
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-analysis/run",
+          "mode": "advisory",
+          "description": "Run Technical/Risk/Decision V1 analysis."
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-analysis/latest",
+          "mode": "read-only",
+          "description": "Latest AI V1 report."
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-analysis/history",
+          "mode": "read-only",
+          "description": "AI V1 report history list."
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-analysis/history/:id",
+          "mode": "read-only",
+          "description": "One AI V1 report by id."
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-analysis/config",
+          "mode": "read-only",
+          "description": "AI V1 local config/status."
+        }
+      ]
+    },
+    {
+      "name": "phase2-file-facade",
+      "phase": "phase2",
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "/api/governance/advisor",
+          "mode": "read-only",
+          "source": "QuantGod_GovernanceAdvisor.json"
+        },
+        {
+          "method": "GET",
+          "path": "/api/governance/version-registry",
+          "mode": "read-only",
+          "source": "QuantGod_StrategyVersionRegistry.json"
+        },
+        {
+          "method": "GET",
+          "path": "/api/governance/promotion-gate",
+          "mode": "read-only",
+          "source": "QuantGod_VersionPromotionGate.json"
+        },
+        {
+          "method": "GET",
+          "path": "/api/governance/optimizer-v2",
+          "mode": "read-only",
+          "source": "QuantGod_OptimizerV2Plan.json"
+        },
+        {
+          "method": "GET",
+          "path": "/api/paramlab/status",
+          "mode": "read-only",
+          "source": "QuantGod_ParamLabStatus.json"
+        },
+        {
+          "method": "GET",
+          "path": "/api/paramlab/results",
+          "mode": "read-only",
+          "source": "QuantGod_ParamLabResults.json"
+        },
+        {
+          "method": "GET",
+          "path": "/api/paramlab/scheduler",
+          "mode": "read-only",
+          "source": "QuantGod_ParamLabAutoScheduler.json"
+        },
+        {
+          "method": "GET",
+          "path": "/api/paramlab/recovery",
+          "mode": "read-only",
+          "source": "QuantGod_ParamLabRunRecovery.json"
+        },
+        {
+          "method": "GET",
+          "path": "/api/paramlab/report-watcher",
+          "mode": "read-only",
+          "source": "QuantGod_ParamLabReportWatcher.json"
+        },
+        {
+          "method": "GET",
+          "path": "/api/paramlab/tester-window",
+          "mode": "read-only",
+          "source": "QuantGod_AutoTesterWindow.json"
+        },
+        {
+          "method": "GET",
+          "path": "/api/research/stats",
+          "mode": "read-only",
+          "source": "QuantGod_MT5ResearchStats.json"
+        },
+        {
+          "method": "GET",
+          "path": "/api/dashboard/state",
+          "mode": "read-only",
+          "source": "QuantGod_Dashboard.json"
+        },
+        {
+          "method": "GET",
+          "path": "/api/dashboard/backtest-summary",
+          "mode": "read-only",
+          "source": "QuantGod_BacktestSummary.json"
+        },
+        {
+          "method": "GET",
+          "path": "/api/trades/journal",
+          "mode": "read-only-csv",
+          "source": "QuantGod_TradeJournal.csv"
+        },
+        {
+          "method": "GET",
+          "path": "/api/trades/close-history",
+          "mode": "read-only-csv",
+          "source": "QuantGod_CloseHistory.csv"
+        },
+        {
+          "method": "GET",
+          "path": "/api/trades/outcome-labels",
+          "mode": "read-only-csv",
+          "source": "QuantGod_TradeOutcomeLabels.csv"
+        },
+        {
+          "method": "GET",
+          "path": "/api/trades/trading-audit",
+          "mode": "read-only-csv",
+          "source": "QuantGod_MT5TradingAuditLedger.csv"
+        },
+        {
+          "method": "GET",
+          "path": "/api/shadow/signals",
+          "mode": "read-only-csv",
+          "source": "QuantGod_ShadowSignalLedger.csv"
+        },
+        {
+          "method": "GET",
+          "path": "/api/shadow/outcomes",
+          "mode": "read-only-csv",
+          "source": "QuantGod_ShadowOutcomeLedger.csv"
+        },
+        {
+          "method": "GET",
+          "path": "/api/shadow/candidates",
+          "mode": "read-only-csv",
+          "source": "QuantGod_ShadowCandidateLedger.csv"
+        },
+        {
+          "method": "GET",
+          "path": "/api/shadow/candidate-outcomes",
+          "mode": "read-only-csv",
+          "source": "QuantGod_ShadowCandidateOutcomeLedger.csv"
+        },
+        {
+          "method": "GET",
+          "path": "/api/paramlab/results-ledger",
+          "mode": "read-only-csv",
+          "source": "QuantGod_ParamLabResultsLedger.csv"
+        },
+        {
+          "method": "GET",
+          "path": "/api/paramlab/scheduler-ledger",
+          "mode": "read-only-csv",
+          "source": "QuantGod_ParamLabAutoSchedulerLedger.csv"
+        },
+        {
+          "method": "GET",
+          "path": "/api/paramlab/report-watcher-ledger",
+          "mode": "read-only-csv",
+          "source": "QuantGod_ParamLabReportWatcherLedger.csv"
+        },
+        {
+          "method": "GET",
+          "path": "/api/paramlab/recovery-ledger",
+          "mode": "read-only-csv",
+          "source": "QuantGod_ParamLabRunRecoveryLedger.csv"
+        },
+        {
+          "method": "GET",
+          "path": "/api/paramlab/tester-window-ledger",
+          "mode": "read-only-csv",
+          "source": "QuantGod_AutoTesterWindowLedger.csv"
+        },
+        {
+          "method": "GET",
+          "path": "/api/research/stats-ledger",
+          "mode": "read-only-csv",
+          "source": "QuantGod_MT5ResearchStatsLedger.csv"
+        },
+        {
+          "method": "GET",
+          "path": "/api/research/strategy-evaluation",
+          "mode": "read-only-csv",
+          "source": "QuantGod_StrategyEvaluationReport.csv"
+        },
+        {
+          "method": "GET",
+          "path": "/api/research/regime-evaluation",
+          "mode": "read-only-csv",
+          "source": "QuantGod_RegimeEvaluationReport.csv"
+        },
+        {
+          "method": "GET",
+          "path": "/api/research/manual-alpha",
+          "mode": "read-only-csv",
+          "source": "QuantGod_ManualAlphaLedger.csv"
+        }
+      ]
+    },
+    {
+      "name": "notify",
+      "phase": "phase2",
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "/api/notify/config",
+          "mode": "read-only",
+          "description": "Notification config status; no secret values."
+        },
+        {
+          "method": "GET",
+          "path": "/api/notify/history",
+          "mode": "read-only",
+          "description": "Notification delivery history."
+        },
+        {
+          "method": "POST",
+          "path": "/api/notify/test",
+          "mode": "push-only",
+          "description": "Send one test notification; never accepts trading commands."
+        }
+      ]
+    },
+    {
+      "name": "phase3-vibe-ai-kline",
+      "phase": "phase3",
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "/api/vibe-coding",
+          "mode": "research-only",
+          "description": "Vibe Coding config alias."
+        },
+        {
+          "method": "GET",
+          "path": "/api/vibe-coding/config",
+          "mode": "research-only",
+          "description": "Vibe Coding config."
+        },
+        {
+          "method": "POST",
+          "path": "/api/vibe-coding/generate",
+          "mode": "research-only",
+          "description": "Generate sandboxed Python strategy code from natural language."
+        },
+        {
+          "method": "POST",
+          "path": "/api/vibe-coding/iterate",
+          "mode": "research-only",
+          "description": "Iterate a generated strategy."
+        },
+        {
+          "method": "POST",
+          "path": "/api/vibe-coding/backtest",
+          "mode": "research-only",
+          "description": "Run local research-only backtest."
+        },
+        {
+          "method": "POST",
+          "path": "/api/vibe-coding/analyze",
+          "mode": "advisory",
+          "description": "Analyze backtest result."
+        },
+        {
+          "method": "GET",
+          "path": "/api/vibe-coding/strategies",
+          "mode": "read-only",
+          "description": "List generated strategy versions."
+        },
+        {
+          "method": "GET",
+          "path": "/api/vibe-coding/strategy/:id",
+          "mode": "read-only",
+          "description": "Fetch generated strategy detail."
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-analysis-v2",
+          "mode": "advisory",
+          "description": "AI Analysis V2 config alias."
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-analysis-v2/config",
+          "mode": "read-only",
+          "description": "AI Analysis V2 config."
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-analysis-v2/run",
+          "mode": "advisory",
+          "description": "Run V2 multi-agent debate analysis."
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-analysis-v2/latest",
+          "mode": "read-only",
+          "description": "Latest AI V2 analysis."
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-analysis-v2/history",
+          "mode": "read-only",
+          "description": "AI V2 history list."
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-analysis-v2/history/:id",
+          "mode": "read-only",
+          "description": "One AI V2 report."
+        },
+        {
+          "method": "GET",
+          "path": "/api/kline",
+          "mode": "read-only",
+          "description": "K-line enhancement config alias."
+        },
+        {
+          "method": "GET",
+          "path": "/api/kline/ai-overlays",
+          "mode": "read-only",
+          "description": "AI BUY/SELL/HOLD overlay markers."
+        },
+        {
+          "method": "GET",
+          "path": "/api/kline/vibe-indicators",
+          "mode": "read-only",
+          "description": "Vibe indicator overlay descriptors."
+        },
+        {
+          "method": "GET",
+          "path": "/api/kline/realtime-config",
+          "mode": "read-only",
+          "description": "K-line polling config."
+        }
+      ]
+    }
+  ]
 }

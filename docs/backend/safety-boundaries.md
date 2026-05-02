@@ -1,36 +1,34 @@
-# 后端安全边界
+# QuantGod 安全边界
 
-## 不可妥协规则
+本文档记录 QuantGod 四仓库拆分后仍必须保持的安全边界。它优先于功能说明、页面文案和临时实验需求。
 
-1. AI Analysis 只做 advisory evidence。
-2. Vibe Coding 生成策略只允许 research/backtest-only，进入实盘必须走完整链路。
-3. Telegram 只允许 push-only 通知，不能接受交易命令。
-4. Frontend 不能直接写 runtime 文件，也不能触发 order-send。
-5. Kill Switch、authorization lock、dryRun、live preset mutation guard 不得被绕过。
+## 不可突破的边界
 
-## 允许的自动化
+1. AI 分析只提供 advisory evidence，不能直接下单、平仓、撤单或修改实盘配置。
+2. Vibe Coding 只用于 research-only 策略生成与回测；进入实盘前必须经过 Backtest、ParamLab、Governance、Version Gate 和人工授权。
+3. Telegram 只允许 push-only 通知，不接收任何交易命令。
+4. Frontend 不得直接读取 `QuantGod_*.json` 或 `QuantGod_*.csv` runtime 文件，必须通过 `/api/*` service layer 获取数据。
+5. Backend 的文件 facade API 默认是 read-only；除非 endpoint 明确标记为 push-only 通知或 research-only 生成，否则不得产生运行时写入副作用。
+6. Kill Switch、authorization lock、dryRun、news filter、EA 内部 OrderSend guard 始终是实盘交易的最后边界。
 
-- 读取 runtime JSON/CSV。
-- 汇总 daily review、todo、backtest evidence。
-- 生成研究建议和人工复核项。
-- 写入 advisory evidence 文件。
-- dry-run 或 tester-only 的本地研究流程。
+## 各功能面禁止行为
 
-## 禁止的自动化
+| 功能面 | 禁止行为 |
+|---|---|
+| AI V1 / AI V2 | 发送订单、关闭订单、修改 lot size、修改 live preset、覆盖 Governance 决策。 |
+| Vibe Coding | 直接控制 MT5、导入危险 Python 模块、任意读写文件、访问网络、保存凭据。 |
+| Telegram | 接收 `/buy`、`/sell`、`/close`、`/disable-kill-switch` 或类似命令。 |
+| Frontend | 直接 fetch `/QuantGod_*.json`、直接 fetch `/QuantGod_*.csv`、写本地文件、调用 MT5 trading command。 |
+| Infra | 在 build、sync、deploy 过程中修改交易配置、live preset 或授权锁。 |
+| Docs | 保存 token、密码、运行时快照、真实账户凭据或可复用交易密钥。 |
 
-- 自动下单、平仓、撤单。
-- 自动修改 live preset。
-- 自动关闭 Kill Switch。
-- 自动解除 cooldown 或 news block。
-- 自动保存 broker credentials。
-- 通过 Telegram 或前端绕过人工授权。
+## Evidence 与 Execution 的分离
 
-## live route 升级链路
+QuantGod 有意把“证据生成”和“交易执行”拆开：
 
-任何策略从候选/模拟进入实盘前，必须至少经过：
+- AI 报告可以成为 Governance evidence。
+- Vibe backtest 可以成为 candidate evidence。
+- ParamLab 可以生成优化 evidence。
+- Governance 可以给出 keep、demote、promote 建议。
 
-```text
-backtest evidence → ParamLab → Governance Advisor → Version Gate → manual authorization
-```
-
-这条链路只能被加强，不能被缩短。
+这些结果都不能自动绕过人工授权，也不能绕过 EA 安全 gate。任何“自动推到实盘”的能力都必须先落到可审计的候选状态，再经过显式授权链路。

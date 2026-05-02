@@ -1,34 +1,56 @@
 # QuantGodDocs
 
-QuantGod 四仓库工作区的中文文档中心。这里是架构、API、运维、Phase 状态、安全边界和维护规则的唯一主文档仓库。
+QuantGodDocs 是 QuantGod 四仓库体系的文档中心。它不承载后端运行代码、不承载前端源码、不承载 Cloudflare/部署脚本，也不保存任何 MT5 账号信息、Telegram token、OpenRouter key 或其他凭据。
 
-代码仓库：
+## 四仓库职责
 
-- Backend：<https://github.com/Boowenn/QuantGodBackend>
-- Frontend：<https://github.com/Boowenn/QuantGodFrontend>
-- Infra：<https://github.com/Boowenn/QuantGodInfra>
-- Docs：<https://github.com/Boowenn/QuantGodDocs>
+| 仓库 | 角色 | 主要内容 | 不应该包含 |
+|---|---|---|---|
+| `QuantGodBackend` | 后端 / MT5 / API / AI / Governance | `MQL5/`、`Dashboard/`、`tools/`、`tests/`、本地 `/api/*` | Vue 源码、Cloudflare 源码、长篇文档中心 |
+| `QuantGodFrontend` | Vue 工作台 | `src/`、`public/`、Vite、Ant Design Vue、KlineCharts、Monaco | `MQL5/`、`Dashboard/`、`tools/`、直接读取 `QuantGod_*.json/csv` |
+| `QuantGodInfra` | 联动 / 部署 / 同步 | workspace helper、Cloudflare、dist 同步、批量测试 | 交易代码、Vue 页面、MT5 preset |
+| `QuantGodDocs` | 文档 / Contract / Runbook | 架构文档、API contract、Phase 文档、运维指南 | runtime 文件、凭据、交易执行代码 |
 
-## 推荐阅读顺序
+## 阅读入口
 
-1. [仓库拆分架构](docs/architecture/repo-split.md)
-2. [模块边界](docs/architecture/module-boundaries.md)
-3. [跨仓库联动契约](docs/architecture/linkage-contract.md)
-4. [后端指南](docs/backend/README.md)
-5. [前端指南](docs/frontend/README.md)
-6. [基础设施指南](docs/infra/README.md)
-7. [本地运维 Runbook](docs/ops/runbook-local.md)
+- [四仓库拆分架构](docs/architecture/repo-split.md)
+- [模块边界](docs/architecture/module-boundaries.md)
+- [仓库联动 Contract](docs/architecture/linkage-contract.md)
+- [后端 API Contract](docs/backend/api-contract.md)
+- [安全边界](docs/backend/safety-boundaries.md)
+- [前端 API Client 规则](docs/frontend/api-client.md)
+- [Infra workspace 自动化](docs/infra/workspace-automation.md)
+- [本地运行 Runbook](docs/ops/runbook-local.md)
+- [Phase 1](docs/phases/phase1.md)
+- [Phase 2](docs/phases/phase2.md)
+- [Phase 3](docs/phases/phase3.md)
 
-## Phase 文档
+## Contract 文件
 
-- [Phase 1：AI 分析与 K 线基础](docs/phases/phase1.md)
-- [Phase 2：统一 API 与通知](docs/phases/phase2.md)
-- [Phase 3：策略工坊与 AI V2](docs/phases/phase3.md)
+- [API Contract JSON](docs/contracts/api-contract.json)
+- [Repo Manifest Schema](docs/contracts/repo-manifest.schema.json)
 
-## 文档归属
+`docs/contracts/api-contract.json` 是前端、后端、Infra 和文档对齐的轻量 contract。Backend 新增、删除或重命名 `/api/*` endpoint 时，必须同步更新这个文件和 `docs/backend/api-contract.md`。
 
-详细说明统一写在本仓库。代码仓库只保留短 README 和指向本仓库的入口，避免同一套规则散落多份、越写越不一致。
+## 本地检查
 
-## 写作规范
+```powershell
+python scripts/check_docs_links.py
+python scripts/check_api_contract_matches_backend.py --contract docs/contracts/api-contract.json
+```
 
-正文以中文为主；API path、命令、文件名、字段名、class/function 名称保持原文。涉及交易安全、凭据、live preset、Kill Switch、Telegram、Vibe Coding 的文档必须明确只读或受控边界。
+如果本地同时 clone 了 `QuantGodBackend`，可以做 route 对齐检查：
+
+```powershell
+python scripts/check_api_contract_matches_backend.py `
+  --contract docs/contracts/api-contract.json `
+  --backend ..\QuantGodBackend
+```
+
+## 文档维护规则
+
+1. 文档必须使用多行 Markdown，不要把整篇文档压成一行。
+2. 文档中的相对链接必须能解析到真实文件。
+3. API contract 必须保持 JSON 可解析。
+4. 安全边界文档优先级高于功能文档；任何新功能都不能突破 Kill Switch、授权锁、dryRun、只读数据面和 push-only 通知边界。
+5. 如果改动影响前端调用路径，先改 Backend contract，再更新 Docs，最后改 Frontend。

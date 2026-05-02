@@ -1,35 +1,41 @@
-# Phase 1：AI 分析与 K 线基础
+# Phase 1 总结
 
-## 范围
+Phase 1 建立 QuantGod 的基础智能分析、K 线展示和 CI 护栏。
 
-Phase 1 建立了 QuantGod 的第一层 AI/图表能力：
+## Module A：AI Analysis V1
 
-- AI Analysis V1。
-- 多 agent 初步证据采集。
-- 本地 analysis history。
-- KlineCharts 基础图表。
-- MT5 read-only kline/trades/shadow signal API。
-- CI 与基础测试。
+已落地内容：
 
-## 安全定位
+- `TechnicalAgent`
+- `RiskAgent`
+- `DecisionAgent`
+- `/api/ai-analysis/*`
+- Governance evidence 输出
 
-Phase 1 只写 advisory evidence，不能触发交易，不能修改 live preset，不能绕过 Kill Switch、authorization lock、dryRun 或 Governance。
+执行顺序是 Technical 与 Risk 并行，Decision 在两份 evidence 都准备好后再裁决。AI 输出只作为 advisory evidence，不能触发交易。
 
-## 前端入口
+## Module B：K-line Charts
 
-Phase 1 的前端能力现在由 `QuantGodFrontend` 维护，主要位于 AI 工作台和 K 线相关组件。
+已落地内容：
 
-## 后端入口
+- KlineCharts 集成。
+- MT5 read-only K 线数据。
+- trade markers。
+- shadow signal overlays。
+- 核心指标展示。
 
-后端能力仍在 `QuantGodBackend`：
+这些图表能力只消费 read-only 数据，不修改 MT5 状态。
 
-- `tools/ai_analysis/`
-- `tools/run_ai_analysis.py`
-- `tools/mt5_chart_readonly.py`
-- `Dashboard/phase1_api_routes.js`
+## Module C：CI/CD
 
-## 验收重点
+已落地内容：
 
-- 无 OpenRouter key 时可 fallback，保证 UI/API/CI 可跑通。
-- AI 输出必须带 safety envelope。
-- K 线、交易、shadow signal 端点保持 read-only。
+- GitHub Actions。
+- Python tests。
+- Node/API tests。
+- Vue build checks。
+- safety guards。
+
+## 安全边界
+
+AI Analysis V1 不能绕过 Kill Switch、authorization lock、dryRun、news filter 或 live preset safety。所有分析结果只能进入证据链，不能直接进入执行链。

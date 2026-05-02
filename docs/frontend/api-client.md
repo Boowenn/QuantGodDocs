@@ -1,21 +1,56 @@
-# 前端 API Client
+# Frontend API Client Rules
 
-前端 API client 只负责调用后端 facade，不直接读取本地文件。
+## 规则
 
-## 基本规则
+Frontend 只能调用：
 
-- 浏览器代码使用相对路径 `/api/*`。
-- Vite dev server 通过 proxy 转发到 `QG_BACKEND_URL`。
-- backend-served 模式下，UI 与 API 同源。
-- 对旧 `/QuantGod_*.json` fallback 的使用应逐步减少，只作为兼容兜底。
+```text
+/api/*
+```
 
-## Service modules
+Frontend 禁止调用：
 
-- `src/services/api.js`：主工作台数据读取。
-- `src/services/phase1Api.js`：AI Analysis V1 与 K 线基础。
-- `src/services/phase2Api.js`：统一 API 与通知。
-- `src/services/phase3Api.js`：策略工坊、AI V2、K 线增强。
+```text
+/QuantGod_*.json
+/QuantGod_*.csv
+C:\...\MQL5\Files\...
+../QuantGodBackend/...
+```
 
-## 错误处理
+## 为什么禁止直接读文件
 
-API 调用失败时，前端应显示“证据缺失/证据过期/读取失败”的可解释状态，而不是空白卡片或不明 `undefined`。如果后端返回 safety envelope，前端应保留关键安全字段用于展示和审计。
+直接读 runtime 文件会造成：
+
+1. 前端和 backend 文件布局耦合。
+2. CSV/JSON schema 改动无法统一 envelope。
+3. CI 很难检测真实数据路径漂移。
+4. 拆仓库后 frontend 无法独立开发和测试。
+
+## 推荐 service wrapper
+
+```js
+async function fetchJson(url, fallback = null) {
+  const response = await fetch(url, {
+    headers: { Accept: 'application/json' },
+    cache: 'no-store',
+  })
+  if (!response.ok) return fallback
+  return response.json()
+}
+
+export function loadGovernanceAdvisor() {
+  return fetchJson('/api/governance/advisor')
+}
+```
+
+## CI Guard
+
+`QuantGodFrontend` 应运行：
+
+```powershell
+npm run contract
+npm test
+npm run build
+```
+
+Contract guard 应允许 UI 展示 `QuantGod_*.json` 这种文件名文本，但必须禁止 `/QuantGod_*.json` 或 `/QuantGod_*.csv` 本地路径读取。

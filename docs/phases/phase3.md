@@ -1,48 +1,43 @@
-# Phase 3：策略工坊与 AI V2
+# Phase 3 总结
 
-## 范围
+Phase 3 增加更高层的研究能力，但仍不改变实盘安全链路。
 
-Phase 3 增加策略研究和更完整的 AI 辩论能力：
+## Module H：Vibe Coding
 
-- 策略工坊（Vibe Coding）。
-- 自然语言生成 Python `BaseStrategy`。
-- AST 安全检查。
-- research-only local backtest。
-- AI Analysis V2：News、Sentiment、Bull、Bear、Decision V2。
-- 本地 RAG memory。
-- K 线 AI overlay 与 Vibe indicator overlay。
+Vibe Coding 把自然语言策略想法转换为 sandboxed Python strategy code，然后进入 research-only backtest 和 AI 分析。
 
-## 安全定位
-
-Phase 3 是研究层，不是实盘执行层。生成策略进入 live 必须经过：
+实盘晋级路径仍然固定为：
 
 ```text
-backtest → ParamLab → Governance → Version Gate → manual authorization
+Backtest -> ParamLab -> Governance -> Version Gate -> manual authorization
 ```
 
-AI V2 的多空辩论只能作为 DecisionAgent 的参考，不能直接触发 order-send、preset mutation 或 Governance mutation。
+任何 generated strategy 都不能直接进入 live preset，也不能生成交易命令。
 
-## 后端入口
+## Module I：AI Analysis V2
 
-- `Dashboard/phase3_api_routes.js`
-- `tools/vibe_coding/`
-- `tools/run_vibe_coding.py`
-- `tools/ai_analysis/analysis_service_v2.py`
-- `tools/run_ai_analysis_v2.py`
-- `tools/kline_phase3_overlays.py`
+已落地方向：
 
-## 前端入口
+- `NewsAgent`
+- `SentimentAgent`
+- `BullAgent`
+- `BearAgent`
+- `DecisionAgentV2`
+- 本地 RAG-like memory。
+- debate-style reasoning。
 
-- `src/components/phase3/Phase3Workspace.vue`
-- `src/components/phase3/vibe/*`
-- `src/components/phase3/ai/*`
-- `src/components/phase3/kline/*`
-- `src/services/phase3Api.js`
+Bull / Bear debate 只为 DecisionAgent 提供 evidence。它不能触发交易、修改 Governance 决策或绕过 Kill Switch。
 
-## 验收重点
+## Module J：K-line Enhancement
 
-- 生成策略不能 import 危险模块。
-- Vibe backtest 不依赖真实交易终端。
-- AI V2 evidence 明确 `advisoryOnly=true`。
-- 前端显示名称为“策略工坊”，不暴露工程化 Phase 命名。
-- 页面保持 QuantGod 深色风格和响应式。
+已落地方向：
+
+- AI BUY / SELL / HOLD overlay 数据。
+- Vibe indicator overlay descriptors。
+- realtime polling config。
+
+这些增强只影响展示和研究，不影响 MT5 live execution。
+
+## 安全边界
+
+Vibe Coding 生成代码不能实盘交易。RAG memory 只保存分析案例和 reasoning，不保存账户信息、API key、Telegram token 或 MT5 凭据。
