@@ -1,6 +1,7 @@
 # QuantGod Backend API Contract
 
-本文由 `docs/contracts/api-contract.json` 渲染生成，用于人工 review。机器可读版本仍以 JSON contract 为准。
+本文由 `docs/contracts/api-contract.json` 渲染生成，用于人工 review。
+机器可读版本仍以 JSON contract 为准。
 
 ## Contract 摘要
 
@@ -26,7 +27,8 @@ Phase 1/2/3 的 API contract 必须保持本地优先和安全受控：
 | `canMutateGovernanceDecision` | `false` | Contract default |
 | `telegramCommandExecutionAllowed` | `false` | Contract default |
 
-`guarded-control` 不代表开放交易权限。它只表示 endpoint 是受控动作面，仍必须受 Backend、EA、dryRun、Kill Switch 和手动授权约束。
+`guarded-control` 不代表开放交易权限。它只表示 endpoint 是受控动作面，
+仍必须受 Backend、EA、dryRun、Kill Switch 和手动授权约束。
 
 ## Endpoint Groups
 
@@ -214,4 +216,10 @@ Backend route surface 变化时，按下面顺序维护：
 2. 再更新 `docs/contracts/api-contract.json`。
 3. 运行 `python scripts/render_api_contract_markdown.py` 重新生成本文。
 4. 更新 Frontend service wrapper，确保前端仍只走 `/api/*`。
-5. 运行 `python scripts/check_api_contract_matches_backend.py --contract docs/contracts/api-contract.json --backend ../QuantGodBackend`。
+5. 运行跨仓库对齐检查：
+
+```powershell
+python scripts\check_api_contract_matches_backend.py `
+  --contract docs\contracts\api-contract.json `
+  --backend ..\QuantGodBackend
+```

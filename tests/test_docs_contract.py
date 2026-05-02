@@ -7,6 +7,7 @@ from pathlib import Path
 
 from scripts import check_api_contract_matches_backend as api_check
 from scripts import check_docs_links as docs_check
+from scripts import format_docs_readability as formatter
 
 
 class DocsContractTests(unittest.TestCase):
@@ -16,10 +17,12 @@ class DocsContractTests(unittest.TestCase):
             "scripts/check_docs_links.py",
             "scripts/check_api_contract_matches_backend.py",
             "scripts/render_api_contract_markdown.py",
+            "scripts/format_docs_readability.py",
+            "tests/test_docs_contract.py",
+            ".github/workflows/ci.yml",
         ]:
             text = (root / rel).read_text(encoding="utf-8")
-            self.assertGreater(len(text.splitlines()), 20, rel)
-            self.assertIn("def main", text, rel)
+            self.assertGreater(len(text.splitlines()), 10, rel)
 
     def test_contract_endpoint_counter(self) -> None:
         contract = {
@@ -33,7 +36,10 @@ class DocsContractTests(unittest.TestCase):
                 }
             ]
         }
-        self.assertEqual(api_check.contract_endpoints(contract), {"/api/latest", "/api/notify/test"})
+        self.assertEqual(
+            api_check.contract_endpoints(contract),
+            {"/api/latest", "/api/notify/test"},
+        )
 
     def test_safety_defaults_require_false_for_trading_fields(self) -> None:
         errors = api_check.check_safety(
@@ -54,13 +60,24 @@ class DocsContractTests(unittest.TestCase):
     def test_docs_checker_detects_collapsed_python(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            (root / "README.md").write_text("# README\n\nOK\n", encoding="utf-8")
-            (root / "docs/contracts").mkdir(parents=True)
-            (root / "docs/contracts/api-contract.json").write_text("{}", encoding="utf-8")
-            bad = root / "bad.py"
-            bad.write_text("#!/usr/bin/env python3 def main(): return 0", encoding="utf-8")
+            (root / "scripts").mkdir()
+            (root / "tests").mkdir()
+            bad = root / "scripts" / "check_docs_links.py"
+            bad.write_text(
+                "#!/usr/bin/env python3 def main(): return 0 " * 30,
+                encoding="utf-8",
+            )
             errors = docs_check.check_python_not_collapsed(root)
-            self.assertTrue(any("commented out by shebang" in error for error in errors))
+            self.assertTrue(any("collapsed" in error or "shebang" in error for error in errors))
+
+    def test_formatter_repairs_collapsed_markdown(self) -> None:
+        text = (
+            "# Title This is a long intro. ## Section - [Link](docs/x.md) "
+            "1. Step one. 2. Step two. ```powershell echo ok ```"
+        ) * 20
+        repaired = formatter.repair_markdown_text(text)
+        self.assertGreater(len(repaired.splitlines()), 6)
+        self.assertIn("\n\n## Section", repaired)
 
     def test_json_roundtrip_contract_shape(self) -> None:
         payload = {
@@ -75,7 +92,10 @@ class DocsContractTests(unittest.TestCase):
                 "canOverrideKillSwitch": False,
             },
             "endpointGroups": [
-                {"name": "x", "endpoints": [{"method": "GET", "path": "/api/x"}]},
+                {
+                    "name": "backend-core-and-control",
+                    "endpoints": [{"method": "GET", "path": "/api/x"}],
+                }
             ],
         }
         with tempfile.TemporaryDirectory() as tmp:

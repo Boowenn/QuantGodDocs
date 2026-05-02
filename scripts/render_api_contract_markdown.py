@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Render docs/backend/api-contract.md from docs/contracts/api-contract.json."""
+
 from __future__ import annotations
 
 import argparse
@@ -30,7 +31,8 @@ def render(contract: dict) -> str:
     lines: list[str] = [
         "# QuantGod Backend API Contract",
         "",
-        "本文由 `docs/contracts/api-contract.json` 渲染生成，用于人工 review。机器可读版本仍以 JSON contract 为准。",
+        "本文由 `docs/contracts/api-contract.json` 渲染生成，用于人工 review。",
+        "机器可读版本仍以 JSON contract 为准。",
         "",
         "## Contract 摘要",
         "",
@@ -45,6 +47,7 @@ def render(contract: dict) -> str:
         "| 字段 | 期望值 | 含义 |",
         "|---|---:|---|",
     ]
+
     for key in [
         "localOnly",
         "advisoryOnly",
@@ -59,11 +62,14 @@ def render(contract: dict) -> str:
         "telegramCommandExecutionAllowed",
     ]:
         if key in safety:
-            lines.append(f"| `{key}` | `{str(safety.get(key)).lower()}` | Contract default |")
+            value = str(safety.get(key)).lower()
+            lines.append(f"| `{key}` | `{value}` | Contract default |")
+
     lines.extend(
         [
             "",
-            "`guarded-control` 不代表开放交易权限。它只表示 endpoint 是受控动作面，仍必须受 Backend、EA、dryRun、Kill Switch 和手动授权约束。",
+            "`guarded-control` 不代表开放交易权限。它只表示 endpoint 是受控动作面，",
+            "仍必须受 Backend、EA、dryRun、Kill Switch 和手动授权约束。",
             "",
             "## Endpoint Groups",
             "",
@@ -96,18 +102,25 @@ def render(contract: dict) -> str:
             "2. 再更新 `docs/contracts/api-contract.json`。",
             "3. 运行 `python scripts/render_api_contract_markdown.py` 重新生成本文。",
             "4. 更新 Frontend service wrapper，确保前端仍只走 `/api/*`。",
-            "5. 运行 `python scripts/check_api_contract_matches_backend.py --contract docs/contracts/api-contract.json --backend ../QuantGodBackend`。",
+            "5. 运行跨仓库对齐检查：",
+            "",
+            "```powershell",
+            "python scripts\\check_api_contract_matches_backend.py `",
+            "  --contract docs\\contracts\\api-contract.json `",
+            "  --backend ..\\QuantGodBackend",
+            "```",
             "",
         ]
     )
+
     return "\n".join(lines)
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--contract", default="docs/contracts/api-contract.json")
     parser.add_argument("--output", default="docs/backend/api-contract.md")
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
 
     contract_path = Path(args.contract)
     output_path = Path(args.output)
