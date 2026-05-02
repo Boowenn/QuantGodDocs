@@ -1,40 +1,20 @@
-# Apply QuantGod Phase 3 Overlay
+# Phase 3 覆盖包历史记录
 
-```powershell
-cd C:\path\to\QuantGod
-git checkout main
-git pull origin main
-git checkout -b phase3-vibe-ai-v2
-```
+这是从旧 `QuantGodBackend` 导入的历史迁移说明，已整理为中文版本。
 
-Copy the overlay files into the repo, then run:
+## 原始范围
 
-```powershell
-python tools\apply_phase3_full.py --repo-root .
-python -m unittest discover tests -v
-node --check Dashboard\phase3_api_routes.js
-npm test
-cd frontend
-npm install
-npm run build
-cd ..
-```
+策略工坊、AI Analysis V2、多空辩论、本地 RAG、K 线增强。
 
-Smoke tests:
+## 当前状态
 
-```powershell
-python tools\run_vibe_coding.py config
-python tools\run_vibe_coding.py generate --description "Buy RSI oversold rebound with H1 trend filter" --symbol EURUSDc --tf H1
-python tools\run_ai_analysis_v2.py config
-python tools\run_ai_analysis_v2.py run --symbol EURUSDc --timeframes M15,H1,H4,D1
-python tools\kline_phase3_overlays.py realtime-config
-```
+对应能力已经进入四仓库结构：
 
-Commit:
+- 后端代码在 `QuantGodBackend`。
+- 前端页面在 `QuantGodFrontend`。
+- 联动和部署脚本在 `QuantGodInfra`。
+- 正式说明在 `QuantGodDocs/docs/phases/`。
 
-```powershell
-git status
-git add .
-git commit -m "Implement Phase 3 Vibe Coding and AI Analysis V2"
-git push origin phase3-vibe-ai-v2
-```
+## 维护规则
+
+此文件只作为历史索引保留。后续不要继续在 `imported/` 下维护新设计；请更新 `docs/phases/`、`docs/backend/`、`docs/frontend/` 或 `docs/architecture/`。

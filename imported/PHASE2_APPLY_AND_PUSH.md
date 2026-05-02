@@ -1,66 +1,20 @@
-# Apply and push QuantGod Phase 2 overlay
+# Phase 2 覆盖包历史记录
 
-Run these commands from your local QuantGod repository after pulling the newest `main` branch.
+这是从旧 `QuantGodBackend` 导入的历史迁移说明，已整理为中文版本。
 
-```powershell
-git checkout main
-git pull origin main
-git checkout -b phase2-integration
-```
+## 原始范围
 
-Unzip `quantgod_phase2_full_overlay.zip` into a temporary directory, then copy its contents over the repository root.
+统一 API、Telegram push-only、Ant Design Vue 增量接入、CI 增强。
 
-```powershell
-Expand-Archive C:\path\to\quantgod_phase2_full_overlay.zip -DestinationPath C:\temp\qg_phase2 -Force
-Copy-Item C:\temp\qg_phase2\quantgod_phase2_full_overlay\* . -Recurse -Force
-```
+## 当前状态
 
-Apply repository-specific patches.
+对应能力已经进入四仓库结构：
 
-```powershell
-python tools\apply_phase2_full.py --repo-root .
-```
+- 后端代码在 `QuantGodBackend`。
+- 前端页面在 `QuantGodFrontend`。
+- 联动和部署脚本在 `QuantGodInfra`。
+- 正式说明在 `QuantGodDocs/docs/phases/`。
 
-Run backend and integration tests.
+## 维护规则
 
-```powershell
-python -m unittest discover tests -v
-python -m pytest tests -q --cov=tools --cov-report=term-missing
-node --check Dashboard\phase2_api_routes.js
-npm test
-```
-
-Rebuild the Vue dashboard and commit the generated static files.
-
-```powershell
-cd frontend
-npm install
-npm run build
-cd ..
-```
-
-Smoke test the new CLI/API helpers.
-
-```powershell
-python tools\run_notify.py config
-python tools\run_notify.py test --message "QuantGod Phase 2 smoke" --dry-run
-python tools\run_notify.py history --limit 10
-```
-
-Set Telegram secrets only in your local environment or `.env.local`, never in Git.
-
-```powershell
-Set-Item Env:TELEGRAM_BOT_TOKEN "<bot-token>"
-Set-Item Env:TELEGRAM_CHAT_ID "<chat-id>"
-```
-
-Commit and push.
-
-```powershell
-git status
-git add .
-git commit -m "Implement Phase 2 API unification and Telegram notifications"
-git push origin phase2-integration
-```
-
-After CI passes, open a pull request or merge according to your repository rules.
+此文件只作为历史索引保留。后续不要继续在 `imported/` 下维护新设计；请更新 `docs/phases/`、`docs/backend/`、`docs/frontend/` 或 `docs/architecture/`。

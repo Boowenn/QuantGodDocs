@@ -1,17 +1,17 @@
-# Backend guide
+# 后端指南
 
-## Repository
+## 仓库
 
 `Boowenn/QuantGodBackend`
 
-## Main responsibilities
+## 主要职责
 
-- MT5 EA and HFM live/shadow/backtest launchers
-- Node dashboard/API server
-- Python tools for Governance, ParamLab, research stats, AI analysis, Vibe Coding, notification, and bridge contracts
-- Backend CI and API contract tests
+- MT5 EA、HFM live/shadow/backtest 启动器。
+- Node dashboard/API server。
+- Governance、ParamLab、research stats、AI analysis、Vibe Coding、notification、bridge contracts 等 Python tools。
+- 后端 CI 与 API contract tests。
 
-## Local commands
+## 本地命令
 
 ```powershell
 python -m unittest discover tests -v
@@ -20,17 +20,17 @@ node --test tests/node/*.mjs
 Dashboard\start_dashboard.bat
 ```
 
-## Runtime folders
+## Runtime 文件
 
-Typical HFM runtime path:
+典型 HFM runtime path：
 
 ```text
 C:\Program Files\HFM Metatrader 5\MQL5\Files\
 ```
 
-The backend reads local runtime JSON/CSV from the HFM Files folder and serves normalized data via `/api/*`.
+后端从 HFM Files 读取本地 runtime JSON/CSV，并通过 `/api/*` 提供规范化数据。
 
-## API groups
+## API 分组
 
 - `/api/mt5-readonly/*`
 - `/api/mt5-symbol-registry/*`
@@ -46,12 +46,10 @@ The backend reads local runtime JSON/CSV from the HFM Files folder and serves no
 - `/api/vibe-coding/*`
 - `/api/kline/*`
 
-## Safety review checklist
+## 后端合并前检查
 
-Before merging backend changes, verify:
-
-- no direct live-preset mutation unless a documented manual authorization flow exists;
-- no API endpoint stores broker credentials;
-- no AI/Vibe/Telegram path can send broker orders;
-- all trading bridge operations remain guarded by dry-run, Kill Switch, and authorization locks;
-- API contract tests are updated when response shape changes.
+- 不新增未受控的 live preset mutation。
+- API 不保存 broker credentials。
+- AI、Vibe、Telegram 路径不能发送 broker orders。
+- trading bridge 仍受 dryRun、Kill Switch、authorization locks 保护。
+- response shape 改动时同步 API contract tests 和 Docs。

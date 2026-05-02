@@ -1,18 +1,21 @@
-# Infra guide
+# 基础设施指南
 
-## Repository
+## 仓库
 
 `Boowenn/QuantGodInfra`
 
-## Responsibilities
+## 职责
 
-- Multi-repo workspace commands
-- Frontend dist sync to backend
-- Cloudflare optional deployment
-- Local deployment helpers
-- Linkage verification
+Infra 负责四仓库联动、Cloudflare 可选部署、前端 dist 同步和 workspace 级别验证。它不写策略逻辑，不拥有 Vue 源码，也不修改 MT5 live preset。
 
-## Workspace commands
+## 关键脚本
+
+```text
+scripts/qg-workspace.py
+scripts/qg-workspace.ps1
+```
+
+## 常用命令
 
 ```powershell
 python scripts\qg-workspace.py --workspace workspace\quantgod.workspace.json status
@@ -23,6 +26,6 @@ python scripts\qg-workspace.py --workspace workspace\quantgod.workspace.json syn
 python scripts\qg-workspace.py --workspace workspace\quantgod.workspace.json verify
 ```
 
-## Cloudflare
+## Secret 规则
 
-Cloudflare remains optional and should not be part of the default live HFM workflow. Use it only for remote read-only viewing.
+Cloudflare token、Wrangler secret、Telegram token、OpenRouter key、HFM/MT5 凭据都不能进入 Git。Infra 只能保存示例配置和本地路径模板。

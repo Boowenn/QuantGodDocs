@@ -1,27 +1,31 @@
-# Workspace automation
+# Workspace 自动化
 
-## Workspace file
+`qg-workspace.py` 是四仓库的本地联动入口。
 
-`QuantGodInfra/workspace/quantgod.workspace.json` defines paths:
+## 命令说明
 
-```json
-{
-  "backend": "C:/QuantGod/QuantGodBackend",
-  "frontend": "C:/QuantGod/QuantGodFrontend",
-  "infra": "C:/QuantGod/QuantGodInfra",
-  "docs": "C:/QuantGod/QuantGodDocs"
-}
+- `status`：查看四个仓库的 Git 状态。
+- `pull`：对四个仓库执行 `git pull --ff-only`。
+- `test`：运行 backend tests、frontend build、docs link check。
+- `build-frontend`：安装/更新前端依赖并执行 `npm run build`。
+- `sync-frontend-dist`：把 `QuantGodFrontend/dist` 复制到 `QuantGodBackend/Dashboard/vue-dist`。
+- `verify`：检查仓库边界是否符合拆分约定。
+
+## 本地配置
+
+`workspace/quantgod.workspace.example.json` 可以提交。`workspace/quantgod.workspace.json` 是本机路径配置，默认被 `.gitignore` 忽略。
+
+## 使用建议
+
+每次跨仓库改动后至少执行：
+
+```powershell
+python scripts\qg-workspace.py --workspace workspace\quantgod.workspace.json verify
 ```
 
-## Commands
+如果改了前端并需要后端 `/vue/` 立即使用，再执行：
 
-- `status` — show Git status for all repos.
-- `pull` — fast-forward pull all repos.
-- `test` — run backend tests, frontend build, docs link check.
-- `build-frontend` — install/build frontend.
-- `sync-frontend-dist` — copy frontend `dist/` into backend `Dashboard/vue-dist`.
-- `verify` — confirm split boundaries.
-
-## CI relationship
-
-Each repo runs its own CI. Cross-repo release coordination is done locally through this workspace helper.
+```powershell
+python scripts\qg-workspace.py --workspace workspace\quantgod.workspace.json build-frontend
+python scripts\qg-workspace.py --workspace workspace\quantgod.workspace.json sync-frontend-dist
+```

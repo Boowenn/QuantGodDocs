@@ -1,20 +1,34 @@
-# Phase 2 scope
+# Phase 2：统一 API 与通知
 
-Phase 2 implemented:
+## 范围
 
-- Module D: Vue migration finish and Ant Design Vue integration.
-- Module E: backend API unification.
-- Module F: Telegram push-only notification service.
-- Module G: CI/CD integration and coverage enhancements.
+Phase 2 把前端数据访问从直接文件读取推进到统一 `/api/*` facade，并加入 Telegram push-only 通知和 CI 增强。
 
-## API unification
+主要模块：
 
-Vue should consume `/api/*`, not direct local JSON/CSV files.
+- Vue 收尾与工作台整合。
+- Backend API facade。
+- Telegram notify service。
+- Node API contract tests 与 coverage。
 
-## Telegram
+## 安全定位
 
-Telegram is push-only. It may send trade/risk/AI/Governance/digest messages but cannot accept commands or trigger trading actions.
+Phase 2 的通知系统只推送消息，不接收命令；统一 API 只读读取 runtime 文件，不新增交易执行能力。
 
-## CI
+## 后端入口
 
-Coverage and integration tests make backend/API regressions visible.
+- `Dashboard/phase2_api_routes.js`
+- `tools/notify/`
+- `tools/run_notify.py`
+- `tests/node/test_phase2_api_routes.mjs`
+
+## 前端入口
+
+- `src/components/phase2/Phase2OperationsWorkspace.vue`
+- `src/services/phase2Api.js`
+
+## 验收重点
+
+- `/api/governance/*`、`/api/paramlab/*`、`/api/trades/*`、`/api/research/*`、`/api/shadow/*`、`/api/dashboard/*` 可返回统一 envelope。
+- Telegram 配置不进入 Git。
+- 前端不再直接依赖旧 JSON/CSV 路径作为主数据源。

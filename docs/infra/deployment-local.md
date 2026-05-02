@@ -1,25 +1,35 @@
-# Local deployment
+# 本地部署流程
 
-## Dev mode
+本地部署的目标是：后端 server 在 `8080` 提供 API 和 `/vue/` 页面，前端源码仍由 `QuantGodFrontend` 独立维护。
 
-1. Start backend dashboard server.
-2. Start frontend Vite dev server.
-3. Browser talks to Vite; Vite proxies API calls to backend.
+## 步骤
 
-## Backend-served mode
-
-1. Build frontend.
-2. Sync frontend dist into backend.
-3. Start backend dashboard server.
-4. Browser opens `http://localhost:8080/vue/`.
-
-Commands:
+1. 在 `QuantGodFrontend` 构建：
 
 ```powershell
-cd QuantGodFrontend
 npm run build
-cd ..\QuantGodInfra
+```
+
+2. 在 `QuantGodInfra` 同步 dist：
+
+```powershell
 python scripts\qg-workspace.py --workspace workspace\quantgod.workspace.json sync-frontend-dist
-cd ..\QuantGodBackend
+```
+
+3. 在 `QuantGodBackend` 启动 dashboard：
+
+```powershell
 Dashboard\start_dashboard.bat
 ```
+
+macOS 可按本机脚本或 Node server 方式启动。
+
+4. 打开页面：
+
+```text
+http://127.0.0.1:8080/vue/
+```
+
+## 回滚
+
+如果前端 dist 有问题，可以回退 `QuantGodBackend/Dashboard/vue-dist` 对应提交，或重新从稳定的 `QuantGodFrontend` commit 构建并同步。

@@ -1,44 +1,24 @@
-# MT5 non-RSI legacy live authorization lock - 2026-04-29
+# Non-RSI Legacy Live Authorization
 
-## Purpose
+这是从旧后端仓库导入的历史文档，已整理为中文版本。完整演进细节可通过 Git 历史追溯；当前维护以 `QuantGodDocs/docs/` 下的正式文档为准。
 
-The April 27 BB_Triple live order showed that a preset-level live switch can be enough to open a non-RSI legacy route if the preset is accidentally promoted.
+## 文档用途
 
-This patch adds a second authorization key for BB_Triple, MACD_Divergence, and SR_Breakout. A non-RSI legacy route now needs both:
+记录非 RSI legacy route 的第二授权锁，防止 BB/MACD/SR 等路线越权进入 live。
 
-- Its route live switch, for example `EnablePilotBBH1Live=true`.
-- `EnableNonRsiLegacyLiveAuthorization=true` with the correct environment tag.
+## 相关入口
 
-`RSI_Reversal` is intentionally outside this non-RSI lock. It is still gated by the global pilot-live checks, its own `EnablePilotRsiH1Live` switch, and the RSI-specific risk guards, but disabling `EnableNonRsiLegacyLiveAuthorization` does not pause RSI.
+- `EnableNonRsiLegacyLiveAuthorization`
+- `NonRsiLegacyLiveAuthorizationTag`
 
-## Tags
+## 当前结论
 
-- MT5 Strategy Tester only: `ALLOW_NON_RSI_LEGACY_TESTER`
-- Real live terminal only: `ALLOW_NON_RSI_LEGACY_LIVE`
+- 该主题已经纳入四仓库拆分后的维护体系。
+- 涉及后端逻辑的内容归 `QuantGodBackend`。
+- 涉及界面展示的内容归 `QuantGodFrontend`。
+- 涉及部署和同步的内容归 `QuantGodInfra`。
+- 涉及长期说明、Runbook、API contract 和安全边界的内容归 `QuantGodDocs`。
 
-The tester tag does not authorize a real HFM live terminal. The live tag is not present in the HFM live preset.
+## 安全提醒
 
-## Live Preset State
-
-`QuantGod_MT5_HFM_LivePilot.set` remains USDJPY RSI focused:
-
-- `Watchlist=USDJPY`
-- `EnablePilotMA=false`
-- `EnablePilotRsiH1Live=true`
-- `EnablePilotBBH1Live=false`
-- `EnablePilotMacdH1Live=false`
-- `EnablePilotSRM15Live=false`
-- `EnableNonRsiLegacyLiveAuthorization=false`
-- `NonRsiLegacyLiveAuthorizationTag=`
-
-## Evidence To Watch
-
-After deployment, these fields should appear in the dashboard/status files:
-
-- `build=QuantGod-v3.17-mt5-startup-entry-guard` or newer
-- `nonRsiLegacyLiveAuthorization=false`
-- `nonRsiLegacyLiveAuthorizationState=DISABLED`
-
-If a BB/MACD/SR order path is reached without the second key, the Journal should log:
-
-`QuantGod MT5 pilot order blocked: non-RSI legacy live authorization lock disabled`
+任何历史文档都不能作为绕过当前安全链路的依据。当前系统仍必须遵守 Kill Switch、authorization lock、dryRun、news/session/cooldown、live preset mutation guard 和人工授权要求。

@@ -1,55 +1,47 @@
-# QuantGod repository split architecture
+# QuantGod 仓库拆分架构
 
-## Goal
+## 目标
 
-QuantGod used to live in one mixed repository containing backend, frontend, infra, docs, MQL5 source, Python tools, Vue source, Cloudflare files, and deployment notes. The new structure splits ownership into four repositories so future changes can be smaller, safer, and easier to review.
+QuantGod 原来是一个混合仓库：后端、前端、Cloudflare、文档、MQL5、Python tools、Vue source 和部署说明都放在一起。现在拆成四个仓库，是为了让每次变更更小、更可审查，也避免“改一个页面却带出后端和文档大面积变化”。
 
-## Repositories
+## 四个仓库
 
-| Repository | Responsibility | Should contain | Should not contain |
+| 仓库 | 职责 | 应包含 | 不应包含 |
 |---|---|---|---|
-| `QuantGodBackend` | Trading/research backend | `MQL5/`, `Dashboard/`, `tools/`, `tests/`, local launchers | Vue source, Cloudflare worker source, full docs tree |
-| `QuantGodFrontend` | Operator UI | Vue source, Vite config, UI components, frontend CI | MQL5, Python tools, backend runtime JSON/CSV |
-| `QuantGodInfra` | Workspace and deployment automation | Cloudflare, multi-repo scripts, dist sync, deployment helpers | business logic, Vue components, strategy code |
-| `QuantGodDocs` | Canonical documentation | Markdown docs for all repos, contracts, runbooks | runtime data, credentials, generated ledgers |
+| `QuantGodBackend` | 交易/研究后端 | `MQL5/`、`Dashboard/`、`tools/`、`tests/`、本地启动脚本 | Vue source、Cloudflare worker、完整文档树 |
+| `QuantGodFrontend` | operator UI | Vue source、Vite、UI 组件、前端 CI | MQL5、Python tools、后端 runtime JSON/CSV |
+| `QuantGodInfra` | 工作区和部署自动化 | Cloudflare、multi-repo scripts、dist sync、部署 helper | 策略逻辑、Vue 组件、业务后端逻辑 |
+| `QuantGodDocs` | 中文文档中心 | 架构、API、Runbook、Phase、维护规范 | runtime 数据、凭据、生成 ledger |
 
-## Why this split
+## 拆分原因
 
-The split maps to actual maintenance boundaries:
+后端变更通常影响 MT5 安全、数据契约、Governance、ParamLab、AI agents 和测试。前端变更通常影响布局、图表、表格、工作台体验和响应式。Infra 变更影响部署、Cloudflare、workspace orchestration。Docs 变更应该可以独立完成，不必跟代码一起搅在一个提交里。
 
-- backend changes often affect safety, MT5 guards, data contracts, Governance, ParamLab, AI agents, and tests;
-- frontend changes often affect layout, charts, workspaces, table rendering, and API presentation;
-- infra changes affect deployment, Cloudflare, workspace orchestration, and local automation;
-- docs changes must be allowed without touching runtime code.
+## 联动方式
 
-## Required linkage
+1. Backend 暴露本地 REST API：`/api/*`。
+2. Frontend 不直接读本地 JSON/CSV，只调用 backend API。
+3. Frontend 构建到 `dist/`。
+4. Infra 把 `QuantGodFrontend/dist` 同步到 `QuantGodBackend/Dashboard/vue-dist`。
+5. Backend 继续通过 `http://localhost:8080/vue/` 提供本地工作台。
+6. Docs 记录 API、架构、安全边界、Phase 状态和运维步骤。
 
-The split is not four unrelated repos. They are linked by a clear contract:
-
-1. Backend exposes local REST APIs under `/api/*`.
-2. Frontend never reads local JSON/CSV directly; it calls backend APIs.
-3. Frontend builds to `dist/`.
-4. Infra copies `QuantGodFrontend/dist` to `QuantGodBackend/Dashboard/vue-dist` when a single local backend server should serve the UI.
-5. Docs records API contracts, runbooks, safety boundaries, and phase history.
-
-## Default local topology
+## 默认本地拓扑
 
 ```text
 MT5/HFM terminal
-  ↓ writes JSON/CSV under MQL5/Files
+  ↓ 写入 MQL5/Files 下的 JSON/CSV
 QuantGodBackend
-  ↓ local API at http://127.0.0.1:8080/api/*
-QuantGodFrontend dev server
-  ↓ Vite proxy to backend, or dist copied into backend Dashboard/vue-dist
+  ↓ http://127.0.0.1:8080/api/*
+QuantGodFrontend dev server 或 backend-served dist
+  ↓
 Operator browser
 ```
 
-## Safety invariants after split
+## 不可破坏的安全边界
 
-The split must not relax any QuantGod trading guard:
-
-- AI analysis remains advisory only.
-- Telegram remains push-only.
-- Vibe Coding remains research/backtest-only.
-- Governance and Version Gate remain advisory unless manually authorized.
-- Kill Switch, authorization locks, dry-run, live preset mutation guards, and broker credential boundaries are unchanged.
+- AI Analysis 只做 advisory evidence。
+- Telegram 只允许 push-only 通知。
+- Vibe Coding 只允许 research/backtest-only。
+- Governance 与 Version Gate 不能被前端或通知系统绕过。
+- Kill Switch、authorization lock、dryRun、live preset mutation guard、broker credential boundary 保持不变。

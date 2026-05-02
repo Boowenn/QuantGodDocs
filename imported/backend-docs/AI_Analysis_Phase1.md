@@ -1,66 +1,25 @@
-# QuantGod AI Analysis Phase 1 Integration Notes
+# AI Analysis Phase 1
 
-This change adds the Phase 1 backend seed for the design document:
+这是从旧后端仓库导入的历史文档，已整理为中文版本。完整演进细节可通过 Git 历史追溯；当前维护以 `QuantGodDocs/docs/` 下的正式文档为准。
 
-- `tools/ai_analysis/` implements config, OpenRouter client, three agents, data collection, orchestration, storage, and Governance evidence writing.
-- `tools/run_ai_analysis.py` exposes a CLI that the local Node dashboard server can call.
-- `tools/mt5_chart_readonly.py` exposes read-only kline/trades/shadow-signal payload builders for Module B API wiring.
-- `tests/test_ai_analysis.py` and `tests/test_mt5_chart_readonly.py` keep the new code terminal-independent and safe in CI.
+## 文档用途
 
-## Safety boundary
+记录第一版 AI 分析引擎的本地证据、history 写入和 advisory-only 安全边界。
 
-All new outputs carry read-only/advisory metadata:
+## 相关入口
 
-```json
-{
-  "readOnly": true,
-  "orderSendAllowed": false,
-  "closeAllowed": false,
-  "cancelAllowed": false,
-  "credentialStorageAllowed": false,
-  "livePresetMutationAllowed": false,
-  "mutatesMt5": false
-}
-```
+- `tools/ai_analysis/`
+- `Dashboard/phase1_api_routes.js`
+- `frontend/src/components/phase1/`
 
-The AI report is written for review only. It must not place orders, close orders, cancel orders, change `.set` files, promote/demote routes, or override kill switches/news filters/dry-run guards.
+## 当前结论
 
-## CLI smoke tests
+- 该主题已经纳入四仓库拆分后的维护体系。
+- 涉及后端逻辑的内容归 `QuantGodBackend`。
+- 涉及界面展示的内容归 `QuantGodFrontend`。
+- 涉及部署和同步的内容归 `QuantGodInfra`。
+- 涉及长期说明、Runbook、API contract 和安全边界的内容归 `QuantGodDocs`。
 
-```powershell
-python tools\run_ai_analysis.py config
-python tools\run_ai_analysis.py run --symbol EURUSDc --timeframes M15,H1,H4,D1
-python tools\run_ai_analysis.py latest
-python tools\run_ai_analysis.py history --symbol EURUSDc --limit 20
+## 安全提醒
 
-python tools\mt5_chart_readonly.py kline --symbol EURUSDc --tf H1 --bars 200
-python tools\mt5_chart_readonly.py trades --symbol EURUSDc --days 30
-python tools\mt5_chart_readonly.py shadow-signals --symbol EURUSDc --days 7
-```
-
-When `OPENROUTER_API_KEY` is missing or the LLM response is invalid, the agents return deterministic fallback reports from local OHLC/runtime evidence. Set `AI_ANALYSIS_MOCK_MODE=true` for offline development.
-
-## Node dashboard server wiring
-
-The existing `Dashboard/dashboard_server.js` already has helpers for spawning JSON Python scripts. Wire these paths as the next incremental patch:
-
-- `POST /api/ai-analysis/run` -> `python tools/run_ai_analysis.py run --symbol <symbol> --timeframes <csv>`
-- `GET /api/ai-analysis/latest` -> `python tools/run_ai_analysis.py latest --allow-empty`
-- `GET /api/ai-analysis/history?symbol=&limit=20` -> `python tools/run_ai_analysis.py history --symbol <symbol> --limit <n>`
-- `GET /api/ai-analysis/history/:id` -> `python tools/run_ai_analysis.py history-item --id <id>`
-- `GET /api/ai-analysis/config` -> `python tools/run_ai_analysis.py config`
-- `GET /api/mt5-readonly/kline?symbol=EURUSDc&tf=H1&bars=200` -> `python tools/mt5_chart_readonly.py kline --symbol EURUSDc --tf H1 --bars 200`
-- `GET /api/mt5-readonly/trades?symbol=EURUSDc&days=30` -> `python tools/mt5_chart_readonly.py trades --symbol EURUSDc --days 30`
-- `GET /api/shadow-signals?symbol=EURUSDc&days=7` -> `python tools/mt5_chart_readonly.py shadow-signals --symbol EURUSDc --days 7`
-
-Keep these routes localhost-only and read-only. Do not add them to the guarded trading namespace.
-
-## Governance evidence
-
-A successful run writes:
-
-- `<AI_ANALYSIS_HISTORY_DIR>/latest.json`
-- `<AI_ANALYSIS_HISTORY_DIR>/history/<timestamp>_<symbol>.json`
-- `<QG_RUNTIME_DIR>/QuantGod_AIAnalysisEvidence.json`
-
-`QuantGod_AIAnalysisEvidence.json` is the only artifact Governance should read. It is explicitly marked `advisoryOnly=true` and `canPromoteOrDemoteRoute=false`.
+任何历史文档都不能作为绕过当前安全链路的依据。当前系统仍必须遵守 Kill Switch、authorization lock、dryRun、news/session/cooldown、live preset mutation guard 和人工授权要求。

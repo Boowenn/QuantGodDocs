@@ -1,28 +1,22 @@
-# Telegram notification runbook
+# Telegram 通知
 
-## Purpose
+Telegram 在 QuantGod 中只做 push-only 通知，不接收交易命令。
 
-Telegram is a push-only notification channel.
+## 支持事件
 
-## Allowed messages
+- `TRADE_OPEN`
+- `TRADE_CLOSE`
+- `KILL_SWITCH`
+- `NEWS_BLOCK`
+- `AI_ANALYSIS`
+- `CONSECUTIVE_LOSS`
+- `DAILY_DIGEST`
+- `GOVERNANCE`
+- `TEST`
 
-- TRADE_OPEN
-- TRADE_CLOSE
-- KILL_SWITCH
-- NEWS_BLOCK
-- AI_ANALYSIS
-- CONSECUTIVE_LOSS
-- DAILY_DIGEST
-- GOVERNANCE
+## 配置
 
-## Forbidden behavior
-
-- No command processing.
-- No order send/close/cancel.
-- No preset mutation.
-- No credential storage in Git.
-
-## Environment variables
+配置只允许来自本机环境变量或安全的 secret 管理，不写入 Git。
 
 ```text
 TELEGRAM_BOT_TOKEN
@@ -34,3 +28,7 @@ NOTIFY_AI_SUMMARY
 NOTIFY_DAILY_DIGEST
 NOTIFY_GOVERNANCE
 ```
+
+## 安全边界
+
+Telegram 不接受 `/buy`、`/sell`、`/close`、`/unlock`、`/promote` 这类命令。任何通知都不能触发 broker order、live preset mutation、Kill Switch override 或 Governance mutation。

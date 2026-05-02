@@ -1,46 +1,46 @@
-# Cross-repo linkage contract
+# 跨仓库联动契约
 
-## Contract summary
+## 契约摘要
 
-| Link | Producer | Consumer | Mechanism |
+| 链路 | 生产者 | 消费者 | 机制 |
 |---|---|---|---|
-| Backend REST API | `QuantGodBackend` | `QuantGodFrontend` | `/api/*` over localhost |
-| Frontend static dist | `QuantGodFrontend` | `QuantGodBackend` | Infra sync to `Dashboard/vue-dist` |
-| Cloudflare remote assets | `QuantGodInfra` | optional operator | Wrangler deploy |
-| Documentation | `QuantGodDocs` | all repos | Markdown links and repo README pointers |
-| Workspace automation | `QuantGodInfra` | all repos | `scripts/qg-workspace.py` |
+| Backend REST API | `QuantGodBackend` | `QuantGodFrontend` | localhost `/api/*` |
+| Frontend static dist | `QuantGodFrontend` | `QuantGodBackend` | Infra sync 到 `Dashboard/vue-dist` |
+| Cloudflare remote assets | `QuantGodInfra` | 可选远程展示 | Wrangler deploy |
+| 文档 | `QuantGodDocs` | 四个仓库 | README 指针和 Markdown 链接 |
+| 工作区自动化 | `QuantGodInfra` | 四个仓库 | `scripts/qg-workspace.py` |
 
 ## Backend API base
 
-Default backend API:
+默认后端 API：
 
 ```text
 http://127.0.0.1:8080/api
 ```
 
-Frontend source should call relative `/api/*` URLs. In Vite development, the proxy forwards those requests to backend. In backend-served production/local mode, the UI and API share the same origin.
+Frontend 源码应使用相对路径 `/api/*`。Vite dev server 通过 proxy 转发到 backend；backend-served 模式下，UI 和 API 同源。
 
-## Frontend build sync
+## Frontend 构建同步
 
-Frontend builds to:
+Frontend 构建输出：
 
 ```text
 QuantGodFrontend/dist
 ```
 
-Infra sync copies that directory into:
+Infra 同步目标：
 
 ```text
 QuantGodBackend/Dashboard/vue-dist
 ```
 
-The backend server then serves the UI at:
+同步后，后端 server 页面入口：
 
 ```text
 http://localhost:8080/vue/
 ```
 
-## Workspace commands
+## Workspace 命令
 
 ```powershell
 cd QuantGodInfra
@@ -52,20 +52,20 @@ python scripts\qg-workspace.py --workspace workspace\quantgod.workspace.json syn
 python scripts\qg-workspace.py --workspace workspace\quantgod.workspace.json verify
 ```
 
-## Versioning policy
+## 版本顺序
 
-Small UI-only changes can be committed only to `QuantGodFrontend`. Backend API changes should update backend tests and docs. Any API contract change that affects frontend should be merged in this order:
+UI 小改只提交到 `QuantGodFrontend`。Backend API 改动要同时更新 backend tests 和 Docs。涉及前端消费的 API 变化建议顺序：
 
-1. Backend adds backwards-compatible API field or endpoint.
-2. Docs update records the contract.
-3. Frontend consumes the new field or endpoint.
-4. Infra only changes if build/sync/deploy behavior changes.
+1. Backend 先增加兼容字段或新 endpoint。
+2. Docs 更新 API contract。
+3. Frontend 消费新字段或 endpoint。
+4. Infra 只有构建/同步/部署方式改变时才改。
 
-## Breaking API changes
+## 破坏性 API 变化
 
-Avoid breaking API changes. When unavoidable:
+尽量避免破坏性变化。确实需要时：
 
-1. Add a new endpoint or versioned field first.
-2. Keep the old endpoint alive for at least one frontend release.
-3. Update docs and frontend.
-4. Remove old endpoint only after frontend no longer uses it.
+1. 先增加新 endpoint 或 versioned field。
+2. 旧 endpoint 至少保留一个前端版本周期。
+3. 更新 Docs 和 Frontend。
+4. 确认前端不再使用后，再删除旧 endpoint。

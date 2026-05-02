@@ -1,8 +1,8 @@
-# Backend API contract
+# 后端 API 契约
 
-## General response envelope
+## 通用响应 envelope
 
-Most unified Phase 2/3 endpoints should return a JSON envelope with:
+统一 API 应尽量返回以下结构：
 
 ```json
 {
@@ -89,6 +89,6 @@ GET  /api/kline/vibe-indicators
 GET  /api/kline/realtime-config
 ```
 
-## Frontend rule
+## 前端规则
 
-Frontend code must not fetch `QuantGod_*.json` or `QuantGod_*.csv` directly. Use these API endpoints.
+Frontend 不得直接 fetch `QuantGod_*.json` 或 `QuantGod_*.csv`。所有展示数据都应通过 `/api/*` facade 获取。

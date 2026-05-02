@@ -1,56 +1,54 @@
-# Module boundaries
+# 模块边界
 
-## Backend-owned modules
+## Backend 拥有的模块
 
-Backend owns all code that can touch MT5 runtime data, HFM local files, strategy evaluation, Governance, or AI analysis outputs.
+Backend 拥有所有会接触 MT5 runtime、HFM 本地文件、策略评估、Governance 或 AI evidence 写入的代码。
 
-Backend-owned examples:
+包括：
 
-- MT5 EA source under `MQL5/`
-- Node dashboard/API server under `Dashboard/`
-- MT5 read-only bridge and trading bridge guard tools
-- Governance Advisor
-- ParamLab Runner, Auto Scheduler, Report Watcher, Recovery
-- Strategy Version Registry and Version Promotion Gate
-- Backend Backtest Loop
-- AI Analysis V1/V2 agents and evidence writer
-- Vibe Coding strategy generation, safety checker, registry, and backtest connector
-- Telegram notification service
+- `MQL5/` 下的 MT5 EA 源码和 preset。
+- `Dashboard/` 下的 Node API server。
+- MT5 read-only bridge 与受控 trading bridge。
+- Governance Advisor。
+- ParamLab Runner、Auto Scheduler、Report Watcher、Recovery。
+- Strategy Version Registry 与 Version Promotion Gate。
+- Backend Backtest Loop。
+- AI Analysis V1/V2 agents 与 evidence writer。
+- Vibe Coding 策略生成、安全校验、registry、backtest connector。
+- Telegram push-only notify service。
 
-## Frontend-owned modules
+## Frontend 拥有的模块
 
-Frontend owns visual workspaces and UI-only state:
+Frontend 只拥有视觉工作台和 UI 状态：
 
-- Vue shell
-- Ant Design Vue layout/cards/tables/forms
-- KlineCharts rendering
-- AI/Vibe Coding panels
-- API service wrappers
-- Monaco editor shell
+- Vue shell。
+- Ant Design Vue 页面层。
+- KlineCharts 渲染。
+- AI/Vibe Coding 面板。
+- API service wrappers。
+- Monaco editor UI。
 
-Frontend must not contain MT5 credentials, broker credentials, Python strategy execution, or local MQL5 Files scraping logic.
+Frontend 不得包含 MT5 凭据、broker 凭据、Python 策略执行逻辑或本地 `MQL5/Files` 抓取逻辑。
 
-## Infra-owned modules
+## Infra 拥有的模块
 
-Infra owns glue and deployment:
+Infra 负责胶水和部署：
 
-- Cloudflare worker files
-- workspace helper scripts
-- dist sync from frontend to backend
-- multi-repo pull/build/test commands
-- optional remote dashboard deployment automation
+- Cloudflare worker 文件。
+- workspace helper。
+- Frontend dist 到 Backend 静态目录的同步。
+- 多仓库 pull/build/test 命令。
+- 可选远程 dashboard 部署自动化。
 
-Infra must not contain trading strategy logic.
+Infra 不写策略逻辑，不改 Governance，不碰 live preset。
 
-## Docs-owned modules
+## Docs 拥有的模块
 
-Docs owns explanations, contracts, runbooks, phase designs, and maintenance guides.
+Docs 负责说明、契约、Runbook、Phase 设计和维护规则。以下变化必须同步文档：
 
-Docs should be the first place to update when a code change modifies:
-
-- API shape
-- repo boundaries
-- operator workflow
-- safety gates
-- CI rules
-- phase implementation status
+- API shape 改动。
+- 仓库边界改动。
+- operator workflow 改动。
+- 安全 gate 改动。
+- CI 或发布流程改动。
+- Phase 实装状态变化。
