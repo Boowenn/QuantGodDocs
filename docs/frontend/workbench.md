@@ -18,7 +18,13 @@ QuantGod Vue 工作台是当前唯一 active operator frontend。旧 HTML 页面
 
 ## 响应式要求
 
-新增组件必须通过 `tools/responsive_check.mjs` 覆盖。重点检查：
+新增组件必须通过 `QuantGodFrontend/scripts/responsive_check.mjs` 覆盖：
+
+```powershell
+npm run responsive:check
+```
+
+重点检查：
 
 - `320px` 窄屏。
 - 手机宽度。

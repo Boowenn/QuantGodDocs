@@ -32,4 +32,4 @@ http://127.0.0.1:8080/vue/
 
 ## 回滚
 
-如果前端 dist 有问题，可以回退 `QuantGodBackend/Dashboard/vue-dist` 对应提交，或重新从稳定的 `QuantGodFrontend` commit 构建并同步。
+如果前端 dist 有问题，重新从稳定的 `QuantGodFrontend` commit 构建并同步即可。`QuantGodBackend/Dashboard/vue-dist` 是本机 ignored 运行产物，不再作为 backend Git 提交内容回滚。
