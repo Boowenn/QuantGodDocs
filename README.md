@@ -22,6 +22,7 @@ QuantGodDocs 是 QuantGod 四仓库体系的文档中心。它只保存架构、
 - [前端 API Client 规则](docs/frontend/api-client.md)
 - [Infra workspace 自动化](docs/infra/workspace-automation.md)
 - [本地运行 Runbook](docs/ops/runbook-local.md)
+- [Telegram push-only 通知](docs/ops/telegram-push-only.md)
 - [Phase 1](docs/phases/phase1.md)
 - [Phase 2](docs/phases/phase2.md)
 - [Phase 3](docs/phases/phase3.md)
