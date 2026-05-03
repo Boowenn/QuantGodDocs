@@ -64,5 +64,7 @@ python scripts/check_api_contract_matches_backend.py `
 - [MT5 runtime evidence bridge](docs/ops/mt5-runtime-evidence-bridge.md)
 
 ## Ops
+- [AI Provider Router](docs/ops/ai-provider-router.md)
+
 
 - [DeepSeek Telegram Fusion](docs/ops/deepseek-telegram-fusion.md)
