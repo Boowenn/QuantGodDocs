@@ -784,6 +784,54 @@
           "description": "K-line polling config."
         }
       ]
+    },
+    {
+      "name": "p2-3-sqlite-state-layer",
+      "phase": "phase2",
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "/api/state",
+          "mode": "read-only",
+          "description": "SQLite state layer status alias; local evidence persistence only."
+        },
+        {
+          "method": "GET",
+          "path": "/api/state/status",
+          "mode": "read-only",
+          "description": "SQLite state layer schema, table counts, and safety defaults."
+        },
+        {
+          "method": "GET",
+          "path": "/api/state/config",
+          "mode": "read-only",
+          "description": "Resolved local SQLite state configuration; no secrets."
+        },
+        {
+          "method": "GET",
+          "path": "/api/state/events",
+          "mode": "read-only",
+          "description": "Normalized local evidence events from SQLite."
+        },
+        {
+          "method": "GET",
+          "path": "/api/state/ai-analysis",
+          "mode": "read-only",
+          "description": "Advisory-only AI analysis run index from SQLite."
+        },
+        {
+          "method": "GET",
+          "path": "/api/state/vibe-strategies",
+          "mode": "read-only",
+          "description": "Research-only Vibe strategy index from SQLite."
+        },
+        {
+          "method": "GET",
+          "path": "/api/state/notifications",
+          "mode": "read-only",
+          "description": "Push-only notification event index from SQLite."
+        }
+      ]
     }
   ]
 }
