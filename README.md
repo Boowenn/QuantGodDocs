@@ -68,3 +68,7 @@ python scripts/check_api_contract_matches_backend.py `
 
 
 - [DeepSeek Telegram Fusion](docs/ops/deepseek-telegram-fusion.md)
+
+## Operations
+
+- [AI advisory outcome journal](docs/ops/ai-advisory-outcome-journal.md)
