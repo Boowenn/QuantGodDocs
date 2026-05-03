@@ -55,6 +55,53 @@ python tools\run_telegram_notifier.py test
 python tools\run_state_store.py notifications --limit 10
 ```
 
+## MT5 AI 监听建议推送
+
+`tools/run_mt5_ai_telegram_monitor.py` 提供类似 Web3 监控系统的本地闭环：
+
+```text
+MT5 read-only snapshot / runtime ledger
+→ AI Analysis V2 多智能体分析
+→ 去重与最小间隔
+→ Telegram push-only advisory message
+→ SQLite notification evidence
+```
+
+它只读本地 MT5/QuantGod 证据，不下单、不平仓、不撤单、不修改 live preset，也不会接收 Telegram 命令。默认是 dry-run，只记录 evidence；必须显式加 `--send`，且 `.env.telegram.local` 里 `QG_TELEGRAM_PUSH_ALLOWED=1` 后才会发到 Telegram。
+
+Dry-run 验证：
+
+```powershell
+python tools\run_mt5_ai_telegram_monitor.py scan-once `
+  --symbols USDJPYc,EURUSDc,XAUUSDc `
+  --min-interval-seconds 0
+```
+
+真实发送一次 advisory：
+
+```powershell
+python tools\run_mt5_ai_telegram_monitor.py scan-once `
+  --symbols USDJPYc,EURUSDc,XAUUSDc `
+  --send `
+  --force
+```
+
+本地轮询三次：
+
+```powershell
+python tools\run_mt5_ai_telegram_monitor.py loop `
+  --symbols USDJPYc,EURUSDc,XAUUSDc `
+  --cycles 3 `
+  --interval-seconds 60 `
+  --send
+```
+
+可选默认符号：
+
+```text
+QG_MT5_AI_MONITOR_SYMBOLS=USDJPYc,EURUSDc,XAUUSDc
+```
+
 如果 `link` 报告 webhook 冲突，只有在这个 bot 是 QuantGod 专用 bot 时才清理 webhook：
 
 ```powershell
