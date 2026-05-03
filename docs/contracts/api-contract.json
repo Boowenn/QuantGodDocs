@@ -671,6 +671,24 @@
       "endpoints": [
         {
           "method": "GET",
+          "path": "/api/ai-analysis/deepseek-telegram/config",
+          "mode": "read-only",
+          "description": "DeepSeek-Telegram fusion config status."
+        },
+        {
+          "method": "POST",
+          "path": "/api/ai-analysis/deepseek-telegram/run",
+          "mode": "advisory",
+          "description": "Run DeepSeek-Telegram fusion analysis."
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-analysis/deepseek-telegram/latest",
+          "mode": "read-only",
+          "description": "Latest DeepSeek-Telegram fusion result."
+        },
+        {
+          "method": "GET",
           "path": "/api/vibe-coding",
           "mode": "research-only",
           "description": "Vibe Coding config alias."
