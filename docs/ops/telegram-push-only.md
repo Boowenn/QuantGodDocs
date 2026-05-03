@@ -178,3 +178,7 @@ Remove-Item C:\QuantGod\QuantGodInfra\docker\.env.local -ErrorAction SilentlyCon
 ```
 
 然后回滚 Backend、Infra、Docs 的 P3-2 提交。本次 Telegram-only 范围不应该存在 Frontend 提交。
+
+## MT5 runtime evidence bridge
+
+P3-2.1 adds a read-only runtime evidence bridge so Telegram advisory messages can use HFM/MT5 EA-written JSON snapshots instead of `mt5_python_unavailable` fallback data. See [MT5 runtime evidence bridge](mt5-runtime-evidence-bridge.md).

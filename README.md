@@ -58,3 +58,8 @@ python scripts/check_api_contract_matches_backend.py `
 4. 安全边界文档优先级高于功能文档。
 5. 任何新功能都不能突破 Kill Switch、授权锁、dryRun、只读数据面和 push-only 通知边界。
 6. 如果改动影响前端调用路径，先改 Backend contract，再更新 Docs，最后改 Frontend。
+
+## P3-2.1 MT5 runtime evidence bridge
+
+- [MT5 runtime evidence bridge](docs/ops/mt5-runtime-evidence-bridge.md)
+
