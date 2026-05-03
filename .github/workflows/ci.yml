@@ -50,4 +50,5 @@ jobs:
             --exclude-dir=.git \
             --exclude='*.md' \
             --exclude='*.json' \
-            --exclude='ci.yml'
+            --exclude='ci.yml' \
+            --exclude='check_docs_quality_gate.py'
