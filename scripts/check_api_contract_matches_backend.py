@@ -52,6 +52,7 @@ BACKEND_ROUTE_FILES = [
     "Dashboard/phase1_api_routes.js",
     "Dashboard/phase2_api_routes.js",
     "Dashboard/phase3_api_routes.js",
+    "Dashboard/state_api_routes.js",
     "Dashboard/dashboard_server.js",
 ]
 
@@ -155,7 +156,10 @@ def backend_paths(backend_root: Path) -> set[str]:
             continue
         text = path.read_text(encoding="utf-8", errors="ignore")
         for match in PATH_RE.finditer(text):
-            found.add(normalize_backend_path(match.group(0)))
+            raw = match.group(0).rstrip("/") or match.group(0)
+            normalized = normalize_backend_path(raw)
+            found.add(raw)
+            found.add(normalized)
     return found
 
 
@@ -164,22 +168,41 @@ def compare_backend_routes(contract: dict, backend_root: Path, strict_extra: boo
     actual = backend_paths(backend_root)
     errors: list[str] = []
 
-    missing = sorted(path for path in actual if path not in documented)
+    # For the "missing from contract" check, skip backend paths whose normalized form
+    # is a known wildcard placeholder. Raw literal paths (e.g. /api/mt5-readonly/kline)
+    # are expected to be covered by wildcard placeholders (e.g. /api/mt5-readonly/:endpoint).
+    missing = sorted(
+        path for path in actual
+        if path not in documented
+        and path not in PLACEHOLDER_PATHS
+        and normalize_backend_path(path) not in PLACEHOLDER_PATHS
+    )
     if missing:
         errors.append(
             "backend route(s) missing from docs contract: " + ", ".join(missing[:50])
         )
 
     if strict_extra:
-        extra = sorted(
-            path
-            for path in documented
-            if path not in actual and path not in PLACEHOLDER_PATHS
-        )
-        if extra:
+        extra_contract_paths: list[str] = []
+        for path in sorted(documented):
+            if path in actual:
+                continue
+            if path in PLACEHOLDER_PATHS:
+                continue
+            # A literal contract path (e.g. /api/mt5-readonly/account) is covered
+            # if the corresponding wildcard (e.g. /api/mt5-readonly/:endpoint) is in
+            # the observed backend paths.
+            covered_by_wildcard = any(
+                wildcard in actual
+                for wildcard in PLACEHOLDER_PATHS
+                if path.startswith(wildcard.replace(":endpoint", "").replace(":id", "").replace(":ticket", "").replace(":action", ""))
+            )
+            if not covered_by_wildcard:
+                extra_contract_paths.append(path)
+        if extra_contract_paths:
             errors.append(
                 "docs contract path(s) not observed in backend route files: "
-                + ", ".join(extra[:50])
+                + ", ".join(extra_contract_paths[:50])
             )
 
     return errors

@@ -19,7 +19,7 @@
     "infra": "https://github.com/Boowenn/QuantGodInfra",
     "docs": "https://github.com/Boowenn/QuantGodDocs"
   },
-  "schemaVersion": 1,
+  "schemaVersion": "1-docs",
   "workspace": "QuantGod",
   "governance": {
     "licenseFile": "LICENSE",
