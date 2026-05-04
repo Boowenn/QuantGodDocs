@@ -662,6 +662,30 @@
           "path": "/api/notify/test",
           "mode": "push-only",
           "description": "Send one test notification; never accepts trading commands."
+        },
+        {
+          "method": "POST",
+          "path": "/api/notify/daily-digest",
+          "mode": "push-only",
+          "description": "Trigger AI ops daily digest push; advisory-only output."
+        },
+        {
+          "method": "POST",
+          "path": "/api/notify/runtime-scan",
+          "mode": "push-only",
+          "description": "Trigger runtime scan notification; never accepts trading commands."
+        },
+        {
+          "method": "GET",
+          "path": "/api/notify/mt5-ai-monitor/config",
+          "mode": "read-only",
+          "description": "MT5 AI monitor config status; no secret values."
+        },
+        {
+          "method": "POST",
+          "path": "/api/notify/mt5-ai-monitor/run",
+          "mode": "push-only",
+          "description": "Run MT5 AI monitor analysis; advisory-only, push-only."
         }
       ]
     },
