@@ -78,6 +78,7 @@ python scripts/check_api_contract_matches_backend.py `
 - [P3-8 动态止盈止损校准](docs/ops/dynamic-sltp-calibration.md) — 根据影子 MFE/MAE 证据生成只读动态止损止盈建议。
 
 - [P3-9 入场触发实验室](docs/ops/entry-trigger-lab.md)
+- [P3-11 自动执行策略调参器](docs/ops/auto-execution-policy-tuner.md) — 在核心安全不变的前提下，把入场分为标准入场、机会入场和阻断。
 
 ## P3-10 Pilot Safety Lock
 
