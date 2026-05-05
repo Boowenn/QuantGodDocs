@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "project": "QuantGod",
   "generatedFrom": "Phase 1/2/3 design and current backend route surfaces",
-  "lastReviewed": "2026-05-02",
+  "lastReviewed": "2026-05-05",
   "repositories": {
     "backend": "QuantGodBackend",
     "frontend": "QuantGodFrontend",
@@ -452,6 +452,18 @@
           "path": "/api/ai-analysis/config",
           "mode": "read-only",
           "description": "AI V1 local config/status."
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-analysis/agent-health",
+          "mode": "read-only",
+          "description": "Latest local AI agent health evidence."
+        },
+        {
+          "method": "GET",
+          "path": "/api/ai-analysis/agent-health/history",
+          "mode": "read-only",
+          "description": "Historical local AI agent health evidence."
         }
       ]
     },
@@ -524,6 +536,12 @@
           "path": "/api/research/stats",
           "mode": "read-only",
           "source": "QuantGod_MT5ResearchStats.json"
+        },
+        {
+          "method": "GET",
+          "path": "/api/research/entry-blockers",
+          "mode": "read-only",
+          "source": "QuantGod_MT5EntryBlockers.json"
         },
         {
           "method": "GET",
@@ -620,6 +638,12 @@
           "path": "/api/research/stats-ledger",
           "mode": "read-only-csv",
           "source": "QuantGod_MT5ResearchStatsLedger.csv"
+        },
+        {
+          "method": "GET",
+          "path": "/api/research/entry-blockers-ledger",
+          "mode": "read-only-csv",
+          "source": "QuantGod_MT5EntryBlockersLedger.csv"
         },
         {
           "method": "GET",
@@ -728,6 +752,12 @@
           "path": "/api/vibe-coding/generate",
           "mode": "research-only",
           "description": "Generate sandboxed Python strategy code from natural language."
+        },
+        {
+          "method": "POST",
+          "path": "/api/vibe-coding/import-library",
+          "mode": "research-only",
+          "description": "Import a research-only strategy library candidate into the Vibe Coding sandbox."
         },
         {
           "method": "POST",

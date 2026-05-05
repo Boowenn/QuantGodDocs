@@ -72,3 +72,5 @@ python scripts/check_api_contract_matches_backend.py `
 ## Operations
 
 - [AI advisory outcome journal](docs/ops/ai-advisory-outcome-journal.md)
+
+- [P3-6 自适应策略引擎](docs/ops/adaptive-policy-engine.md) — MT5 运行质量、路线评分、入场闸门和动态止损止盈建议。
