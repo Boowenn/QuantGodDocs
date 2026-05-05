@@ -942,6 +942,22 @@
       "endpoints": [
         {
           "method": "GET",
+          "path": "/api/usdjpy-strategy-lab",
+          "description": "USDJPY 策略实验室基础状态别名。",
+          "safety": {
+            "localOnly": true,
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "dryRunOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
+          "method": "GET",
           "path": "/api/usdjpy-strategy-lab/status",
           "description": "读取 USDJPY-only 策略政策状态。",
           "safety": {
@@ -1018,6 +1034,190 @@
             "cancelAllowed": false,
             "livePresetMutationAllowed": false,
             "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/catalog",
+          "description": "读取 USDJPY 策略工厂目录，包含东京突破、夜盘回归和 H4 回调三条新增 shadow 策略。",
+          "safety": {
+            "localOnly": true,
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "dryRunOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/signals",
+          "description": "读取 USDJPY shadow 候选信号，用于确认新增策略是否正在采样。",
+          "safety": {
+            "localOnly": true,
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "dryRunOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/api/usdjpy-strategy-lab/signals/run",
+          "description": "刷新 USDJPY shadow 候选信号；只解析证据，不执行交易。",
+          "safety": {
+            "localOnly": true,
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "dryRunOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/backtest-plan",
+          "description": "读取 USDJPY 新策略回测计划。",
+          "safety": {
+            "localOnly": true,
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "dryRunOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/api/usdjpy-strategy-lab/backtest-plan/build",
+          "description": "生成 USDJPY 新策略回测计划；不会启动真实交易。",
+          "safety": {
+            "localOnly": true,
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "dryRunOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/candidate-policy",
+          "description": "读取 USDJPY 候选策略政策。",
+          "safety": {
+            "localOnly": true,
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "dryRunOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/api/usdjpy-strategy-lab/candidate-policy/build",
+          "description": "生成 USDJPY 候选策略政策；新策略仍保持 shadow-only。",
+          "safety": {
+            "localOnly": true,
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "dryRunOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/evidence",
+          "description": "读取 USDJPY 策略评分和候选信号的证据合并视图。",
+          "safety": {
+            "localOnly": true,
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "dryRunOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/risk-check",
+          "description": "读取 USDJPY 策略工厂风险检查结果。",
+          "safety": {
+            "localOnly": true,
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "dryRunOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/imported-backtests",
+          "description": "读取已导入的 USDJPY 回测结果账本。",
+          "safety": {
+            "localOnly": true,
+            "advisoryOnly": true,
+            "readOnlyDataPlane": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "credentialStorageAllowed": false,
+            "livePresetMutationAllowed": false,
+            "canOverrideKillSwitch": false,
+            "canMutateGovernanceDecision": false,
+            "telegramCommandExecutionAllowed": false,
+            "dryRunOnly": true,
+            "shadowTradingOnly": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/api/usdjpy-strategy-lab/import-backtest",
+          "description": "导入本机 USDJPY 回测 CSV/JSON 结果；只写研究证据，不执行交易。",
+          "safety": {
+            "localOnly": true,
+            "advisoryOnly": true,
+            "readOnlyDataPlane": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "credentialStorageAllowed": false,
+            "livePresetMutationAllowed": false,
+            "canOverrideKillSwitch": false,
+            "canMutateGovernanceDecision": false,
+            "telegramCommandExecutionAllowed": false,
+            "dryRunOnly": true,
+            "shadowTradingOnly": true
           }
         }
       ]

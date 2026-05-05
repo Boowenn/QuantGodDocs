@@ -54,6 +54,7 @@ BACKEND_ROUTE_FILES = [
     "Dashboard/phase3_api_routes.js",
     "Dashboard/state_api_routes.js",
     "Dashboard/dashboard_server.js",
+    "Dashboard/usdjpy_strategy_lab_api_routes.js",
 ]
 
 
