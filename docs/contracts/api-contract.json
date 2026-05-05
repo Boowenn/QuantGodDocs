@@ -934,6 +934,93 @@
           "description": "Run local evidence chain; writes runtime evidence but does not place orders."
         }
       ]
+    },
+    {
+      "id": "p3-14-usdjpy-strategy-policy-lab",
+      "name": "P3-14 USDJPY 单品种多策略实验室",
+      "stage": "P3-14",
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/status",
+          "description": "读取 USDJPY-only 策略政策状态。",
+          "safety": {
+            "localOnly": true,
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "dryRunOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/scoreboard",
+          "description": "读取 USDJPY 多策略评分矩阵。",
+          "safety": {
+            "localOnly": true,
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "dryRunOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/dry-run",
+          "description": "生成或读取 USDJPY EA 干跑决策。",
+          "safety": {
+            "localOnly": true,
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "dryRunOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/telegram-text",
+          "description": "生成 USDJPY 策略政策的中文 Telegram 文案。",
+          "safety": {
+            "localOnly": true,
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "dryRunOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/api/usdjpy-strategy-lab/run",
+          "description": "运行 USDJPY 策略政策生成；不执行交易。",
+          "safety": {
+            "localOnly": true,
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "dryRunOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        }
+      ]
     }
   ]
 }
