@@ -84,3 +84,4 @@ python scripts/check_api_contract_matches_backend.py `
 
 - [P3-10 实盘试点安全锁](docs/ops/pilot-safety-lock.md)
 - [P3-12 自动化链路运行器](docs/ops/automation-chain-runner.md)
+- [前端响应式运营台加固](docs/frontend/responsive-operator-hardening.md)
