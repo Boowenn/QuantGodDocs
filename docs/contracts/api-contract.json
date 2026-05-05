@@ -904,6 +904,36 @@
           "description": "Push-only notification event index from SQLite."
         }
       ]
+    },
+    {
+      "name": "p3-12-automation-chain-runner",
+      "phase": "phase3",
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "/api/automation-chain",
+          "mode": "read-only",
+          "description": "Automation chain status alias; no trading execution."
+        },
+        {
+          "method": "GET",
+          "path": "/api/automation-chain/status",
+          "mode": "read-only",
+          "description": "Latest automation chain status and missing evidence."
+        },
+        {
+          "method": "GET",
+          "path": "/api/automation-chain/telegram-text",
+          "mode": "push-preview",
+          "description": "Chinese Telegram preview text for automation chain."
+        },
+        {
+          "method": "POST",
+          "path": "/api/automation-chain/run",
+          "mode": "local-advisory-control",
+          "description": "Run local evidence chain; writes runtime evidence but does not place orders."
+        }
+      ]
     }
   ]
 }
