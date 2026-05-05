@@ -75,3 +75,4 @@ python scripts/check_api_contract_matches_backend.py `
 
 - [P3-6 自适应策略引擎](docs/ops/adaptive-policy-engine.md) — MT5 运行质量、路线评分、入场闸门和动态止损止盈建议。
 - [MT5 运行快通道](docs/ops/mt5-runtime-fast-lane.md) — 只读 EA 证据导出器和运行质量监控。
+- [P3-8 动态止盈止损校准](docs/ops/dynamic-sltp-calibration.md) — 根据影子 MFE/MAE 证据生成只读动态止损止盈建议。
