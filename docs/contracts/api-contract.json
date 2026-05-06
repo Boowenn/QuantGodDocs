@@ -1219,6 +1219,66 @@
             "dryRunOnly": true,
             "shadowTradingOnly": true
           }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/live-loop",
+          "description": "读取 USDJPY 实盘 EA 恢复状态、阻断原因和下一步自动动作。",
+          "safety": {
+            "localOnly": true,
+            "advisoryOnly": true,
+            "readOnlyDataPlane": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "credentialStorageAllowed": false,
+            "livePresetMutationAllowed": false,
+            "canOverrideKillSwitch": false,
+            "canMutateGovernanceDecision": false,
+            "telegramCommandExecutionAllowed": false,
+            "dryRunOnly": false,
+            "shadowTradingOnly": false
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/api/usdjpy-strategy-lab/live-loop/run",
+          "description": "重建 USDJPY 实盘闭环 evidence；只写本地状态和 intent，不直接执行交易。",
+          "safety": {
+            "localOnly": true,
+            "advisoryOnly": true,
+            "readOnlyDataPlane": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "credentialStorageAllowed": false,
+            "livePresetMutationAllowed": false,
+            "canOverrideKillSwitch": false,
+            "canMutateGovernanceDecision": false,
+            "telegramCommandExecutionAllowed": false,
+            "dryRunOnly": false,
+            "shadowTradingOnly": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/live-loop/telegram-text",
+          "description": "生成或发送 USDJPY 实盘闭环中文 Telegram 文案。",
+          "safety": {
+            "localOnly": true,
+            "advisoryOnly": true,
+            "readOnlyDataPlane": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "credentialStorageAllowed": false,
+            "livePresetMutationAllowed": false,
+            "canOverrideKillSwitch": false,
+            "canMutateGovernanceDecision": false,
+            "telegramCommandExecutionAllowed": false,
+            "dryRunOnly": false,
+            "shadowTradingOnly": false
+          }
         }
       ]
     }
