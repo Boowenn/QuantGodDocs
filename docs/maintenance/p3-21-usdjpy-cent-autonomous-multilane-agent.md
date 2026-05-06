@@ -1,6 +1,6 @@
 # P3-21 维护记录：USDJPY 美分账户三车道自主 Agent
 
-P3-21 将 QuantGod 从单一 USDJPY 自主治理门扩展为三车道自主生命周期。v2.4 在此基础上补齐 Agent 今日待办、Agent 每日复盘、字段语义硬化和美分账户快速晋级门。
+P3-21 将 QuantGod 从单一 USDJPY 自主治理门扩展为三车道自主生命周期。v2.5 在此基础上补齐 Agent 今日待办、Agent 每日复盘、下一阶段任务、字段语义硬化和美分账户快速晋级门。
 
 ```text
 Live Lane              USDJPYc / RSI_Reversal / LONG / cent account
@@ -67,6 +67,19 @@ autoAppliedByAgent=true/false
 - Telegram 只推送，不接交易命令；
 - Daily Autopilot 只生成中文计划、Agent 今日待办和 Agent 每日复盘，不越权交易。
 - Agent 自动回滚不可被 DeepSeek、Telegram 或前端关闭。
+- Strategy JSON、GA Evolution 和独立 Telegram Gateway 只作为 `WAITING_NEXT_PHASE` 任务输出，不假装已完成。
+
+## v2.5 下一阶段任务
+
+Daily Autopilot 2.0 额外输出：
+
+```text
+strategyJsonTodo
+gaEvolutionTodo
+telegramGatewayTodo
+```
+
+这些任务由 Agent 自动生成，状态保持 `WAITING_NEXT_PHASE`，用于提醒下一阶段实现 Strategy JSON DSL、GA Evolution Engine 和独立 Telegram Gateway。它们不会改变当前交易权限，也不会让 Telegram 接收交易命令。
 
 ## 验证
 

@@ -1789,7 +1789,7 @@
         {
           "method": "GET",
           "path": "/api/usdjpy-strategy-lab/autonomous-agent/lifecycle",
-          "description": "读取 QuantGod v2.4 三车道自主生命周期，包含 Live Lane、MT5 Shadow Lane、Polymarket Shadow Lane、美分账户和 EA 对账摘要。",
+          "description": "读取 QuantGod v2.5 三车道自主生命周期，包含 Live Lane、MT5 Shadow Lane、Polymarket Shadow Lane、美分账户、EA 对账摘要和下一阶段任务状态。",
           "safety": {
             "localOnly": true,
             "focusOnly": true,
@@ -1915,7 +1915,7 @@
         {
           "method": "GET",
           "path": "/api/usdjpy-strategy-lab/autonomous-agent/daily-autopilot-v2",
-          "description": "读取 Daily Autopilot 2.0 中文早盘计划、夜盘复盘和三车道今日动作。",
+          "description": "读取 Daily Autopilot 2.0 中文早盘计划、夜盘复盘、三车道今日动作，以及 Strategy JSON / GA Evolution / Telegram Gateway 下一阶段任务。",
           "safety": {
             "localOnly": true,
             "focusOnly": true,
@@ -1940,7 +1940,7 @@
         {
           "method": "GET",
           "path": "/api/usdjpy-strategy-lab/autonomous-agent/daily-autopilot-v2/status",
-          "description": "读取 Daily Autopilot 2.0 状态别名。",
+          "description": "读取 Daily Autopilot 2.0 状态别名，包含下一阶段任务等待状态。",
           "safety": {
             "localOnly": true,
             "focusOnly": true,
@@ -1965,7 +1965,7 @@
         {
           "method": "POST",
           "path": "/api/usdjpy-strategy-lab/autonomous-agent/daily-autopilot-v2/run",
-          "description": "重建 Daily Autopilot 2.0 中文计划和复盘；只写本地证据，不执行交易。",
+          "description": "重建 Daily Autopilot 2.0 中文计划、复盘和下一阶段任务；只写本地证据，不执行交易。",
           "safety": {
             "localOnly": true,
             "focusOnly": true,
@@ -1990,7 +1990,7 @@
         {
           "method": "GET",
           "path": "/api/usdjpy-strategy-lab/autonomous-agent/daily-autopilot-v2/telegram-text",
-          "description": "生成或发送 Daily Autopilot 2.0 中文 Telegram 文案；Telegram 仍只推送，不接命令。",
+          "description": "生成或发送 Daily Autopilot 2.0 中文 Telegram 文案，并说明 Strategy JSON / GA Evolution / Telegram Gateway 等待下一阶段；Telegram 仍只推送，不接命令。",
           "safety": {
             "localOnly": true,
             "focusOnly": true,
@@ -2015,7 +2015,7 @@
         {
           "method": "GET",
           "path": "/api/usdjpy-strategy-lab/daily-todo",
-          "description": "读取 Agent 今日待办，含车道、状态、指标、升降级和回滚状态；无需人工回灌。",
+          "description": "读取 Agent 今日待办，含车道、状态、指标、升降级、回滚状态和下一阶段任务；无需人工回灌。",
           "safety": {
             "localOnly": true,
             "focusOnly": true,
@@ -2040,7 +2040,7 @@
         {
           "method": "GET",
           "path": "/api/usdjpy-strategy-lab/daily-todo/status",
-          "description": "读取 Agent 今日待办状态别名。",
+          "description": "读取 Agent 今日待办状态别名，包含下一阶段任务等待状态。",
           "safety": {
             "localOnly": true,
             "focusOnly": true,
@@ -2065,7 +2065,7 @@
         {
           "method": "POST",
           "path": "/api/usdjpy-strategy-lab/daily-todo/run",
-          "description": "由 Agent 重建并写入今日待办；只写本地证据，不执行交易。",
+          "description": "由 Agent 重建并写入今日待办和下一阶段任务；只写本地证据，不执行交易。",
           "safety": {
             "localOnly": true,
             "focusOnly": true,
@@ -2090,7 +2090,7 @@
         {
           "method": "GET",
           "path": "/api/usdjpy-strategy-lab/daily-todo/telegram-text",
-          "description": "生成或发送 Agent 今日待办中文 Telegram 文案；Telegram 仍只推送，不接命令。",
+          "description": "生成或发送 Agent 今日待办中文 Telegram 文案，包含下一阶段任务；Telegram 仍只推送，不接命令。",
           "safety": {
             "localOnly": true,
             "focusOnly": true,
@@ -2115,7 +2115,7 @@
         {
           "method": "GET",
           "path": "/api/usdjpy-strategy-lab/daily-review",
-          "description": "读取 Agent 每日复盘，含净 R、最大不利 R、错失机会、早出场、升降级和回滚状态。",
+          "description": "读取 Agent 每日复盘，含净 R、最大不利 R、错失机会、早出场、升降级、回滚状态和下一阶段任务。",
           "safety": {
             "localOnly": true,
             "focusOnly": true,
@@ -2140,7 +2140,7 @@
         {
           "method": "GET",
           "path": "/api/usdjpy-strategy-lab/daily-review/status",
-          "description": "读取 Agent 每日复盘状态别名。",
+          "description": "读取 Agent 每日复盘状态别名，包含下一阶段任务等待状态。",
           "safety": {
             "localOnly": true,
             "focusOnly": true,
@@ -2165,7 +2165,7 @@
         {
           "method": "POST",
           "path": "/api/usdjpy-strategy-lab/daily-review/run",
-          "description": "由 Agent 重建并写入每日复盘；只写本地证据，不执行交易。",
+          "description": "由 Agent 重建并写入每日复盘和下一阶段任务；只写本地证据，不执行交易。",
           "safety": {
             "localOnly": true,
             "focusOnly": true,
@@ -2190,7 +2190,7 @@
         {
           "method": "GET",
           "path": "/api/usdjpy-strategy-lab/daily-review/telegram-text",
-          "description": "生成或发送 Agent 每日复盘中文 Telegram 文案；Telegram 仍只推送，不接命令。",
+          "description": "生成或发送 Agent 每日复盘中文 Telegram 文案，包含下一阶段任务；Telegram 仍只推送，不接命令。",
           "safety": {
             "localOnly": true,
             "focusOnly": true,

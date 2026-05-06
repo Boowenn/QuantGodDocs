@@ -1,8 +1,8 @@
-# QuantGod v2.4 三车道自主 Agent
+# QuantGod v2.5 三车道自主 Agent
 
-QuantGod v2.4 的总纲是：实盘要窄，模拟要宽，升降级要快，回滚要硬。
+QuantGod v2.5 的总纲是：实盘要窄，模拟要宽，升降级要快，回滚要硬。
 
-这版把 USDJPY 美分账户主线、自主治理 Agent、MT5 多策略模拟、Polymarket 模拟账本、Agent 今日待办和 Agent 每日复盘收到同一套生命周期里。取消人工审核不等于取消风控；Agent 只能写受控 patch，不能改源码、不能改 live preset，也不能绕过硬门禁。
+这版把 USDJPY 美分账户主线、自主治理 Agent、MT5 多策略模拟、Polymarket 模拟账本、Agent 今日待办、Agent 每日复盘和下一阶段工程任务收到同一套生命周期里。取消人工审核不等于取消风控；Agent 只能写受控 patch，不能改源码、不能改 live preset，也不能绕过硬门禁。
 
 ## 三车道
 
@@ -118,6 +118,27 @@ PENDING → COMPLETED_BY_AGENT → PROMOTED / MICRO_LIVE / ROLLBACK
 
 Agent 可以自动完成待办、生成复盘、推动 stage-gated patch 或触发回滚，但不能直接修改 live preset，不能绕过 runtime、fastlane、spread、news、连续亏损和日亏损硬门禁。
 
+## v2.5 下一阶段任务
+
+Daily Autopilot 2.0 会自动生成下一阶段任务，但这些任务不会被假装成已完成能力：
+
+```text
+strategyJsonTodo      Strategy JSON DSL
+gaEvolutionTodo       GA population / mutation / crossover / fitness
+telegramGatewayTodo   独立 Telegram Gateway
+```
+
+这些任务的状态是：
+
+```text
+status=WAITING_NEXT_PHASE
+completedByAgent=false
+autoAppliedByAgent=false
+requiresAutonomousGovernance=true
+```
+
+它们只表示 Agent 已经把下一阶段纳入路线图。当前版本仍以 USDJPY replay、walk-forward、三车道生命周期和 Daily Autopilot 为主，不会声称 Strategy JSON、GA 或独立 Telegram Gateway 已经实现。
+
 ## 硬风控
 
 以下条件不能被 AI、前端或 Telegram 放宽：
@@ -154,4 +175,4 @@ DeepSeek 只解释晋级、回滚、参数变化和日报，不批准 live，不
 
 ## 下一阶段边界
 
-当前已经完成的是三车道自主生命周期和 Agent 化日报闭环。完整 Strategy JSON DSL、GA population / mutation / crossover / fitness，以及独立 Telegram Gateway 属于下一阶段，不在 v2.4 里假装完成。
+当前已经完成的是三车道自主生命周期和 Agent 化日报闭环。完整 Strategy JSON DSL、GA population / mutation / crossover / fitness，以及独立 Telegram Gateway 属于下一阶段，不在 v2.5 里假装完成。

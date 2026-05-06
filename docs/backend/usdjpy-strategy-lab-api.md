@@ -34,7 +34,7 @@
 | `POST /api/usdjpy-strategy-lab/autonomous-agent/run` | 运行自主治理门；只写受控 patch 和回滚证据 |
 | `GET /api/usdjpy-strategy-lab/autonomous-agent/decision` | 读取自主晋级决策 |
 | `GET /api/usdjpy-strategy-lab/autonomous-agent/patch` | 读取受控 config patch |
-| `GET /api/usdjpy-strategy-lab/autonomous-agent/lifecycle` | 读取 v2.4 三车道自主生命周期 |
+| `GET /api/usdjpy-strategy-lab/autonomous-agent/lifecycle` | 读取 v2.5 三车道自主生命周期 |
 | `GET /api/usdjpy-strategy-lab/autonomous-agent/lanes` | 读取 Live / MT5 Shadow / Polymarket Shadow 三车道摘要 |
 | `GET /api/usdjpy-strategy-lab/autonomous-agent/mt5-shadow` | 读取 MT5 多策略模拟车道排名 |
 | `GET /api/usdjpy-strategy-lab/autonomous-agent/polymarket-shadow` | 读取 Polymarket 模拟账本和事件风险车道 |
@@ -76,7 +76,7 @@
 
 ## P3-21 三车道自主生命周期端点
 
-`autonomous-agent/lifecycle` 系列端点把 v2.4 的三车道语义合并到同一个 operator view：
+`autonomous-agent/lifecycle` 系列端点把 v2.5 的三车道语义合并到同一个 operator view：
 
 - Live Lane 只允许 `USDJPYc / RSI_Reversal / LONG` 进入 `MICRO_LIVE` 或 `LIVE_LIMITED`；
 - MT5 Shadow Lane 继续跑多策略模拟、回放、tester 和 ranking；
@@ -84,6 +84,7 @@
 - 美分账户加速允许更快采样，但不能绕过 runtime、fastlane、spread、news 和亏损回滚；
 - `patchWritable=true` 只表示 Agent 可以写受控 patch，`liveMutationAllowed=false` 表示不能直接改 live preset；
 - Daily Autopilot 2.0 生成中文早盘计划、Agent 今日待办、Agent 每日复盘和 Telegram 文案，不执行交易。
+- `strategyJsonTodo`、`gaEvolutionTodo`、`telegramGatewayTodo` 是下一阶段任务，状态保持 `WAITING_NEXT_PHASE`，不会被假装成已完成能力。
 
 ## 返回原则
 
