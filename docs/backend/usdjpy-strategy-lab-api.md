@@ -34,7 +34,7 @@
 | `POST /api/usdjpy-strategy-lab/autonomous-agent/run` | 运行自主治理门；只写受控 patch 和回滚证据 |
 | `GET /api/usdjpy-strategy-lab/autonomous-agent/decision` | 读取自主晋级决策 |
 | `GET /api/usdjpy-strategy-lab/autonomous-agent/patch` | 读取受控 config patch |
-| `GET /api/usdjpy-strategy-lab/autonomous-agent/lifecycle` | 读取 v2.3 三车道自主生命周期 |
+| `GET /api/usdjpy-strategy-lab/autonomous-agent/lifecycle` | 读取 v2.4 三车道自主生命周期 |
 | `GET /api/usdjpy-strategy-lab/autonomous-agent/lanes` | 读取 Live / MT5 Shadow / Polymarket Shadow 三车道摘要 |
 | `GET /api/usdjpy-strategy-lab/autonomous-agent/mt5-shadow` | 读取 MT5 多策略模拟车道排名 |
 | `GET /api/usdjpy-strategy-lab/autonomous-agent/polymarket-shadow` | 读取 Polymarket 模拟账本和事件风险车道 |
@@ -42,6 +42,14 @@
 | `GET /api/usdjpy-strategy-lab/autonomous-agent/daily-autopilot-v2` | 读取 Daily Autopilot 2.0 中文计划和复盘 |
 | `POST /api/usdjpy-strategy-lab/autonomous-agent/daily-autopilot-v2/run` | 重建 Daily Autopilot 2.0 |
 | `GET /api/usdjpy-strategy-lab/autonomous-agent/daily-autopilot-v2/telegram-text` | Daily Autopilot 2.0 中文 Telegram 文案 |
+| `GET /api/usdjpy-strategy-lab/daily-todo` | 读取 Agent 今日待办，含车道、状态、指标和回滚状态 |
+| `GET /api/usdjpy-strategy-lab/daily-todo/status` | 读取 Agent 今日待办状态别名 |
+| `POST /api/usdjpy-strategy-lab/daily-todo/run` | 由 Agent 重建并写入今日待办 |
+| `GET /api/usdjpy-strategy-lab/daily-todo/telegram-text` | Agent 今日待办中文 Telegram 文案 |
+| `GET /api/usdjpy-strategy-lab/daily-review` | 读取 Agent 每日复盘，含净 R、最大不利 R、错失机会、早出场和升降级 |
+| `GET /api/usdjpy-strategy-lab/daily-review/status` | 读取 Agent 每日复盘状态别名 |
+| `POST /api/usdjpy-strategy-lab/daily-review/run` | 由 Agent 重建并写入每日复盘 |
+| `GET /api/usdjpy-strategy-lab/daily-review/telegram-text` | Agent 每日复盘中文 Telegram 文案 |
 | `GET /api/usdjpy-strategy-lab/autonomous-agent/telegram-text` | 自主治理中文 Telegram 文案 |
 
 ## P3-19 因果回放端点
@@ -58,8 +66,9 @@
 `walk-forward` 和 `autonomous-agent` 端点取消人工审批语义，但仍保持机器硬风控：
 
 - `autoApplyAllowed=stage_gated`；
-- `requiresManualReview=false`；
 - `requiresAutonomousGovernance=true`；
+- `completedByAgent=true` 用于 Agent 待办和复盘；
+- `autoAppliedByAgent=true/false` 表示 Agent 是否自动推动受控 patch 或阶段状态；
 - Agent 只能写 `QuantGod_AutonomousConfigPatch.json`；
 - 连续亏损、日亏损、runtime 陈旧、快通道异常、点差异常和 news block 会自动暂停或回滚；
 - DeepSeek 只解释，不批准 live、不取消回滚、不提高仓位上限；
@@ -67,14 +76,14 @@
 
 ## P3-21 三车道自主生命周期端点
 
-`autonomous-agent/lifecycle` 系列端点把 v2.3 的三车道语义合并到同一个 operator view：
+`autonomous-agent/lifecycle` 系列端点把 v2.4 的三车道语义合并到同一个 operator view：
 
 - Live Lane 只允许 `USDJPYc / RSI_Reversal / LONG` 进入 `MICRO_LIVE` 或 `LIVE_LIMITED`；
 - MT5 Shadow Lane 继续跑多策略模拟、回放、tester 和 ranking；
 - Polymarket Shadow Lane 只做模拟账本、跟单模拟和事件风险上下文；
 - 美分账户加速允许更快采样，但不能绕过 runtime、fastlane、spread、news 和亏损回滚；
 - `patchWritable=true` 只表示 Agent 可以写受控 patch，`liveMutationAllowed=false` 表示不能直接改 live preset；
-- Daily Autopilot 2.0 只生成中文早盘计划、夜盘复盘和 Telegram 文案，不执行交易。
+- Daily Autopilot 2.0 生成中文早盘计划、Agent 今日待办、Agent 每日复盘和 Telegram 文案，不执行交易。
 
 ## 返回原则
 

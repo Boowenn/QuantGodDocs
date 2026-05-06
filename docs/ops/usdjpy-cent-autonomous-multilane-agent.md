@@ -1,8 +1,8 @@
-# QuantGod v2.3 三车道自主 Agent
+# QuantGod v2.4 三车道自主 Agent
 
-QuantGod v2.3 的总纲是：实盘要窄，模拟要宽，升降级要快，回滚要硬。
+QuantGod v2.4 的总纲是：实盘要窄，模拟要宽，升降级要快，回滚要硬。
 
-这版把 USDJPY 美分账户主线、自主治理 Agent、MT5 多策略模拟、Polymarket 模拟账本和 Daily Autopilot 2.0 收到同一套生命周期里。取消人工审核不等于取消风控；Agent 只能写受控 patch，不能改源码、不能改 live preset，也不能绕过硬门禁。
+这版把 USDJPY 美分账户主线、自主治理 Agent、MT5 多策略模拟、Polymarket 模拟账本、Agent 今日待办和 Agent 每日复盘收到同一套生命周期里。取消人工审核不等于取消风控；Agent 只能写受控 patch，不能改源码、不能改 live preset，也不能绕过硬门禁。
 
 ## 三车道
 
@@ -52,6 +52,7 @@ QG_ACCOUNT_MODE=cent
 QG_ACCOUNT_CURRENCY_UNIT=USC
 QG_CENT_ACCOUNT_ACCELERATION=1
 QG_CENT_FAST_PROMOTION=1
+QG_CENT_MICRO_LIVE_MIN_SAMPLES=10
 QG_AUTO_MAX_LOT=2.0
 QG_CENT_MICRO_LIVE_LOT=0.05
 QG_CENT_OPPORTUNITY_LOT=0.10
@@ -68,7 +69,7 @@ runtime/agent/QuantGod_MT5ShadowStrategyRanking.json
 runtime/agent/QuantGod_MT5ShadowStrategyLedger.csv
 runtime/agent/QuantGod_PolymarketShadowLane.json
 runtime/agent/QuantGod_EABuildReproducibility.json
-runtime/daily/QuantGod_DailyAutopilotV2.json
+runtime/agent/QuantGod_DailyAutopilotV2.json
 ```
 
 ## 命令
@@ -82,8 +83,40 @@ python tools\run_usdjpy_autonomous_agent.py --runtime-dir .\runtime mt5-shadow -
 python tools\run_usdjpy_autonomous_agent.py --runtime-dir .\runtime polymarket-shadow --write
 python tools\run_usdjpy_autonomous_agent.py --runtime-dir .\runtime ea-repro --write
 python tools\run_daily_autopilot_v2.py --runtime-dir .\runtime build --write
+python tools\run_daily_autopilot_v2.py --runtime-dir .\runtime daily-todo --write
+python tools\run_daily_autopilot_v2.py --runtime-dir .\runtime daily-review --write
 python tools\run_daily_autopilot_v2.py --runtime-dir .\runtime telegram-text --refresh --write
 ```
+
+## Agent 今日待办和每日复盘
+
+Daily Autopilot 2.0 不再生成“等待人工回灌”的事项。它会输出：
+
+```text
+dailyTodo.completedByAgent=true
+dailyTodo.autoAppliedByAgent=true/false
+dailyTodo.requiresAutonomousGovernance=true
+
+dailyReview.completedByAgent=true
+dailyReview.autoAppliedByAgent=true/false
+dailyReview.requiresAutonomousGovernance=true
+```
+
+每条待办都必须标记车道：
+
+```text
+LIVE
+MT5_SHADOW
+POLYMARKET_SHADOW
+```
+
+状态由 Agent 自动更新：
+
+```text
+PENDING → COMPLETED_BY_AGENT → PROMOTED / MICRO_LIVE / ROLLBACK
+```
+
+Agent 可以自动完成待办、生成复盘、推动 stage-gated patch 或触发回滚，但不能直接修改 live preset，不能绕过 runtime、fastlane、spread、news、连续亏损和日亏损硬门禁。
 
 ## 硬风控
 
@@ -111,8 +144,14 @@ python tools\run_daily_autopilot_v2.py --runtime-dir .\runtime telegram-text --r
 - 当前执行阶段；
 - 自动回滚状态；
 - Daily Autopilot 2.0；
+- Agent 今日待办；
+- Agent 每日复盘；
 - EA source / preset / input hash 对账。
 
 ## DeepSeek 角色
 
 DeepSeek 只解释晋级、回滚、参数变化和日报，不批准 live，不取消回滚，不提高 `maxLot`，不放宽 news、spread、runtime 或 fastlane 硬门禁。
+
+## 下一阶段边界
+
+当前已经完成的是三车道自主生命周期和 Agent 化日报闭环。完整 Strategy JSON DSL、GA population / mutation / crossover / fitness，以及独立 Telegram Gateway 属于下一阶段，不在 v2.4 里假装完成。

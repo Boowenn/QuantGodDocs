@@ -93,7 +93,7 @@ python scripts/check_api_contract_matches_backend.py `
 - [P3-18 USDJPY 回放精度加固](docs/maintenance/p3-18-replay-fidelity-hardening.md)
 - [P3-19 USDJPY bar/tick 回放模拟器](docs/maintenance/p3-19-usdjpy-bar-replay-simulator.md)
 - [P3-20 自主 Walk-forward 晋级门](docs/maintenance/p3-20-autonomous-walk-forward-promotion-gate.md)
-- [QuantGod v2.3 三车道自主 Agent](docs/ops/usdjpy-cent-autonomous-multilane-agent.md)
+- [QuantGod v2.4 三车道自主 Agent](docs/ops/usdjpy-cent-autonomous-multilane-agent.md)
 - [P3-21 三车道自主生命周期](docs/maintenance/p3-21-usdjpy-cent-autonomous-multilane-agent.md)
 - [USDJPY EA 策略工厂](docs/phases/usdjpy-ea-strategy-factory.md)
 - [USDJPY 策略实验室 API](docs/backend/usdjpy-strategy-lab-api.md)

@@ -86,7 +86,9 @@ python tools\run_usdjpy_runtime_dataset.py --runtime-dir .\runtime telegram-text
 
 ```text
 autoApplyAllowed=stage_gated
-requiresManualReview=false
+requiresAutonomousGovernance=true
+completedByAgent=true
+autoAppliedByAgent=false
 requiresAutonomousGovernance=true
 agentMayWriteConfigPatch=true
 agentMayMutateSource=false

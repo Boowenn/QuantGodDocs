@@ -1,6 +1,6 @@
 # P3-21 维护记录：USDJPY 美分账户三车道自主 Agent
 
-P3-21 将 QuantGod 从单一 USDJPY 自主治理门扩展为三车道自主生命周期：
+P3-21 将 QuantGod 从单一 USDJPY 自主治理门扩展为三车道自主生命周期。v2.4 在此基础上补齐 Agent 今日待办、Agent 每日复盘、字段语义硬化和美分账户快速晋级门。
 
 ```text
 Live Lane              USDJPYc / RSI_Reversal / LONG / cent account
@@ -28,6 +28,14 @@ GET  /api/usdjpy-strategy-lab/autonomous-agent/daily-autopilot-v2
 GET  /api/usdjpy-strategy-lab/autonomous-agent/daily-autopilot-v2/status
 POST /api/usdjpy-strategy-lab/autonomous-agent/daily-autopilot-v2/run
 GET  /api/usdjpy-strategy-lab/autonomous-agent/daily-autopilot-v2/telegram-text
+GET  /api/usdjpy-strategy-lab/daily-todo
+GET  /api/usdjpy-strategy-lab/daily-todo/status
+POST /api/usdjpy-strategy-lab/daily-todo/run
+GET  /api/usdjpy-strategy-lab/daily-todo/telegram-text
+GET  /api/usdjpy-strategy-lab/daily-review
+GET  /api/usdjpy-strategy-lab/daily-review/status
+POST /api/usdjpy-strategy-lab/daily-review/run
+GET  /api/usdjpy-strategy-lab/daily-review/telegram-text
 ```
 
 ## 字段语义
@@ -38,12 +46,15 @@ GET  /api/usdjpy-strategy-lab/autonomous-agent/daily-autopilot-v2/telegram-text
 patchWritable=true
 liveMutationAllowed=false
 executionStage=SHADOW / FAST_SHADOW / TESTER_ONLY / PAPER_LIVE_SIM / MICRO_LIVE / LIVE_LIMITED
-requiresManualReview=false
 requiresAutonomousGovernance=true
 autoApplyAllowed=stage_gated
+completedByAgent=true
+autoAppliedByAgent=true/false
 ```
 
 `patchWritable` 只表示 Agent 可以写受控 patch 文件；`liveMutationAllowed=false` 表示 Agent 不能直接修改 live preset。
+
+自主链路只输出上面的 Agent 字段，不再暴露人工审批或旧 patch 命名语义。
 
 ## 安全边界
 
@@ -54,7 +65,8 @@ autoApplyAllowed=stage_gated
 - Agent 不修改 `.mq5` 源码；
 - Agent 不写 MT5 OrderRequest；
 - Telegram 只推送，不接交易命令；
-- Daily Autopilot 只生成中文计划和复盘，不越权交易。
+- Daily Autopilot 只生成中文计划、Agent 今日待办和 Agent 每日复盘，不越权交易。
+- Agent 自动回滚不可被 DeepSeek、Telegram 或前端关闭。
 
 ## 验证
 

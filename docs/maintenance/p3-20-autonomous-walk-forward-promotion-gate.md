@@ -26,7 +26,8 @@ GET  /api/usdjpy-strategy-lab/autonomous-agent/patch
 
 ## 安全边界
 
-- `requiresManualReview=false`；
+- `requiresAutonomousGovernance=true`；
+- `completedByAgent=true`；
 - `requiresAutonomousGovernance=true`；
 - `autoApplyAllowed=stage_gated`；
 - Agent 只写受控 patch；
