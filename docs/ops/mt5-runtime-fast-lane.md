@@ -84,7 +84,7 @@ python tools/run_mt5_fastlane.py --runtime-dir ./runtime telegram-text --symbols
 1. 把 `tools/mt5_fastlane/QuantGodRuntimeFastLane.mq5` 放到 MT5 的 `MQL5/Experts`。
 2. 用 MetaEditor 编译。
 3. 挂到任意 chart。
-4. 输入品种列表，例如 `USDJPYc,EURUSDc,XAUUSDc`。
+4. 输入品种列表，例如 `USDJPYc`。
 5. 确认 `MQL5/Files` 中出现心跳、tick 和指标文件。
 6. 用 Backend CLI 读取该目录并生成质量报告。
 

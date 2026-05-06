@@ -49,13 +49,13 @@ runtime/automation/QuantGod_AutomationChainLedger.csv
 运行一次：
 
 ```powershell
-python tools\run_automation_chain.py --runtime-dir .\runtime --symbols USDJPYc,EURUSDc,XAUUSDc once
+python tools\run_automation_chain.py --runtime-dir .\runtime --symbols USDJPYc once
 ```
 
 运行一次并发送 Telegram 中文摘要：
 
 ```powershell
-python tools\run_automation_chain.py --runtime-dir .\runtime --symbols USDJPYc,EURUSDc,XAUUSDc once --send
+python tools\run_automation_chain.py --runtime-dir .\runtime --symbols USDJPYc once --send
 ```
 
 查看状态：
@@ -73,7 +73,7 @@ python tools\run_automation_chain.py --runtime-dir .\runtime telegram-text --ref
 循环运行：
 
 ```powershell
-python tools\run_automation_chain.py --runtime-dir .\runtime --symbols USDJPYc,EURUSDc,XAUUSDc loop --interval-seconds 300 --send
+python tools\run_automation_chain.py --runtime-dir .\runtime --symbols USDJPYc loop --interval-seconds 300 --send
 ```
 
 ## Dashboard API

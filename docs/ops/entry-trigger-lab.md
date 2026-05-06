@@ -18,7 +18,7 @@ P3-9 用来把“setup 通过”再细分成“是否等待二次确认”。
 python tools\run_entry_trigger_lab.py --runtime-dir .\runtime status
 
 python tools\run_entry_trigger_lab.py --runtime-dir .\runtime build `
-  --symbols USDJPYc,EURUSDc,XAUUSDc
+  --symbols USDJPYc
 
 python tools\run_entry_trigger_lab.py --runtime-dir .\runtime plan --symbol USDJPYc
 

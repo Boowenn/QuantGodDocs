@@ -100,13 +100,13 @@ python tools\run_mt5_runtime_bridge.py config
 Create sample runtime files for local smoke testing:
 
 ```powershell
-python tools\run_mt5_runtime_bridge.py sample --runtime-dir .\runtime --symbols USDJPYc,EURUSDc,XAUUSDc --overwrite
+python tools\run_mt5_runtime_bridge.py sample --runtime-dir .\runtime --symbols USDJPYc --overwrite
 ```
 
 Check runtime availability and freshness:
 
 ```powershell
-python tools\run_mt5_runtime_bridge.py status --runtime-dir .\runtime --symbols USDJPYc,EURUSDc,XAUUSDc
+python tools\run_mt5_runtime_bridge.py status --runtime-dir .\runtime --symbols USDJPYc
 ```
 
 Validate one symbol:

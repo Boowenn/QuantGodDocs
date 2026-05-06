@@ -25,7 +25,7 @@ P3-8 增加一层本地只读校准逻辑，用来把影子模拟里的 MFE/MAE 
 
 ```powershell
 python tools\run_dynamic_sltp.py --runtime-dir .\runtime sample --overwrite
-python tools\run_dynamic_sltp.py --runtime-dir .\runtime build --symbols USDJPYc,EURUSDc,XAUUSDc
+python tools\run_dynamic_sltp.py --runtime-dir .\runtime build --symbols USDJPYc
 python tools\run_dynamic_sltp.py --runtime-dir .\runtime plan --symbol USDJPYc --strategy RSI_Reversal --direction LONG
 python tools\run_dynamic_sltp.py --runtime-dir .\runtime telegram-text --symbol USDJPYc
 ```

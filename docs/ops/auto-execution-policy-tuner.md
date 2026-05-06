@@ -90,7 +90,7 @@ P3-11 会根据影子样本表现输出出场参数：
 python tools\run_auto_execution_policy.py --runtime-dir .\runtime config
 
 python tools\run_auto_execution_policy.py --runtime-dir .\runtime build `
-  --symbols USDJPYc,EURUSDc,XAUUSDc `
+  --symbols USDJPYc `
   --write
 
 python tools\run_auto_execution_policy.py --runtime-dir .\runtime plan `
@@ -98,7 +98,7 @@ python tools\run_auto_execution_policy.py --runtime-dir .\runtime plan `
   --direction LONG
 
 python tools\run_auto_execution_policy.py --runtime-dir .\runtime telegram-text `
-  --symbols USDJPYc,EURUSDc,XAUUSDc
+  --symbols USDJPYc
 ```
 
 发送中文 Telegram：

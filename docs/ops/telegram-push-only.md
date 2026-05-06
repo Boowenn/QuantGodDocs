@@ -129,7 +129,7 @@ Dry-run 验证：
 
 ```powershell
 python tools\run_mt5_ai_telegram_monitor.py scan-once `
-  --symbols USDJPYc,EURUSDc,XAUUSDc `
+  --symbols USDJPYc `
   --min-interval-seconds 0
 ```
 
@@ -137,7 +137,7 @@ python tools\run_mt5_ai_telegram_monitor.py scan-once `
 
 ```powershell
 python tools\run_mt5_ai_telegram_monitor.py scan-once `
-  --symbols USDJPYc,EURUSDc,XAUUSDc `
+  --symbols USDJPYc `
   --send `
   --force
 ```
@@ -146,7 +146,7 @@ python tools\run_mt5_ai_telegram_monitor.py scan-once `
 
 ```powershell
 python tools\run_mt5_ai_telegram_monitor.py loop `
-  --symbols USDJPYc,EURUSDc,XAUUSDc `
+  --symbols USDJPYc `
   --cycles 3 `
   --interval-seconds 60 `
   --send
@@ -155,7 +155,7 @@ python tools\run_mt5_ai_telegram_monitor.py loop `
 可选默认符号：
 
 ```text
-QG_MT5_AI_MONITOR_SYMBOLS=USDJPYc,EURUSDc,XAUUSDc
+QG_MT5_AI_MONITOR_SYMBOLS=USDJPYc
 ```
 
 如果 `link` 报告 webhook 冲突，只有在这个 bot 是 QuantGod 专用 bot 时才清理 webhook：
