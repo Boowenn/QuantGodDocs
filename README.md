@@ -87,6 +87,7 @@ python scripts/check_api_contract_matches_backend.py `
 - [前端响应式运营台加固](docs/frontend/responsive-operator-hardening.md)
 - [P3-14 USDJPY 单品种多策略实验室](docs/ops/usdjpy-strategy-policy-lab.md)
 - [USDJPY 实盘闭环与每日自动复盘](docs/ops/usdjpy-live-loop-daily-autopilot.md)
+- [USDJPY 自学习闭环](docs/ops/usdjpy-runtime-evolution-core.md)
 - [USDJPY EA 策略工厂](docs/phases/usdjpy-ea-strategy-factory.md)
 - [USDJPY 策略实验室 API](docs/backend/usdjpy-strategy-lab-api.md)
 - [USDJPY EA 实验室 Runbook](docs/ops/usdjpy-ea-lab-runbook.md)

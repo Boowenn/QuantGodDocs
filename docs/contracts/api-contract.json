@@ -1279,6 +1279,146 @@
             "dryRunOnly": false,
             "shadowTradingOnly": false
           }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/evolution",
+          "description": "读取 USDJPY 自学习闭环状态别名，包含数据集、回放、参数候选和配置提案。",
+          "safety": {
+            "localOnly": true,
+            "advisoryOnly": true,
+            "readOnlyDataPlane": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "credentialStorageAllowed": false,
+            "livePresetMutationAllowed": false,
+            "canOverrideKillSwitch": false,
+            "canMutateGovernanceDecision": false,
+            "telegramCommandExecutionAllowed": false,
+            "dryRunOnly": true,
+            "shadowTradingOnly": true
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/evolution/status",
+          "description": "读取 USDJPY 自学习闭环状态，包含数据集、回放、参数候选和配置提案。",
+          "safety": {
+            "localOnly": true,
+            "advisoryOnly": true,
+            "readOnlyDataPlane": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "credentialStorageAllowed": false,
+            "livePresetMutationAllowed": false,
+            "canOverrideKillSwitch": false,
+            "canMutateGovernanceDecision": false,
+            "telegramCommandExecutionAllowed": false,
+            "dryRunOnly": true,
+            "shadowTradingOnly": true
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/api/usdjpy-strategy-lab/evolution/build",
+          "description": "重建 USDJPY 运行数据集、回放、参数候选和配置提案；只写本地研究证据。",
+          "safety": {
+            "localOnly": true,
+            "advisoryOnly": true,
+            "readOnlyDataPlane": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "credentialStorageAllowed": false,
+            "livePresetMutationAllowed": false,
+            "canOverrideKillSwitch": false,
+            "canMutateGovernanceDecision": false,
+            "telegramCommandExecutionAllowed": false,
+            "dryRunOnly": true,
+            "shadowTradingOnly": true
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/evolution/replay",
+          "description": "读取或刷新 USDJPY 回放复盘，解释错失机会和过早出场。",
+          "safety": {
+            "localOnly": true,
+            "advisoryOnly": true,
+            "readOnlyDataPlane": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "credentialStorageAllowed": false,
+            "livePresetMutationAllowed": false,
+            "canOverrideKillSwitch": false,
+            "canMutateGovernanceDecision": false,
+            "telegramCommandExecutionAllowed": false,
+            "dryRunOnly": true,
+            "shadowTradingOnly": true
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/evolution/tune",
+          "description": "读取或刷新 USDJPY tester-only 参数候选；不会自动应用到实盘。",
+          "safety": {
+            "localOnly": true,
+            "advisoryOnly": true,
+            "readOnlyDataPlane": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "credentialStorageAllowed": false,
+            "livePresetMutationAllowed": false,
+            "canOverrideKillSwitch": false,
+            "canMutateGovernanceDecision": false,
+            "telegramCommandExecutionAllowed": false,
+            "dryRunOnly": true,
+            "shadowTradingOnly": true
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/evolution/proposal",
+          "description": "读取或刷新 USDJPY 实盘配置提案；提案必须人工复核，不能自动改 preset。",
+          "safety": {
+            "localOnly": true,
+            "advisoryOnly": true,
+            "readOnlyDataPlane": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "credentialStorageAllowed": false,
+            "livePresetMutationAllowed": false,
+            "canOverrideKillSwitch": false,
+            "canMutateGovernanceDecision": false,
+            "telegramCommandExecutionAllowed": false,
+            "dryRunOnly": true,
+            "shadowTradingOnly": true
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/evolution/telegram-text",
+          "description": "生成或发送 USDJPY 自学习闭环中文 Telegram 文案。",
+          "safety": {
+            "localOnly": true,
+            "advisoryOnly": true,
+            "readOnlyDataPlane": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "credentialStorageAllowed": false,
+            "livePresetMutationAllowed": false,
+            "canOverrideKillSwitch": false,
+            "canMutateGovernanceDecision": false,
+            "telegramCommandExecutionAllowed": false,
+            "dryRunOnly": true,
+            "shadowTradingOnly": true
+          }
         }
       ]
     }
