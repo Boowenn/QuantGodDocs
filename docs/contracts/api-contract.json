@@ -1419,6 +1419,132 @@
             "dryRunOnly": true,
             "shadowTradingOnly": true
           }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/bar-replay",
+          "description": "读取 USDJPY 因果 bar/tick 回放报告别名；等同 status。",
+          "safety": {
+            "localOnly": true,
+            "advisoryOnly": true,
+            "readOnlyDataPlane": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "credentialStorageAllowed": false,
+            "livePresetMutationAllowed": false,
+            "canOverrideKillSwitch": false,
+            "canMutateGovernanceDecision": false,
+            "telegramCommandExecutionAllowed": false,
+            "dryRunOnly": true,
+            "shadowTradingOnly": true,
+            "posteriorMayAffectTrigger": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/bar-replay/status",
+          "description": "读取 USDJPY 因果 bar/tick 回放报告；后验窗口只用于评分，不参与入场触发。",
+          "safety": {
+            "localOnly": true,
+            "advisoryOnly": true,
+            "readOnlyDataPlane": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "credentialStorageAllowed": false,
+            "livePresetMutationAllowed": false,
+            "canOverrideKillSwitch": false,
+            "canMutateGovernanceDecision": false,
+            "telegramCommandExecutionAllowed": false,
+            "dryRunOnly": true,
+            "shadowTradingOnly": true,
+            "posteriorMayAffectTrigger": false
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/api/usdjpy-strategy-lab/bar-replay/build",
+          "description": "重建 USDJPY 因果回放报告、入场候选对比、出场候选对比和 replay ledger；不会执行交易。",
+          "safety": {
+            "localOnly": true,
+            "advisoryOnly": true,
+            "readOnlyDataPlane": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "credentialStorageAllowed": false,
+            "livePresetMutationAllowed": false,
+            "canOverrideKillSwitch": false,
+            "canMutateGovernanceDecision": false,
+            "telegramCommandExecutionAllowed": false,
+            "dryRunOnly": true,
+            "shadowTradingOnly": true,
+            "posteriorMayAffectTrigger": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/bar-replay/entry",
+          "description": "读取 USDJPY current vs relaxed_entry_v1 入场候选对比；硬门禁不会放宽。",
+          "safety": {
+            "localOnly": true,
+            "advisoryOnly": true,
+            "readOnlyDataPlane": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "credentialStorageAllowed": false,
+            "livePresetMutationAllowed": false,
+            "canOverrideKillSwitch": false,
+            "canMutateGovernanceDecision": false,
+            "telegramCommandExecutionAllowed": false,
+            "dryRunOnly": true,
+            "shadowTradingOnly": true,
+            "posteriorMayAffectTrigger": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/bar-replay/exit",
+          "description": "读取 USDJPY current vs let_profit_run_v1 出场持有候选对比；只重估已发生入场的出场表现。",
+          "safety": {
+            "localOnly": true,
+            "advisoryOnly": true,
+            "readOnlyDataPlane": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "credentialStorageAllowed": false,
+            "livePresetMutationAllowed": false,
+            "canOverrideKillSwitch": false,
+            "canMutateGovernanceDecision": false,
+            "telegramCommandExecutionAllowed": false,
+            "dryRunOnly": true,
+            "shadowTradingOnly": true,
+            "posteriorMayAffectTrigger": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/bar-replay/telegram-text",
+          "description": "生成或发送 USDJPY 因果回放中文 Telegram 文案。",
+          "safety": {
+            "localOnly": true,
+            "advisoryOnly": true,
+            "readOnlyDataPlane": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "credentialStorageAllowed": false,
+            "livePresetMutationAllowed": false,
+            "canOverrideKillSwitch": false,
+            "canMutateGovernanceDecision": false,
+            "telegramCommandExecutionAllowed": false,
+            "dryRunOnly": true,
+            "shadowTradingOnly": true,
+            "posteriorMayAffectTrigger": false
+          }
         }
       ]
     }

@@ -19,6 +19,21 @@
 | `GET /api/usdjpy-strategy-lab/evidence` | 策略评分与候选信号合并视图 |
 | `GET /api/usdjpy-strategy-lab/candidate-policy` | 候选策略政策 |
 | `POST /api/usdjpy-strategy-lab/candidate-policy/build` | 生成候选策略政策 |
+| `GET /api/usdjpy-strategy-lab/bar-replay` | USDJPY 因果 bar/tick 回放总报告别名 |
+| `GET /api/usdjpy-strategy-lab/bar-replay/status` | USDJPY 因果 bar/tick 回放总报告 |
+| `POST /api/usdjpy-strategy-lab/bar-replay/build` | 重建因果回放报告和 replay ledger |
+| `GET /api/usdjpy-strategy-lab/bar-replay/entry` | current vs relaxed_entry_v1 入场候选对比 |
+| `GET /api/usdjpy-strategy-lab/bar-replay/exit` | current vs let_profit_run_v1 出场候选对比 |
+| `GET /api/usdjpy-strategy-lab/bar-replay/telegram-text` | 因果回放中文 Telegram 文案 |
+
+## P3-19 因果回放端点
+
+`bar-replay` 端点必须保持因果约束：
+
+- 后验窗口只用于评分，不能决定当时是否入场；
+- `relaxed_entry_v1` 只放宽 RSI / 战术确认一档；
+- session、spread、news、runtime freshness、fastlane、cooldown 和仓位容量不能被放宽；
+- 输出以 `R` 为主口径，`pips` 辅助，`USC` 只作账面参考。
 
 ## 返回原则
 

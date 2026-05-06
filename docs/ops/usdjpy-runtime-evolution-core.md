@@ -39,6 +39,27 @@ NEEDS_BAR_REPLAY
 
 这类结论只能进入 replay / tester-only / shadow 验证，不能直接修改实盘 preset。
 
+## P3-19 因果 bar/tick 回放
+
+P3-19 新增独立的 USDJPY 因果回放模拟器。它比较：
+
+```text
+current
+relaxed_entry_v1
+let_profit_run_v1
+```
+
+这一步最重要的边界是：15 / 30 / 60 / 120 分钟后的后验表现只能用于评分，不能用于当时是否入场。`relaxed_entry_v1` 只放宽 RSI / 战术确认一档，不会放宽 session、spread、news、runtime freshness、fastlane 或 cooldown。
+
+输出文件：
+
+```text
+runtime/replay/usdjpy/QuantGod_USDJPYBarReplayReport.json
+runtime/replay/usdjpy/QuantGod_USDJPYEntryVariantComparison.json
+runtime/replay/usdjpy/QuantGod_USDJPYExitVariantComparison.json
+runtime/replay/usdjpy/QuantGod_USDJPYReplayLedger.csv
+```
+
 ## 日常命令
 
 ```powershell
