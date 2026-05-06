@@ -1383,7 +1383,7 @@
         {
           "method": "GET",
           "path": "/api/usdjpy-strategy-lab/evolution/proposal",
-          "description": "读取或刷新 USDJPY 实盘配置提案；提案必须人工复核，不能自动改 preset。",
+          "description": "读取或刷新 USDJPY 实盘配置提案；提案进入自主治理门，stage-gated，不再等待人工审批。",
           "safety": {
             "localOnly": true,
             "advisoryOnly": true,
@@ -1528,7 +1528,7 @@
         {
           "method": "GET",
           "path": "/api/usdjpy-strategy-lab/bar-replay/telegram-text",
-          "description": "生成或发送 USDJPY 因果回放中文 Telegram 文案。",
+          "description": "生成或发送 USDJPY 因果回放中文 Telegram 文案；后续由 P3-20 自主治理门评估。",
           "safety": {
             "localOnly": true,
             "advisoryOnly": true,
@@ -1544,6 +1544,258 @@
             "dryRunOnly": true,
             "shadowTradingOnly": true,
             "posteriorMayAffectTrigger": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/walk-forward",
+          "description": "读取 USDJPY walk-forward 稳定性筛选报告别名。",
+          "safety": {
+            "localOnly": true,
+            "focusOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "requiresManualReview": false,
+            "requiresAutonomousGovernance": true,
+            "autoApplyAllowed": "stage_gated",
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/walk-forward/status",
+          "description": "读取 USDJPY train / validation / forward 三段稳定性筛选报告。",
+          "safety": {
+            "localOnly": true,
+            "focusOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "requiresManualReview": false,
+            "requiresAutonomousGovernance": true,
+            "autoApplyAllowed": "stage_gated",
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/api/usdjpy-strategy-lab/walk-forward/build",
+          "description": "重建 USDJPY walk-forward 报告、参数选择和 stage-gated 提案；不执行交易。",
+          "safety": {
+            "localOnly": true,
+            "focusOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "requiresManualReview": false,
+            "requiresAutonomousGovernance": true,
+            "autoApplyAllowed": "stage_gated",
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/walk-forward/selection",
+          "description": "读取 USDJPY walk-forward 参数选择结果。",
+          "safety": {
+            "localOnly": true,
+            "focusOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "requiresManualReview": false,
+            "requiresAutonomousGovernance": true,
+            "autoApplyAllowed": "stage_gated",
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/walk-forward/proposal",
+          "description": "读取 USDJPY stage-gated live config proposal。",
+          "safety": {
+            "localOnly": true,
+            "focusOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "requiresManualReview": false,
+            "requiresAutonomousGovernance": true,
+            "autoApplyAllowed": "stage_gated",
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/walk-forward/telegram-text",
+          "description": "生成或发送 USDJPY walk-forward 中文 Telegram 文案。",
+          "safety": {
+            "localOnly": true,
+            "focusOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "requiresManualReview": false,
+            "requiresAutonomousGovernance": true,
+            "autoApplyAllowed": "stage_gated",
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/autonomous-agent",
+          "description": "读取 USDJPY 自主治理 Agent 状态别名。",
+          "safety": {
+            "localOnly": true,
+            "focusOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "requiresManualReview": false,
+            "requiresAutonomousGovernance": true,
+            "autoApplyAllowed": "stage_gated",
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/autonomous-agent/state",
+          "description": "读取 USDJPY 自主治理 Agent 当前阶段、受控 patch 和回滚状态。",
+          "safety": {
+            "localOnly": true,
+            "focusOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "requiresManualReview": false,
+            "requiresAutonomousGovernance": true,
+            "autoApplyAllowed": "stage_gated",
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/api/usdjpy-strategy-lab/autonomous-agent/run",
+          "description": "运行 USDJPY 自主治理门；只写受控 patch 和回滚证据，不执行交易。",
+          "safety": {
+            "localOnly": true,
+            "focusOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "requiresManualReview": false,
+            "requiresAutonomousGovernance": true,
+            "autoApplyAllowed": "stage_gated",
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/autonomous-agent/decision",
+          "description": "读取 USDJPY 自主晋级决策。",
+          "safety": {
+            "localOnly": true,
+            "focusOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "requiresManualReview": false,
+            "requiresAutonomousGovernance": true,
+            "autoApplyAllowed": "stage_gated",
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/autonomous-agent/patch",
+          "description": "读取 USDJPY 受控 config patch。",
+          "safety": {
+            "localOnly": true,
+            "focusOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "requiresManualReview": false,
+            "requiresAutonomousGovernance": true,
+            "autoApplyAllowed": "stage_gated",
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/autonomous-agent/telegram-text",
+          "description": "生成或发送 USDJPY 自主治理中文 Telegram 文案。",
+          "safety": {
+            "localOnly": true,
+            "focusOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "requiresManualReview": false,
+            "requiresAutonomousGovernance": true,
+            "autoApplyAllowed": "stage_gated",
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false
           }
         }
       ]

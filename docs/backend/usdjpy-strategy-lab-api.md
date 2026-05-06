@@ -25,6 +25,16 @@
 | `GET /api/usdjpy-strategy-lab/bar-replay/entry` | current vs relaxed_entry_v1 入场候选对比 |
 | `GET /api/usdjpy-strategy-lab/bar-replay/exit` | current vs let_profit_run_v1 出场候选对比 |
 | `GET /api/usdjpy-strategy-lab/bar-replay/telegram-text` | 因果回放中文 Telegram 文案 |
+| `GET /api/usdjpy-strategy-lab/walk-forward/status` | USDJPY walk-forward 稳定性筛选报告 |
+| `POST /api/usdjpy-strategy-lab/walk-forward/build` | 重建 walk-forward 报告、参数选择和治理提案 |
+| `GET /api/usdjpy-strategy-lab/walk-forward/selection` | 读取 train / validation / forward 后的参数选择 |
+| `GET /api/usdjpy-strategy-lab/walk-forward/proposal` | 读取 stage-gated live config proposal |
+| `GET /api/usdjpy-strategy-lab/walk-forward/telegram-text` | walk-forward 中文 Telegram 文案 |
+| `GET /api/usdjpy-strategy-lab/autonomous-agent/state` | USDJPY 自主治理 Agent 当前阶段和 patch 状态 |
+| `POST /api/usdjpy-strategy-lab/autonomous-agent/run` | 运行自主治理门；只写受控 patch 和回滚证据 |
+| `GET /api/usdjpy-strategy-lab/autonomous-agent/decision` | 读取自主晋级决策 |
+| `GET /api/usdjpy-strategy-lab/autonomous-agent/patch` | 读取受控 config patch |
+| `GET /api/usdjpy-strategy-lab/autonomous-agent/telegram-text` | 自主治理中文 Telegram 文案 |
 
 ## P3-19 因果回放端点
 
@@ -34,6 +44,18 @@
 - `relaxed_entry_v1` 只放宽 RSI / 战术确认一档；
 - session、spread、news、runtime freshness、fastlane、cooldown 和仓位容量不能被放宽；
 - 输出以 `R` 为主口径，`pips` 辅助，`USC` 只作账面参考。
+
+## P3-20 自主治理端点
+
+`walk-forward` 和 `autonomous-agent` 端点取消人工审批语义，但仍保持机器硬风控：
+
+- `autoApplyAllowed=stage_gated`；
+- `requiresManualReview=false`；
+- `requiresAutonomousGovernance=true`；
+- Agent 只能写 `QuantGod_AutonomousConfigPatch.json`；
+- 连续亏损、日亏损、runtime 陈旧、快通道异常、点差异常和 news block 会自动暂停或回滚；
+- DeepSeek 只解释，不批准 live、不取消回滚、不提高仓位上限；
+- Polymarket 永远 shadow-only。
 
 ## 返回原则
 
@@ -57,4 +79,4 @@
 - 接收 Telegram 交易命令
 - 写入凭据
 
-新增策略想进入实盘，必须另走人工试点复核流程。
+新增策略想进入实盘，必须先通过 USDJPY 自主治理门和受控 patch 阶梯；这些 API 本身不会执行交易。

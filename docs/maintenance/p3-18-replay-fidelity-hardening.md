@@ -25,7 +25,7 @@ P3-18 不会：
 - 修改 MT5 live preset；
 - 自动应用参数候选。
 
-所有候选只能进入 replay、tester-only 或 shadow 验证。`autoApplyAllowed` 必须保持 `false`。
+所有候选只能进入 replay、tester-only、shadow 或 P3-20 自主治理门。`autoApplyAllowed` 采用 `stage_gated`，不能直接绕过机器硬风控。
 
 ## 后续
 

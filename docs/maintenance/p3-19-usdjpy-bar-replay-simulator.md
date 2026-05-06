@@ -25,5 +25,4 @@ USC 只做账面参考。
 
 ## 后续
 
-P3-20 才进入 walk-forward 参数选择。P3-19 的结论即使变成 `LIVE_CONFIG_PROPOSAL_ELIGIBLE`，也只能生成审查提案，不能自动应用。
-
+P3-20 进入自主 walk-forward 晋级门。P3-19 的结论即使变成 `LIVE_CONFIG_PROPOSAL_ELIGIBLE`，也只能交给自主治理门继续评估；治理门通过后最多写受控 patch，不直接改 live preset。

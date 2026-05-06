@@ -55,7 +55,7 @@ TESTER_ONLY
 LIVE_CONFIG_PROPOSAL_ELIGIBLE
 ```
 
-即使进入 `LIVE_CONFIG_PROPOSAL_ELIGIBLE`，也只是进入实盘配置提案审查，不会自动改 preset。
+即使进入 `LIVE_CONFIG_PROPOSAL_ELIGIBLE`，也只是允许进入 P3-20 自主治理门。治理门通过后最多写入受控 `QuantGod_AutonomousConfigPatch.json`；不会自动改 preset，也不会让 AI 直接下单。
 
 ## Telegram
 
@@ -75,8 +75,8 @@ orderSendAllowed=false
 closeAllowed=false
 cancelAllowed=false
 livePresetMutationAllowed=false
-autoApplyAllowed=false
+autoApplyAllowed=stage_gated
+requiresAutonomousGovernance=true
 telegramCommandExecutionAllowed=false
 posteriorMayAffectTrigger=false
 ```
-
