@@ -7,10 +7,22 @@ P3-7 快通道质量
 → P3-6 自适应策略
 → P3-8 动态止盈止损
 → P3-9 入场触发
-→ P3-11 自动执行政策
+→ USDJPY Strategy Lab 策略政策
+→ USDJPY EA 干跑决策
+→ USDJPY Live Loop 实盘恢复状态
 → 中文 Telegram 巡检
 → Dashboard 可视化
 ```
+
+自 P3-16.2 起，Dashboard、Telegram、EA 干跑和 live-loop 的主状态统一来自：
+
+```text
+runtime/adaptive/QuantGod_USDJPYAutoExecutionPolicy.json
+runtime/adaptive/QuantGod_USDJPYEADryRunDecision.json
+runtime/live/QuantGod_USDJPYLiveLoopStatus.json
+```
+
+通用 `QuantGod_AutoExecutionPolicy.json` 只保留兼容写出，不再作为前端和 Telegram 的主状态来源。
 
 它解决的问题不是“直接下单”，而是让每一轮运行都自动写出最新证据，让你能看到：
 
@@ -42,6 +54,9 @@ P3-12 只会生成：
 runtime/automation/QuantGod_AutomationChainLatest.json
 runtime/automation/QuantGod_AutomationChainRun.json
 runtime/automation/QuantGod_AutomationChainLedger.csv
+runtime/adaptive/QuantGod_USDJPYAutoExecutionPolicy.json
+runtime/adaptive/QuantGod_USDJPYEADryRunDecision.json
+runtime/live/QuantGod_USDJPYLiveLoopStatus.json
 ```
 
 ## 命令
@@ -93,6 +108,10 @@ POST /api/automation-chain/run
 Dashboard 新增“自动化链路”面板，显示：
 
 - 链路步骤；
+- 主状态来源；
+- RSI 买入实盘候选；
+- 影子研究第一名；
+- EA 干跑结果；
 - 缺失证据；
 - 阻断原因；
 - 标准入场数量；

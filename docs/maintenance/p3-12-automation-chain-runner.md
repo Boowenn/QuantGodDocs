@@ -2,7 +2,7 @@
 
 ## 目标
 
-把 P3-7、P3-6、P3-8、P3-9、P3-11 串成固定顺序的本地自动化链路，让 runtime 证据连续产出，并让 Telegram / Dashboard 能直接显示阻断原因和机会入场状态。
+把 P3-7、P3-6、P3-8、P3-9 串成固定顺序的本地自动化链路，并把最后的主状态统一切到 USDJPY Strategy Lab / EA 干跑 / Live Loop。这样 runtime 证据连续产出后，Telegram / Dashboard 能直接显示阻断原因、实盘候选、影子第一名和机会入场状态。
 
 ## 阶段门
 
@@ -10,6 +10,8 @@
 
 - `python tools/run_automation_chain.py once` 能顺序运行链路；
 - `runtime/automation/QuantGod_AutomationChainLatest.json` 会写出最新状态；
+- `singleSourceOfTruth` 必须是 `USDJPY_LIVE_LOOP`；
+- 主状态必须引用 `QuantGod_USDJPYAutoExecutionPolicy.json`、`QuantGod_USDJPYEADryRunDecision.json` 和 `QuantGod_USDJPYLiveLoopStatus.json`；
 - 缺证据时 fail-closed，不会误显示机会入场；
 - Telegram 文案是中文；
 - Dashboard 可以显示缺证据、阻断原因、机会入场；
