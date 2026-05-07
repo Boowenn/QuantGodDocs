@@ -55,6 +55,14 @@
 | `POST /api/usdjpy-strategy-lab/strategy-backtest/sample` | 写入确定性 USDJPY H1 示例 K线到本地 SQLite，用于 smoke 和测试 |
 | `POST /api/usdjpy-strategy-lab/strategy-backtest/run` | 运行 Strategy JSON 回测，输出 report、trades、equity curve 和 GA fitness evidence |
 | `GET /api/usdjpy-strategy-lab/strategy-backtest/telegram-text` | Strategy JSON 回测中文 Telegram 文案 |
+| `POST /api/usdjpy-strategy-lab/strategy-backtest/sync-klines` | 从 USDJPY runtime snapshot 增量同步 M15/H1/H4/D1 K线到 SQLite |
+| `GET /api/usdjpy-strategy-lab/evidence-os` | `evidence-os/status` 的兼容别名，读取 Evidence OS 审计状态 |
+| `GET /api/usdjpy-strategy-lab/evidence-os/status` | 读取 Strategy JSON / Python Replay / MQL5 EA parity、执行反馈、Case Memory 和 Telegram Gateway 状态 |
+| `POST /api/usdjpy-strategy-lab/evidence-os/run` | 生成完整 USDJPY evidence OS 审计包 |
+| `GET /api/usdjpy-strategy-lab/evidence-os/parity` | 重建 Strategy JSON / Python Replay / MQL5 EA parity report |
+| `GET /api/usdjpy-strategy-lab/evidence-os/execution-feedback` | 重建 live execution feedback / execution quality report |
+| `GET /api/usdjpy-strategy-lab/evidence-os/case-memory` | 重建 Case Memory，总结错失、早出和执行偏差 |
+| `GET /api/usdjpy-strategy-lab/evidence-os/telegram-text` | 生成 evidence OS 中文 Telegram 文案，走 push-only Gateway |
 
 ## P3-19 因果回放端点
 
@@ -99,11 +107,23 @@
 - 只处理 `USDJPYc`；
 - 读取安全的 `quantgod.strategy.v1`；
 - 写入 `runtime/backtest/usdjpy.sqlite`；
+- 优先从 `QuantGod_MT5RuntimeSnapshot_USDJPYc.json` 增量同步真实 M15/H1/H4/D1 K线；
 - 输出 `QuantGod_StrategyBacktestReport.json`、`QuantGod_StrategyTrades.csv`、`QuantGod_StrategyEquityCurve.csv`；
 - 把回测指标提供给 GA fitness；
 - 不下单、不平仓、不撤单、不改 live preset。
 
-当前版本先执行 `USDJPYc / RSI_Reversal / LONG` 的 H1 回测。完整多周期重采样、所有 shadow 策略 Strategy JSON runner、EA parity harness 和执行质量反馈属于 Perfect Edition 后续阶段。
+当前版本先执行 `USDJPYc / RSI_Reversal / LONG` 的 H1 回测，并把 M15/H4/D1 作为多周期审计上下文。所有 shadow 策略 Strategy JSON runner 仍会分阶段扩展。
+
+## Perfect Edition Evidence OS 端点
+
+`evidence-os` 端点把 Strategy JSON 回测、Python replay、MQL5 EA 诊断、执行反馈、Case Memory 和 Telegram Gateway 串成同一份审计证据：
+
+- `QuantGod_StrategyParityReport.json`：Strategy JSON / Python Replay / MQL5 EA parity；
+- `QuantGod_LiveExecutionQualityReport.json` 和 `QuantGod_LiveExecutionFeedback.jsonl`：滑点、拒单、延迟、profitR / MFE / MAE；
+- `QuantGod_CaseMemory.jsonl` 和 summary：错失机会、早出场、执行偏差转成 GA mutation 线索；
+- `QuantGod_TelegramGatewayLedger.jsonl`：中文 push-only notification ledger，去重且不接命令。
+
+这些端点只写本地 evidence，不下单、不平仓、不撤单、不修改 live preset。
 
 ## 返回原则
 

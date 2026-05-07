@@ -2133,6 +2133,143 @@
           }
         },
         {
+          "method": "POST",
+          "path": "/api/usdjpy-strategy-lab/strategy-backtest/sync-klines",
+          "description": "从 USDJPY MT5 runtime snapshot 增量同步 M15/H1/H4/D1 K线到本地 SQLite；只写回测证据。",
+          "safety": {
+            "localOnly": true,
+            "focusOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "strategyJsonOnly": true,
+            "sqliteBacktestOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false,
+            "polymarketRealMoneyAllowed": false,
+            "liveMutationAllowed": false,
+            "autoApplyAllowed": "shadow_tester_only"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/evidence-os",
+          "description": "读取 USDJPY Evidence OS 审计状态；与 /evidence-os/status 保持兼容。",
+          "safety": {
+            "localOnly": true,
+            "focusOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "strategyJsonOnly": true,
+            "evidenceAuditOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false,
+            "polymarketRealMoneyAllowed": false,
+            "liveMutationAllowed": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/evidence-os/status",
+          "description": "读取 USDJPY Strategy JSON / Python Replay / MQL5 EA parity、执行反馈、Case Memory 和 Telegram Gateway 审计状态。",
+          "safety": {
+            "localOnly": true,
+            "focusOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "strategyJsonOnly": true,
+            "evidenceAuditOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false,
+            "polymarketRealMoneyAllowed": false,
+            "liveMutationAllowed": false
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/api/usdjpy-strategy-lab/evidence-os/run",
+          "description": "生成 USDJPY evidence OS 审计包：parity、execution feedback、case memory 和 push-only notification ledger。",
+          "safety": {
+            "localOnly": true,
+            "focusOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "strategyJsonOnly": true,
+            "evidenceAuditOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false,
+            "polymarketRealMoneyAllowed": false,
+            "liveMutationAllowed": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/evidence-os/parity",
+          "description": "重建并读取 Strategy JSON / Python Replay / MQL5 EA parity report。",
+          "safety": {
+            "localOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "orderSendAllowed": false,
+            "livePresetMutationAllowed": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/evidence-os/execution-feedback",
+          "description": "重建并读取 USDJPY live execution feedback / execution quality report。",
+          "safety": {
+            "localOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "orderSendAllowed": false,
+            "livePresetMutationAllowed": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/evidence-os/case-memory",
+          "description": "重建并读取 USDJPY Case Memory，总结错失机会、早出、执行偏差和下一代 GA 线索。",
+          "safety": {
+            "localOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "orderSendAllowed": false,
+            "livePresetMutationAllowed": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/evidence-os/telegram-text",
+          "description": "生成 USDJPY evidence OS 中文 Telegram 文案；走 push-only Gateway，不接命令。",
+          "safety": {
+            "localOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "orderSendAllowed": false,
+            "livePresetMutationAllowed": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
           "method": "GET",
           "path": "/api/usdjpy-strategy-lab/ga",
           "description": "读取 USDJPY Strategy JSON GA 总状态别名；只展示 GA 过程审计，不直接进入实盘。",
