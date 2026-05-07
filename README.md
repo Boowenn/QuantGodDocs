@@ -6,13 +6,14 @@ This repository is the source of truth for architecture, API contracts, runbooks
 
 ## System Summary
 
-QuantGod v2.5 is a local-first USDJPY autonomous research and execution-governance system:
+QuantGod v2.6 is a local-first USDJPY autonomous research and execution-governance system with an auditable Strategy JSON GA evolution trace:
 
 ```text
 Live Lane: USDJPYc / RSI_Reversal / LONG / cent account
 MT5 Shadow Lane: USDJPY multi-strategy simulation and tester research
 Polymarket Shadow Lane: simulated ledger and event-risk context
 Agent: autonomous daily todo, daily review, promotion, demotion, rollback
+GA Trace: Strategy JSON seeds, generations, fitness, blockers, elites, mutation, and crossover
 Hard guards: runtime freshness, fastlane quality, spread, high-impact news, loss, and rollback
 ```
 
@@ -44,11 +45,12 @@ Live narrow. Simulation broad. Promotion fast. Rollback hard.
 | Frontend workbench | [Frontend workbench](docs/frontend/workbench.md) |
 | Infra automation | [Workspace automation](docs/infra/workspace-automation.md) |
 
-## Current v2.5 Operating Documents
+## Current v2.6 Operating Documents
 
 | Area | Document |
 |---|---|
 | Autonomous multi-lane Agent | [QuantGod v2.5 three-lane Agent](docs/ops/usdjpy-cent-autonomous-multilane-agent.md) |
+| Strategy JSON GA trace | [Strategy JSON GA evolution trace](docs/ops/strategy-json-ga-evolution-trace.md) |
 | News gate simplification | [News gate simplification](docs/ops/news-gate-simplification.md) |
 | USDJPY autonomous governance | [USDJPY autonomous Agent](docs/ops/usdjpy-autonomous-agent.md) |
 | USDJPY live loop and daily autopilot | [USDJPY live loop daily autopilot](docs/ops/usdjpy-live-loop-daily-autopilot.md) |
@@ -77,6 +79,7 @@ Recent maintenance records:
 - [P3-20 autonomous walk-forward promotion gate](docs/maintenance/p3-20-autonomous-walk-forward-promotion-gate.md)
 - [P3-21 three-lane autonomous lifecycle](docs/maintenance/p3-21-usdjpy-cent-autonomous-multilane-agent.md)
 - [v2.5.1 news gate simplification](docs/maintenance/v2-5-1-news-gate.md)
+- [v2.6 Strategy JSON GA trace](docs/maintenance/v2-6-strategy-json-ga-trace.md)
 
 ## API and Contract Files
 
@@ -103,6 +106,7 @@ Documentation should consistently reflect these constraints:
 - Runtime stale, fastlane degraded, high-impact news, abnormal spread, daily loss, and loss streak gates remain hard stops.
 - Ordinary news is a soft risk adjustment by default: it can downgrade stage or reduce lot, but should not by itself block USDJPY RSI LONG.
 - Agent may write controlled patch evidence through staged governance; it must not mutate source code or live preset directly.
+- GA may generate and score Strategy JSON candidates for shadow/tester/paper research, but it must not directly enter live execution or mutate live preset.
 
 ## Local Checks
 
@@ -126,6 +130,6 @@ python3 scripts/check_api_contract_matches_backend.py --contract docs/contracts/
 2. Keep relative links valid.
 3. Keep contract JSON parseable and synchronized with backend routes.
 4. Safety documentation takes precedence over feature descriptions.
-5. Do not document future work as completed. Strategy JSON DSL, GA Evolution, and Telegram Gateway must remain next-phase tasks until implemented.
+5. Do not document future work as completed. Strategy JSON GA trace is implemented for shadow/tester research; Telegram Gateway remains a next-phase task until implemented.
 6. Do not include credentials, runtime evidence, account identifiers, wallet keys, or tokens.
 7. Prefer natural-language operator wording over internal endpoint names in user-facing docs.
