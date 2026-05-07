@@ -34,7 +34,7 @@ jobs:
       - name: Checkout Backend for cross-repo contract drift check
         uses: actions/checkout@v4
         with:
-          repository: Boowenn/QuantGodBackend
+          repository: BoDUD/QuantGodBackend
           path: backend-checkout
 
       - name: Validate API contract against Backend routes

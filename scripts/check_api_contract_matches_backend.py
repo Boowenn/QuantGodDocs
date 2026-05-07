@@ -15,6 +15,7 @@ PLACEHOLDER_PATHS = {
     "/api/ai-analysis/history/:id",
     "/api/ai-analysis-v2/history/:id",
     "/api/vibe-coding/strategy/:id",
+    "/api/usdjpy-strategy-lab/ga/candidate/:seedId",
     "/api/paramlab/auto-tester/:action",
     "/api/mt5-platform/:endpoint",
     "/api/mt5-trading/:endpoint",
@@ -54,6 +55,7 @@ BACKEND_ROUTE_FILES = [
     "Dashboard/phase3_api_routes.js",
     "Dashboard/state_api_routes.js",
     "Dashboard/dashboard_server.js",
+    "Dashboard/automation_chain_api_routes.js",
     "Dashboard/usdjpy_strategy_lab_api_routes.js",
 ]
 
@@ -131,6 +133,8 @@ def normalize_backend_path(path: str) -> str:
         return "/api/ai-analysis-v2/history/:id"
     if clean.startswith("/api/vibe-coding/strategy/"):
         return "/api/vibe-coding/strategy/:id"
+    if clean.startswith("/api/usdjpy-strategy-lab/ga/candidate/"):
+        return "/api/usdjpy-strategy-lab/ga/candidate/:seedId"
     if clean.startswith("/api/paramlab/auto-tester/"):
         return "/api/paramlab/auto-tester/:action"
     if clean.startswith("/api/mt5-platform/"):
