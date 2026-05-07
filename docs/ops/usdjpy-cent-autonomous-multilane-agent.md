@@ -116,7 +116,7 @@ POLYMARKET_SHADOW
 PENDING → COMPLETED_BY_AGENT → PROMOTED / MICRO_LIVE / ROLLBACK
 ```
 
-Agent 可以自动完成待办、生成复盘、推动 stage-gated patch 或触发回滚，但不能直接修改 live preset，不能绕过 runtime、fastlane、spread、news、连续亏损和日亏损硬门禁。
+Agent 可以自动完成待办、生成复盘、推动 stage-gated patch 或触发回滚，但不能直接修改 live preset，不能绕过 runtime、fastlane、spread、高冲击新闻、连续亏损和日亏损硬门禁。普通新闻默认只降仓/降级，不单独阻断。
 
 ## v2.5 下一阶段任务
 
@@ -148,7 +148,7 @@ requiresAutonomousGovernance=true
 - runtime 缺失、fallback 或陈旧；
 - 快通道不是 `FAST` / `EA_DASHBOARD_OK`；
 - 点差异常；
-- news block；
+- 高冲击新闻窗口；
 - 连续亏损达到阈值；
 - 当日亏损达到阈值；
 - Polymarket 真实资金交易；
@@ -171,7 +171,7 @@ requiresAutonomousGovernance=true
 
 ## DeepSeek 角色
 
-DeepSeek 只解释晋级、回滚、参数变化和日报，不批准 live，不取消回滚，不提高 `maxLot`，不放宽 news、spread、runtime 或 fastlane 硬门禁。
+DeepSeek 只解释晋级、回滚、参数变化和日报，不批准 live，不取消回滚，不提高 `maxLot`，不放宽 spread、runtime、fastlane 或高冲击新闻硬门禁。
 
 ## 下一阶段边界
 

@@ -58,7 +58,8 @@
 
 - 后验窗口只用于评分，不能决定当时是否入场；
 - `relaxed_entry_v1` 只放宽 RSI / 战术确认一档；
-- session、spread、news、runtime freshness、fastlane、cooldown 和仓位容量不能被放宽；
+- session、spread、runtime freshness、fastlane、cooldown、仓位容量和高冲击新闻不能被放宽；
+- 普通新闻默认是软风险：只降仓或降级，不单独阻断 USDJPY RSI LONG；
 - 输出以 `R` 为主口径，`pips` 辅助，`USC` 只作账面参考。
 
 ## P3-20 自主治理端点
@@ -70,7 +71,8 @@
 - `completedByAgent=true` 用于 Agent 待办和复盘；
 - `autoAppliedByAgent=true/false` 表示 Agent 是否自动推动受控 patch 或阶段状态；
 - Agent 只能写 `QuantGod_AutonomousConfigPatch.json`；
-- 连续亏损、日亏损、runtime 陈旧、快通道异常、点差异常和 news block 会自动暂停或回滚；
+- 连续亏损、日亏损、runtime 陈旧、快通道异常、点差异常和高冲击新闻会自动暂停或回滚；
+- 普通新闻风险进入 Daily Autopilot 和 replay 复盘，但不作为常态硬阻断；
 - DeepSeek 只解释，不批准 live、不取消回滚、不提高仓位上限；
 - Polymarket 永远 shadow-only。
 
@@ -81,7 +83,7 @@
 - Live Lane 只允许 `USDJPYc / RSI_Reversal / LONG` 进入 `MICRO_LIVE` 或 `LIVE_LIMITED`；
 - MT5 Shadow Lane 继续跑多策略模拟、回放、tester 和 ranking；
 - Polymarket Shadow Lane 只做模拟账本、跟单模拟和事件风险上下文；
-- 美分账户加速允许更快采样，但不能绕过 runtime、fastlane、spread、news 和亏损回滚；
+- 美分账户加速允许更快采样，但不能绕过 runtime、fastlane、spread、高冲击新闻和亏损回滚；
 - `patchWritable=true` 只表示 Agent 可以写受控 patch，`liveMutationAllowed=false` 表示不能直接改 live preset；
 - Daily Autopilot 2.0 生成中文早盘计划、Agent 今日待办、Agent 每日复盘和 Telegram 文案，不执行交易。
 - `strategyJsonTodo`、`gaEvolutionTodo`、`telegramGatewayTodo` 是下一阶段任务，状态保持 `WAITING_NEXT_PHASE`，不会被假装成已完成能力。

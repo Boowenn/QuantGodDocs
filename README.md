@@ -13,7 +13,7 @@ Live Lane: USDJPYc / RSI_Reversal / LONG / cent account
 MT5 Shadow Lane: USDJPY multi-strategy simulation and tester research
 Polymarket Shadow Lane: simulated ledger and event-risk context
 Agent: autonomous daily todo, daily review, promotion, demotion, rollback
-Hard guards: runtime freshness, fastlane quality, spread, news, loss, and rollback
+Hard guards: runtime freshness, fastlane quality, spread, high-impact news, loss, and rollback
 ```
 
 Core principle:
@@ -49,6 +49,7 @@ Live narrow. Simulation broad. Promotion fast. Rollback hard.
 | Area | Document |
 |---|---|
 | Autonomous multi-lane Agent | [QuantGod v2.5 three-lane Agent](docs/ops/usdjpy-cent-autonomous-multilane-agent.md) |
+| News gate simplification | [News gate simplification](docs/ops/news-gate-simplification.md) |
 | USDJPY autonomous governance | [USDJPY autonomous Agent](docs/ops/usdjpy-autonomous-agent.md) |
 | USDJPY live loop and daily autopilot | [USDJPY live loop daily autopilot](docs/ops/usdjpy-live-loop-daily-autopilot.md) |
 | USDJPY strategy policy lab | [USDJPY strategy policy lab](docs/ops/usdjpy-strategy-policy-lab.md) |
@@ -75,6 +76,7 @@ Recent maintenance records:
 - [P3-19 bar replay simulator](docs/maintenance/p3-19-usdjpy-bar-replay-simulator.md)
 - [P3-20 autonomous walk-forward promotion gate](docs/maintenance/p3-20-autonomous-walk-forward-promotion-gate.md)
 - [P3-21 three-lane autonomous lifecycle](docs/maintenance/p3-21-usdjpy-cent-autonomous-multilane-agent.md)
+- [v2.5.1 news gate simplification](docs/maintenance/v2-5-1-news-gate.md)
 
 ## API and Contract Files
 
@@ -98,7 +100,8 @@ Documentation should consistently reflect these constraints:
 - Telegram is push-only; Telegram command execution is out of scope.
 - DeepSeek explains, summarizes, and reviews; it does not approve live execution or override rollback.
 - `QG_AUTO_MAX_LOT=2.0` is an upper bound, not a fixed lot size.
-- Runtime stale, fastlane degraded, news block, abnormal spread, daily loss, and loss streak gates remain hard stops.
+- Runtime stale, fastlane degraded, high-impact news, abnormal spread, daily loss, and loss streak gates remain hard stops.
+- Ordinary news is a soft risk adjustment by default: it can downgrade stage or reduce lot, but should not by itself block USDJPY RSI LONG.
 - Agent may write controlled patch evidence through staged governance; it must not mutate source code or live preset directly.
 
 ## Local Checks

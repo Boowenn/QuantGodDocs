@@ -7,7 +7,7 @@ P3-19 把 USDJPY 自学习闭环从“后验样本估算”推进到因果回放
 回放必须是 causal replay：
 
 - 每一步只能使用当时那根 bar / tick 已经存在的数据；
-- RSI、时段、点差、新闻、冷却、启动保护和仓位容量都是当时守门；
+- RSI、时段、点差、新闻风险、冷却、启动保护和仓位容量都是当时守门；
 - 15 / 30 / 60 / 120 分钟后验窗口只能用于评分；
 - 后验结果不能决定当时是否入场；
 - DeepSeek 只能解释报告，不能覆盖回放评分。
@@ -20,7 +20,7 @@ current
 
 relaxed_entry_v1
   只放宽 RSI / 战术确认一档。
-  session、spread、news、runtime freshness、fastlane 和 cooldown 仍必须通过。
+  session、spread、runtime freshness、fastlane、cooldown 和高冲击新闻仍必须通过。普通新闻只作为降仓/降级风险记录。
 
 let_profit_run_v1
   只调整出场持有：保本延后、trailing 延后、MFE 回吐容忍提高。

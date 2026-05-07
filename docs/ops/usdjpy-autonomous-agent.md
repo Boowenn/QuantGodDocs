@@ -45,7 +45,7 @@ python tools\run_usdjpy_autonomous_agent.py --runtime-dir .\runtime telegram-tex
 - runtime 缺失、fallback 或陈旧；
 - 快通道不是 `FAST` / `EA_DASHBOARD_OK`；
 - 点差异常；
-- news block；
+- 高冲击新闻窗口；
 - 连续亏损达到 2 笔；
 - 当日亏损达到 `-1.0R`；
 - Polymarket 真钱交易。
