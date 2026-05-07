@@ -29,6 +29,7 @@ runtime/evidence_os/QuantGod_LiveExecutionFeedback.jsonl
 runtime/evidence_os/QuantGod_CaseMemory.jsonl
 runtime/evidence_os/QuantGod_CaseMemorySummary.json
 runtime/evidence_os/QuantGod_USDJPYEvidenceOSStatus.json
+runtime/notifications/QuantGod_NotificationEventQueue.jsonl
 runtime/notifications/QuantGod_TelegramGatewayStatus.json
 runtime/notifications/QuantGod_TelegramGatewayLedger.jsonl
 ```
@@ -42,7 +43,66 @@ python3 tools/run_usdjpy_strategy_backtest.py --runtime-dir ./runtime sync-kline
 python3 tools/run_usdjpy_strategy_backtest.py --runtime-dir ./runtime run --write
 python3 tools/run_usdjpy_evidence_os.py --runtime-dir ./runtime once --write
 python3 tools/run_usdjpy_evidence_os.py --runtime-dir ./runtime telegram-text --refresh
+python3 tools/run_telegram_gateway.py --runtime-dir ./runtime status
+python3 tools/run_telegram_gateway.py --runtime-dir ./runtime enqueue --text '【QuantGod 测试】Gateway 只做中文 push，不接收交易命令。'
+python3 tools/run_telegram_gateway.py --runtime-dir ./runtime dispatch
 ```
+
+## Execution Feedback
+
+Execution feedback now reads multiple local evidence sources when present:
+
+- `QuantGod_RuntimeTradeEvents.jsonl` from the MT5 fast lane exporter.
+- `live/QuantGod_USDJPYLiveLoopLedger.csv`.
+- trade journal, trade event link, outcome label, close history, and EA dry-run ledgers.
+- latest live-loop status as a low-fidelity fallback.
+
+The report normalizes fills, rejects, retcodes, slippage, latency, profitR, MFE/MAE, policy mismatch, and execution quality gates. It appends stable feedback IDs to `QuantGod_LiveExecutionFeedback.jsonl` so repeated runs do not duplicate rows.
+
+## Case Memory
+
+Case Memory converts replay, execution, news-gate, and GA blockers into reusable learning cases:
+
+- `MISSED_BIG_MOVE`
+- `EARLY_EXIT`
+- `BAD_ENTRY`
+- `NEWS_DAMAGE`
+- `POLICY_MISMATCH`
+- `EXECUTION_SLIPPAGE`
+- `GA_OVERFIT`
+
+Each case carries a mutation hint such as `relax_rsi_crossback`, `let_profit_run`, `tighten_execution_filter`, or `reduce_mutation_rate`, which lets GA seed generation use actual operating evidence instead of free-form guessing.
+
+## Independent Telegram Gateway
+
+The Gateway is now a separate push-only notification service:
+
+- Queue: `runtime/notifications/QuantGod_NotificationEventQueue.jsonl`
+- Ledger: `runtime/notifications/QuantGod_TelegramGatewayLedger.jsonl`
+- Status: `runtime/notifications/QuantGod_TelegramGatewayStatus.json`
+
+It receives `NotificationEvent` objects from local tools, applies dedupe and rate limits, and writes a delivery ledger. It does not receive Telegram commands and it refuses to send if `QG_TELEGRAM_COMMANDS_ALLOWED=1`.
+
+API endpoints:
+
+```text
+GET  /api/usdjpy-strategy-lab/telegram-gateway/status
+POST /api/usdjpy-strategy-lab/telegram-gateway/test-event
+POST /api/usdjpy-strategy-lab/telegram-gateway/dispatch
+```
+
+`dispatch?send=1` only sends when `QG_TELEGRAM_PUSH_ALLOWED=1`, token/chat ID are present, and command execution remains disabled.
+
+## Parity Deepening
+
+Parity now checks more than a static contract marker:
+
+- Strategy JSON backtest parity vector exists.
+- Backtest evidence persisted into SQLite-backed reports.
+- USDJPY live-loop policy agrees with the backtest strategy family and direction when both are available.
+- EA RSI diagnostics are merged into parity as a warning/pass layer when present.
+
+Missing live diagnostics produce `WARN`/`MISSING` evidence, not fake passes. Safety failures remain blockers for promotion evidence.
 
 ## Safety
 
@@ -51,4 +111,3 @@ python3 tools/run_usdjpy_evidence_os.py --runtime-dir ./runtime telegram-text --
 - Telegram Gateway is push-only and records a delivery ledger.
 - `QG_TELEGRAM_COMMANDS_ALLOWED=1` is rejected by the gateway sender.
 - Parity failures block promotion evidence; they do not place or cancel trades.
-
