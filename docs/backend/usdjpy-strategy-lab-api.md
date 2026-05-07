@@ -55,7 +55,7 @@
 | `POST /api/usdjpy-strategy-lab/strategy-backtest/sample` | 写入确定性 USDJPY H1 示例 K线到本地 SQLite，用于 smoke 和测试 |
 | `POST /api/usdjpy-strategy-lab/strategy-backtest/run` | 运行 Strategy JSON 回测，输出 report、trades、equity curve 和 GA fitness evidence |
 | `GET /api/usdjpy-strategy-lab/strategy-backtest/telegram-text` | Strategy JSON 回测中文 Telegram 文案 |
-| `POST /api/usdjpy-strategy-lab/strategy-backtest/sync-klines` | 从 USDJPY runtime snapshot 增量同步 M15/H1/H4/D1 K线到 SQLite |
+| `POST /api/usdjpy-strategy-lab/strategy-backtest/sync-klines` | 从 USDJPY runtime snapshot 增量同步 M1/M5/M15/H1/H4/D1 K线到 SQLite |
 | `GET /api/usdjpy-strategy-lab/evidence-os` | `evidence-os/status` 的兼容别名，读取 Evidence OS 审计状态 |
 | `GET /api/usdjpy-strategy-lab/evidence-os/status` | 读取 Strategy JSON / Python Replay / MQL5 EA parity、执行反馈、Case Memory 和 Telegram Gateway 状态 |
 | `POST /api/usdjpy-strategy-lab/evidence-os/run` | 生成完整 USDJPY evidence OS 审计包 |
@@ -107,12 +107,15 @@
 - 只处理 `USDJPYc`；
 - 读取安全的 `quantgod.strategy.v1`；
 - 写入 `runtime/backtest/usdjpy.sqlite`；
-- 优先从 `QuantGod_MT5RuntimeSnapshot_USDJPYc.json` 增量同步真实 M15/H1/H4/D1 K线；
+- 优先从 `QuantGod_MT5RuntimeSnapshot_USDJPYc.json` 增量同步真实 M1/M5/M15/H1/H4/D1 K线；
 - 输出 `QuantGod_StrategyBacktestReport.json`、`QuantGod_StrategyTrades.csv`、`QuantGod_StrategyEquityCurve.csv`；
+- 覆盖 `RSI_Reversal`、`MA_Cross`、`BB_Triple`、`MACD_Divergence`、`SR_Breakout`、东京突破、夜盘回归和 H4 回调这些 USDJPY shadow 策略族；
+- 将每个 Strategy JSON seed 独立写入 GA fitness evidence，不共用 stale latest report；
+- 输出 cost model 和 parity vector，供 Evidence OS 审计；
 - 把回测指标提供给 GA fitness；
 - 不下单、不平仓、不撤单、不改 live preset。
 
-当前版本先执行 `USDJPYc / RSI_Reversal / LONG` 的 H1 回测，并把 M15/H4/D1 作为多周期审计上下文。所有 shadow 策略 Strategy JSON runner 仍会分阶段扩展。
+当前版本是 USDJPY Strategy JSON research runner，不是 MT5 Strategy Tester 替代品；tick 级成交建模和 broker 特定滑点分布仍属于后续增强。
 
 ## Perfect Edition Evidence OS 端点
 

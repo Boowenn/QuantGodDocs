@@ -2,7 +2,7 @@
 
 QuantGod Perfect Edition starts by making Strategy JSON executable in a read-only research plane.
 
-This module reads a safe `quantgod.strategy.v1` seed, runs a deterministic USDJPY H1 Strategy JSON backtest against local SQLite bars, and writes GA-readable evidence:
+This module reads a safe `quantgod.strategy.v1` seed, runs a deterministic USDJPY Strategy JSON backtest against local SQLite bars, and writes GA-readable evidence:
 
 ```text
 runtime/backtest/usdjpy.sqlite
@@ -15,9 +15,16 @@ runtime/backtest/QuantGod_StrategyEquityCurve.csv
 
 - Keeps scope fixed to `USDJPYc`.
 - Validates Strategy JSON through the existing Strategy JSON validator.
-- Runs the current RSI_Reversal LONG contract against local H1 bars.
+- Runs every supported USDJPY MT5 shadow strategy family through the Strategy JSON runner:
+  `RSI_Reversal`, `MA_Cross`, `BB_Triple`, `MACD_Divergence`, `SR_Breakout`,
+  `USDJPY_TOKYO_RANGE_BREAKOUT`, `USDJPY_NIGHT_REVERSION_SAFE`, and
+  `USDJPY_H4_TREND_PULLBACK`.
+- Loads all available USDJPY SQLite timeframes (`M1`, `M5`, `M15`, `H1`, `H4`, `D1`) and lets the runner pick the primary execution timeframe from the Strategy JSON.
+- Applies a deterministic research cost model for spread, slippage, and commission pips.
 - Produces `netR`, pips, profit factor, win rate, max drawdown R, Sharpe, Sortino, loss streak, MFE/MAE and profit capture ratio.
-- Feeds the latest report into GA fitness as additional evidence.
+- Persists each run into SQLite `strategy_runs`, `strategy_trades`, and `equity_curves` tables.
+- Feeds per-seed Strategy JSON backtest evidence into GA fitness, so GA candidates are not all scored against one stale latest report.
+- Emits a parity vector so the Evidence OS can compare Strategy JSON, Python replay, and MQL5 EA evidence.
 - Exposes read-only API endpoints under `/api/usdjpy-strategy-lab/strategy-backtest/*`.
 
 ## Safety
@@ -52,13 +59,18 @@ GET  /api/usdjpy-strategy-lab/strategy-backtest/status
 POST /api/usdjpy-strategy-lab/strategy-backtest/sample
 POST /api/usdjpy-strategy-lab/strategy-backtest/run
 GET  /api/usdjpy-strategy-lab/strategy-backtest/telegram-text
+POST /api/usdjpy-strategy-lab/strategy-backtest/sync-klines
 ```
 
 All endpoints are local, USDJPY-only, and research-only.
 
 ## Current Limits
 
-This is not yet the full Perfect Edition backtest engine.
+This is the first complete USDJPY Strategy JSON research runner, not a broker execution engine.
 
-Current implementation is a first executable contract for `USDJPYc / RSI_Reversal / LONG` on H1 bars. Later phases should add full M1/M5/M15/H1 resampling, cost model, parity harness, Strategy JSON runner coverage for all shadow strategies, and equity curve analytics for GA cache.
+Current remaining limits:
 
+- It is still a deterministic Python research runner, not a MetaTrader Strategy Tester replacement.
+- It does not place orders or mutate live presets.
+- Tick-level fill modeling and broker-specific slippage distributions remain future work.
+- Strategy JSON / Python Replay / MQL5 EA parity must stay green before any candidate can advance.
