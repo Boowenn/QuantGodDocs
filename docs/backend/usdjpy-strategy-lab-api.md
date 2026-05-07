@@ -126,7 +126,7 @@
 `evidence-os` 端点把 Strategy JSON 回测、Python replay、MQL5 EA 诊断、执行反馈、Case Memory 和 Telegram Gateway 串成同一份审计证据：
 
 - `QuantGod_StrategyParityReport.json`：Strategy JSON / Python Replay / MQL5 EA parity，包含 SQLite 持久化、live-loop policy 和 EA RSI 诊断一致性检查；
-- `QuantGod_LiveExecutionQualityReport.json` 和 `QuantGod_LiveExecutionFeedback.jsonl`：从 fastlane trade events、live-loop ledger、trade journal、close history 和 EA dry-run ledger 归一化滑点、拒单、延迟、profitR / MFE / MAE；
+- `QuantGod_LiveExecutionQualityReport.json` 和 `QuantGod_LiveExecutionFeedback.jsonl`：优先读取 EA 实时写出的 `QuantGod_LiveExecutionFeedback.jsonl` 与历史重建 `QuantGod_LiveExecutionFeedbackHistory.jsonl`，再合并 fastlane trade events、live-loop ledger、trade journal、close history 和 EA dry-run ledger，归一化成交、平仓、订单接受、拒单、滑点、延迟、profitR / MFE / MAE；
 - `QuantGod_CaseMemory.jsonl` 和 summary：错失机会、早出场、新闻损伤、执行偏差、GA 过拟合风险转成 GA mutation 线索；
 - `QuantGod_NotificationEventQueue.jsonl`、`QuantGod_TelegramGatewayLedger.jsonl` 和 `QuantGod_TelegramGatewayStatus.json`：独立中文 push-only Gateway，统一队列、去重、限频、投递 ledger，不接命令。
 

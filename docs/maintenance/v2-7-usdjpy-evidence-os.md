@@ -10,7 +10,8 @@ This maintenance step lays the Perfect Edition evidence foundation:
 - multi-timeframe SQLite audit context for M15/H1/H4/D1;
 - Strategy JSON backtest evidence for GA fitness;
 - Strategy JSON / Python Replay / MQL5 EA parity report;
-- live execution feedback and execution quality report;
+- standardized EA `quantgod.live_execution_feedback.v1` rows from real-time trade transactions, order-send results, and broker history rebuilds;
+- live execution feedback ingestion and execution quality report;
 - Case Memory for missed opportunities, early exits, and execution drift;
 - push-only Telegram Gateway ledger.
 
@@ -55,4 +56,3 @@ python3 scripts/check_docs_links.py --root .
 python3 scripts/check_api_contract_matches_backend.py --contract docs/contracts/api-contract.json --backend ../QuantGodBackend
 python3 -m unittest discover tests -v
 ```
-

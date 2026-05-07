@@ -52,12 +52,14 @@ python3 tools/run_telegram_gateway.py --runtime-dir ./runtime dispatch
 
 Execution feedback now reads multiple local evidence sources when present:
 
+- `QuantGod_LiveExecutionFeedback.jsonl` written by `QuantGod_MultiStrategy.mq5` in real time from order-send results and `OnTradeTransaction`.
+- `QuantGod_LiveExecutionFeedbackHistory.jsonl` rebuilt by the EA from broker trade history during dashboard export.
 - `QuantGod_RuntimeTradeEvents.jsonl` from the MT5 fast lane exporter.
 - `live/QuantGod_USDJPYLiveLoopLedger.csv`.
 - trade journal, trade event link, outcome label, close history, and EA dry-run ledgers.
 - latest live-loop status as a low-fidelity fallback.
 
-The report normalizes fills, rejects, retcodes, slippage, latency, profitR, MFE/MAE, policy mismatch, and execution quality gates. It appends stable feedback IDs to `QuantGod_LiveExecutionFeedback.jsonl` so repeated runs do not duplicate rows.
+The EA emits the standard `quantgod.live_execution_feedback.v1` schema with `feedbackId`, `eventType`, `policyId`, `strategyId`, `intentId`, `expectedPrice`, `fillPrice`, `slippagePips`, `spreadAtEntry`, `latencyMs`, `retcode`, `rejectReason`, `exitReason`, `profitR`, `profitUSC`, `mfeR`, and `maeR`. The report normalizes fills, closes, accepted order requests, rejects, retcodes, slippage, latency, profitR, MFE/MAE, policy mismatch, and execution quality gates. It appends stable feedback IDs to `runtime/evidence_os/QuantGod_LiveExecutionFeedback.jsonl` so repeated runs do not duplicate rows.
 
 ## Case Memory
 
