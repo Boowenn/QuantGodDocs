@@ -51,6 +51,10 @@
 | `POST /api/usdjpy-strategy-lab/daily-review/run` | 由 Agent 重建并写入每日复盘 |
 | `GET /api/usdjpy-strategy-lab/daily-review/telegram-text` | Agent 每日复盘中文 Telegram 文案 |
 | `GET /api/usdjpy-strategy-lab/autonomous-agent/telegram-text` | 自主治理中文 Telegram 文案 |
+| `GET /api/usdjpy-strategy-lab/strategy-backtest/status` | 读取 Strategy JSON USDJPY SQLite 回测状态和最新报告 |
+| `POST /api/usdjpy-strategy-lab/strategy-backtest/sample` | 写入确定性 USDJPY H1 示例 K线到本地 SQLite，用于 smoke 和测试 |
+| `POST /api/usdjpy-strategy-lab/strategy-backtest/run` | 运行 Strategy JSON 回测，输出 report、trades、equity curve 和 GA fitness evidence |
+| `GET /api/usdjpy-strategy-lab/strategy-backtest/telegram-text` | Strategy JSON 回测中文 Telegram 文案 |
 
 ## P3-19 因果回放端点
 
@@ -87,6 +91,19 @@
 - `patchWritable=true` 只表示 Agent 可以写受控 patch，`liveMutationAllowed=false` 表示不能直接改 live preset；
 - Daily Autopilot 2.0 生成中文早盘计划、Agent 今日待办、Agent 每日复盘和 Telegram 文案，不执行交易。
 - `strategyJsonTodo`、`gaEvolutionTodo`、`telegramGatewayTodo` 是下一阶段任务，状态保持 `WAITING_NEXT_PHASE`，不会被假装成已完成能力。
+
+## v2.6.1 Strategy JSON USDJPY 回测端点
+
+`strategy-backtest` 端点把 Strategy JSON 从“可审计种子”推进为“可执行研究契约”：
+
+- 只处理 `USDJPYc`；
+- 读取安全的 `quantgod.strategy.v1`；
+- 写入 `runtime/backtest/usdjpy.sqlite`；
+- 输出 `QuantGod_StrategyBacktestReport.json`、`QuantGod_StrategyTrades.csv`、`QuantGod_StrategyEquityCurve.csv`；
+- 把回测指标提供给 GA fitness；
+- 不下单、不平仓、不撤单、不改 live preset。
+
+当前版本先执行 `USDJPYc / RSI_Reversal / LONG` 的 H1 回测。完整多周期重采样、所有 shadow 策略 Strategy JSON runner、EA parity harness 和执行质量反馈属于 Perfect Edition 后续阶段。
 
 ## 返回原则
 

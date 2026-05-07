@@ -51,6 +51,7 @@ Live narrow. Simulation broad. Promotion fast. Rollback hard.
 |---|---|
 | Autonomous multi-lane Agent | [QuantGod v2.5 three-lane Agent](docs/ops/usdjpy-cent-autonomous-multilane-agent.md) |
 | Strategy JSON GA trace | [Strategy JSON GA evolution trace](docs/ops/strategy-json-ga-evolution-trace.md) |
+| Strategy JSON USDJPY backtest | [Strategy JSON USDJPY backtest](docs/ops/strategy-json-usdjpy-backtest.md) |
 | News gate simplification | [News gate simplification](docs/ops/news-gate-simplification.md) |
 | USDJPY autonomous governance | [USDJPY autonomous Agent](docs/ops/usdjpy-autonomous-agent.md) |
 | USDJPY live loop and daily autopilot | [USDJPY live loop daily autopilot](docs/ops/usdjpy-live-loop-daily-autopilot.md) |
@@ -80,6 +81,7 @@ Recent maintenance records:
 - [P3-21 three-lane autonomous lifecycle](docs/maintenance/p3-21-usdjpy-cent-autonomous-multilane-agent.md)
 - [v2.5.1 news gate simplification](docs/maintenance/v2-5-1-news-gate.md)
 - [v2.6 Strategy JSON GA trace](docs/maintenance/v2-6-strategy-json-ga-trace.md)
+- [v2.6.1 Strategy JSON USDJPY backtest](docs/maintenance/v2-6-1-strategy-json-usdjpy-backtest.md)
 
 ## API and Contract Files
 
