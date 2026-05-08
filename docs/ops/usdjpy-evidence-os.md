@@ -59,7 +59,9 @@ Execution feedback now reads multiple local evidence sources when present:
 - trade journal, trade event link, outcome label, close history, and EA dry-run ledgers.
 - latest live-loop status as a low-fidelity fallback.
 
-The EA emits the standard `quantgod.live_execution_feedback.v1` schema with `feedbackId`, `eventType`, `policyId`, `strategyId`, `intentId`, `expectedPrice`, `fillPrice`, `slippagePips`, `spreadAtEntry`, `latencyMs`, `retcode`, `rejectReason`, `exitReason`, `profitR`, `profitUSC`, `mfeR`, and `maeR`. The report normalizes fills, closes, accepted order requests, rejects, retcodes, slippage, latency, profitR, MFE/MAE, policy mismatch, and execution quality gates. It appends stable feedback IDs to `runtime/evidence_os/QuantGod_LiveExecutionFeedback.jsonl` so repeated runs do not duplicate rows.
+The EA emits the standard `quantgod.live_execution_feedback.v1` schema with `feedbackId`, `eventType`, `policyId`, `strategyId`, `intentId`, `expectedPrice`, `fillPrice`, `slippagePips`, `spreadAtEntry`, `latencyMs`, `retcode`, `rejectReason`, `exitReason`, `profitR`, `profitUSC`, `mfeR`, and `maeR`. The report normalizes fills, closes, accepted order requests, rejects, retcodes, slippage, latency, profitR, MFE/MAE, policy mismatch, and execution quality gates. It also derives `dominantRejectReason`, `acceptedWithoutFillCount`, `maxLatencyMs`, reject rate, slippage gates, latency gates, and accepted-without-fill gates. It appends stable feedback IDs to `runtime/evidence_os/QuantGod_LiveExecutionFeedback.jsonl` so repeated runs do not duplicate rows.
+
+GA fitness consumes these execution quality fields. High reject rate, excessive slippage, high latency, accepted-without-fill drift, or policy mismatch increase `executionFeedback.penalty`; repeated execution cases add a bounded `caseMemory.penalty`. This keeps GA from promoting strategies that only look good in replay but degrade when the real EA/broker feedback is poor.
 
 ## Case Memory
 
@@ -70,10 +72,12 @@ Case Memory converts replay, execution, news-gate, and GA blockers into reusable
 - `BAD_ENTRY`
 - `NEWS_DAMAGE`
 - `POLICY_MISMATCH`
+- `EXECUTION_REJECT`
 - `EXECUTION_SLIPPAGE`
+- `EXECUTION_LATENCY`
 - `GA_OVERFIT`
 
-Each case carries a mutation hint such as `relax_rsi_crossback`, `let_profit_run`, `tighten_execution_filter`, or `reduce_mutation_rate`, which lets GA seed generation use actual operating evidence instead of free-form guessing.
+Each case carries a mutation hint such as `relax_rsi_crossback`, `let_profit_run`, `tighten_execution_filter`, `inspect_execution_quality`, `reduce_execution_latency`, `verify_execution_ack_fill_sync`, or `reduce_mutation_rate`, which lets GA seed generation use actual operating evidence instead of free-form guessing.
 
 ## Independent Telegram Gateway
 
@@ -103,6 +107,9 @@ Parity now checks more than a static contract marker:
 - Backtest evidence persisted into SQLite-backed reports.
 - USDJPY live-loop policy agrees with the backtest strategy family and direction when both are available.
 - EA RSI diagnostics are merged into parity as a warning/pass layer when present.
+- The parity vector now includes Strategy JSON RSI, entry, exit, and risk parameters.
+- The EA comparison checks strategy family, direction, RSI period, RSI timeframe, buy-band/oversold tolerance, signal direction, route state, and guard state.
+- The report emits `parityDimensions` so the frontend and Telegram can explain the Strategy JSON / Live Loop / MQL5 EA comparison without reading raw files.
 
 Missing live diagnostics produce `WARN`/`MISSING` evidence, not fake passes. Safety failures remain blockers for promotion evidence.
 

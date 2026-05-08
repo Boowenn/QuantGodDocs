@@ -12,8 +12,20 @@ This maintenance step lays the Perfect Edition evidence foundation:
 - Strategy JSON / Python Replay / MQL5 EA parity report;
 - standardized EA `quantgod.live_execution_feedback.v1` rows from real-time trade transactions, order-send results, and broker history rebuilds;
 - live execution feedback ingestion and execution quality report;
-- Case Memory for missed opportunities, early exits, and execution drift;
+- Case Memory for missed opportunities, early exits, execution rejects, slippage, latency, ack/fill drift, policy mismatch, and GA blocker drift;
 - push-only Telegram Gateway ledger.
+
+## Evidence Deepening
+
+The Evidence OS now sends richer real execution data into the learning loop:
+
+- parity vectors include Strategy JSON RSI, entry, exit, and risk parameters;
+- MQL5 RSI diagnostics are compared against Strategy JSON family, direction, RSI period, timeframe, signal direction, route, and guard state;
+- execution feedback derives dominant reject reason, accepted-without-fill count, max latency, reject rate, slippage, latency, and policy mismatch;
+- Case Memory creates explicit `EXECUTION_REJECT`, `EXECUTION_SLIPPAGE`, `EXECUTION_LATENCY`, and `POLICY_MISMATCH` cases;
+- GA fitness applies bounded execution and case-memory penalties so candidates are not judged only by replay/backtest profit.
+
+This is still an audit and learning plane. It does not grant GA or DeepSeek authority to trade.
 
 ## Safety Boundary
 
