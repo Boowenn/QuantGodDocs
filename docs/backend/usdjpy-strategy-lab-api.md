@@ -68,6 +68,18 @@
 | `POST /api/usdjpy-strategy-lab/telegram-gateway/test-event` | 写入一条中文测试 NotificationEvent 到 Gateway 队列；不发送交易命令 |
 | `POST /api/usdjpy-strategy-lab/telegram-gateway/dispatch` | 处理 Gateway 队列；默认只写 ledger，`send=1` 时仍要求 push allowed 且 commands disabled |
 
+## v2.6 Strategy JSON GA 端点
+
+`ga` 端点负责 Strategy JSON 全过程审计，不是交易执行器：
+
+- 每一代记录 generation、candidate、fitness breakdown、blocker、elite、mutation 和 crossover；
+- Case Memory 中 `QUEUED_FOR_GA` 的经验会被转换成 `CASE_MEMORY` shadow seed；
+- GA 使用 Strategy JSON fingerprint 与 evidence signature 缓存 fitness，证据变化后自动失效；
+- `QuantGod_GALineage.json` 记录 case-memory origin、mutation parent 和 crossover parents；
+- `QuantGod_GARunLimiter.json` 记录最近一次 generation，部署可用 `QG_GA_MIN_RUN_INTERVAL_SECONDS` 控制频率；
+- 候选只能进入 MT5 Shadow、tester-only、paper-live-sim 或 autonomous evidence；
+- GA 不得直接进入 live、不得改 live preset、不得发 MT5 订单、不得连接 Polymarket真钱钱包。
+
 ## P3-19 因果回放端点
 
 `bar-replay` 端点必须保持因果约束：

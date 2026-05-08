@@ -24,7 +24,32 @@ runtime/ga/QuantGod_GACandidateRuns.jsonl
 runtime/ga/QuantGod_GAEliteStrategies.json
 runtime/ga/QuantGod_GABlockerSummary.json
 runtime/ga/QuantGod_GAEvolutionPath.json
+runtime/ga/QuantGod_GAFitnessCache.json
+runtime/ga/QuantGod_GALineage.json
+runtime/ga/QuantGod_GARunLimiter.json
 ```
+
+## v2.6.2 Hardening
+
+The GA trace has been hardened so it can use the evidence loop created by
+Execution Feedback and Case Memory:
+
+```text
+Case Memory queued for GA -> Strategy JSON shadow seed
+Strategy fingerprint + evidence signature -> cached fitness score
+Mutation / crossover / case origin -> lineage trace
+Generation run timestamp -> optional frequency limiter
+```
+
+This makes repeated GA runs more auditable and less noisy:
+
+- Case Memory seeds are generated only from `QUEUED_FOR_GA` cases and stay in `SHADOW`.
+- Fitness cache entries are invalidated whenever replay, walk-forward, backtest, parity, execution quality, or Case Memory evidence changes.
+- Lineage records parent seeds, crossover parents, and case-memory origins.
+- The run limiter is off by default but can be enabled with `QG_GA_MIN_RUN_INTERVAL_SECONDS`.
+
+These additions do not add live execution, live preset mutation, Telegram commands,
+or Polymarket real-money access.
 
 New API surface:
 
@@ -127,4 +152,3 @@ python3 scripts/check_docs_quality_gate.py --root .
 python3 scripts/check_docs_links.py --root .
 python3 scripts/check_api_contract_matches_backend.py --contract docs/contracts/api-contract.json --backend ../QuantGodBackend
 ```
-
