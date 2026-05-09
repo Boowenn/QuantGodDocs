@@ -21,7 +21,7 @@ The adapter is deliberately read-only:
 - EA may read seed id, fingerprint, strategy family, RSI/exit/risk parameters, and lane;
 - EA writes a status/ack file so the frontend can confirm the contract is visible to MT5;
 - EA writes a shadow evaluation status and JSONL ledger so Case Memory can convert contract signals, adapter gaps, or safety rejections into GA seed hints;
-- EA currently evaluates `RSI_Reversal` and `USDJPY_TOKYO_RANGE_BREAKOUT` contracts in the shadow/tester/paper lane; unsupported families remain adapter-gap evidence for Case Memory and GA;
+- EA currently evaluates `RSI_Reversal`, `USDJPY_TOKYO_RANGE_BREAKOUT`, and `USDJPY_NIGHT_REVERSION_SAFE` contracts in the shadow/tester/paper lane; unsupported families remain adapter-gap evidence for Case Memory and GA;
 - the adapter does not call `OrderSend`, does not write an `OrderRequest`, and does not mutate the live preset.
 
 Main runtime files:

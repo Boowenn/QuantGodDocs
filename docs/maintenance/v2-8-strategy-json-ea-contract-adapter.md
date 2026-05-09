@@ -12,9 +12,10 @@ Scope:
 - EA-side shadow evaluation ledger:
   `QuantGod_StrategyJsonEAShadowEvaluationStatus.json` and
   `QuantGod_StrategyJsonEAShadowEvaluationLedger.jsonl`.
-- EA-side shadow evaluation currently supports `RSI_Reversal` and
-  `USDJPY_TOKYO_RANGE_BREAKOUT` Strategy JSON families; unsupported families
-  stay in adapter-gap evidence until their read-only adapters are added.
+- EA-side shadow evaluation currently supports `RSI_Reversal`,
+  `USDJPY_TOKYO_RANGE_BREAKOUT`, and `USDJPY_NIGHT_REVERSION_SAFE` Strategy JSON
+  families; unsupported families stay in adapter-gap evidence until their
+  read-only adapters are added.
 - Evidence OS Case Memory consumes EA shadow evaluation rows and turns
   `SHADOW_WOULD_ENTER`, adapter gaps, or safety rejections into bounded GA seed
   hints.
