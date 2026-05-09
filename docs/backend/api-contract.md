@@ -317,6 +317,10 @@ Phase 1/2/3 的 API contract 必须保持本地优先和安全受控：
 | GET | `/api/usdjpy-strategy-lab/ga/evolution-path` | `read-only` | 读取 GA 进化路径，展示每代 bestFitness、bestStrategy、avgFitness 和阻断趋势。 |
 | GET | `/api/usdjpy-strategy-lab/ga/blockers` | `read-only` | 读取 GA blocker summary，解释 schema、safety、样本、walk-forward、过拟合、max adverse 等失败原因。 |
 | GET | `/api/usdjpy-strategy-lab/ga/telegram-text` | `read-only` | 生成或发送中文 GA 进化报告；Telegram 仍只推送，不接收交易命令。 |
+| GET | `/api/usdjpy-strategy-lab/strategy-contract` | `read-only` | 读取 Strategy JSON → MQL5 EA 只读契约状态兼容别名；只用于 shadow/tester/paper lane 评估。 |
+| GET | `/api/usdjpy-strategy-lab/strategy-contract/status` | `read-only` | 读取 Strategy JSON → MQL5 EA 只读契约状态、所选 seed、fingerprint 和 EA 回执；只用于 shadow/tester/paper lane 评估。 |
+| POST | `/api/usdjpy-strategy-lab/strategy-contract/build` | `read-only` | 生成 EA 可读取的 Strategy JSON contract 文件；不下单、不改 live preset。 |
+| GET | `/api/usdjpy-strategy-lab/strategy-contract/telegram-text` | `read-only` | 生成 Strategy JSON → EA 只读契约中文摘要；Telegram 仍只推送，不接命令。 |
 | GET | `/api/usdjpy-strategy-lab/daily-todo` | `read-only` | 读取 Agent 今日待办，含车道、状态、指标、升降级、回滚状态和下一阶段任务；无需人工回灌。 |
 | GET | `/api/usdjpy-strategy-lab/daily-todo/status` | `read-only` | 读取 Agent 今日待办状态别名，包含下一阶段任务等待状态。 |
 | POST | `/api/usdjpy-strategy-lab/daily-todo/run` | `read-only` | 由 Agent 重建并写入今日待办和下一阶段任务；只写本地证据，不执行交易。 |

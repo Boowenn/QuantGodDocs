@@ -2156,6 +2156,28 @@
         },
         {
           "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/strategy-backtest/quality",
+          "description": "读取 USDJPY Strategy JSON SQLite 回测质量状态，包含历史覆盖、数据来源和同步目标满足情况；只展示回测证据。",
+          "safety": {
+            "localOnly": true,
+            "focusOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "strategyJsonOnly": true,
+            "sqliteBacktestOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false,
+            "polymarketRealMoneyAllowed": false,
+            "liveMutationAllowed": false,
+            "autoApplyAllowed": "shadow_tester_only"
+          }
+        },
+        {
+          "method": "GET",
           "path": "/api/usdjpy-strategy-lab/evidence-os",
           "description": "读取 USDJPY Evidence OS 审计状态；与 /evidence-os/status 保持兼容。",
           "safety": {
@@ -2787,6 +2809,70 @@
           "method": "GET",
           "path": "/api/usdjpy-strategy-lab/telegram-gateway",
           "description": "读取独立 Telegram Gateway 状态兼容别名。",
+          "safety": {
+            "localOnly": true,
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "dryRunOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/strategy-contract",
+          "description": "读取 Strategy JSON → MQL5 EA 只读契约状态兼容别名；只用于 shadow/tester/paper lane 评估。",
+          "safety": {
+            "localOnly": true,
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "dryRunOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/strategy-contract/status",
+          "description": "读取 Strategy JSON → MQL5 EA 只读契约状态、所选 seed、fingerprint 和 EA 回执；只用于 shadow/tester/paper lane 评估。",
+          "safety": {
+            "localOnly": true,
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "dryRunOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/api/usdjpy-strategy-lab/strategy-contract/build",
+          "description": "生成 EA 可读取的 Strategy JSON contract 文件；不下单、不改 live preset。",
+          "safety": {
+            "localOnly": true,
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "dryRunOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "telegramCommandExecutionAllowed": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/strategy-contract/telegram-text",
+          "description": "生成 Strategy JSON → EA 只读契约中文摘要；Telegram 仍只推送，不接命令。",
           "safety": {
             "localOnly": true,
             "readOnlyDataPlane": true,

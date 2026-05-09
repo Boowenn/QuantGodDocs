@@ -56,6 +56,7 @@
 | `POST /api/usdjpy-strategy-lab/strategy-backtest/run` | 运行 Strategy JSON 回测，输出 report、trades、equity curve 和 GA fitness evidence |
 | `GET /api/usdjpy-strategy-lab/strategy-backtest/telegram-text` | Strategy JSON 回测中文 Telegram 文案 |
 | `POST /api/usdjpy-strategy-lab/strategy-backtest/sync-klines` | 从 USDJPY runtime snapshot 增量同步 M1/M5/M15/H1/H4/D1 K线到 SQLite |
+| `GET /api/usdjpy-strategy-lab/strategy-backtest/quality` | 读取 USDJPY SQLite 回测历史覆盖、数据来源和同步质量状态 |
 | `GET /api/usdjpy-strategy-lab/evidence-os` | `evidence-os/status` 的兼容别名，读取 Evidence OS 审计状态 |
 | `GET /api/usdjpy-strategy-lab/evidence-os/status` | 读取 Strategy JSON / Python Replay / MQL5 EA parity、执行反馈、Case Memory 和 Telegram Gateway 状态 |
 | `POST /api/usdjpy-strategy-lab/evidence-os/run` | 生成完整 USDJPY evidence OS 审计包 |
@@ -79,6 +80,24 @@
 - `QuantGod_GARunLimiter.json` 记录最近一次 generation，部署可用 `QG_GA_MIN_RUN_INTERVAL_SECONDS` 控制频率；
 - 候选只能进入 MT5 Shadow、tester-only、paper-live-sim 或 autonomous evidence；
 - GA 不得直接进入 live、不得改 live preset、不得发 MT5 订单、不得连接 Polymarket真钱钱包。
+
+## v2.8 Strategy JSON → EA 只读契约端点
+
+`strategy-contract` 端点把最新 GA / Strategy JSON candidate 转成 MQL5 EA 可读取的只读契约：
+
+| Endpoint | 说明 |
+|---|---|
+| `GET /api/usdjpy-strategy-lab/strategy-contract` | 读取 Strategy JSON → EA contract 状态兼容别名。 |
+| `GET /api/usdjpy-strategy-lab/strategy-contract/status` | 读取 Strategy JSON → EA contract 状态、已选 seed、fingerprint 和 EA 回执。 |
+| `POST /api/usdjpy-strategy-lab/strategy-contract/build` | 生成 `QuantGod_StrategyJsonEAContract.json` 与 `QuantGod_StrategyJsonEAContract_EA.txt`，供 EA 只读评估。 |
+| `GET /api/usdjpy-strategy-lab/strategy-contract/telegram-text` | 生成中文契约摘要；可选 push-only 发送。 |
+
+安全边界：
+
+- contract mode 只允许 `SHADOW_EVALUATION_ONLY`、`TESTER_EVALUATION_ONLY`、`PAPER_LIVE_SIM_EVALUATION_ONLY`；
+- EA 只读取 `QuantGod_StrategyJsonEAContract_EA.txt` 并回写 `QuantGod_StrategyJsonEAContractEAStatus.json`；
+- 不下单、不平仓、不撤单、不写 `OrderRequest`、不修改 live preset；
+- GA 产物即使表现优秀，也只能先进入 shadow/tester/paper lane，不会直接抢 `USDJPYc / RSI_Reversal / LONG` 实盘路线。
 
 ## P3-19 因果回放端点
 
