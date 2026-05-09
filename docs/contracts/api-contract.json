@@ -2135,7 +2135,29 @@
         {
           "method": "POST",
           "path": "/api/usdjpy-strategy-lab/strategy-backtest/sync-klines",
-          "description": "从 USDJPY MT5 runtime snapshot 增量同步 M15/H1/H4/D1 K线到本地 SQLite；只写回测证据。",
+          "description": "从 MT5 Python 或 MQL5 CopyRates CSV 增量同步 USDJPY M1/M5/M15/H1 K线到本地 SQLite；只写回测证据。",
+          "safety": {
+            "localOnly": true,
+            "focusOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "strategyJsonOnly": true,
+            "sqliteBacktestOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false,
+            "polymarketRealMoneyAllowed": false,
+            "liveMutationAllowed": false,
+            "autoApplyAllowed": "shadow_tester_only"
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/strategy-backtest/production-status",
+          "description": "读取 USDJPY SQLite 历史数据生产验收状态，包含 M1/M5/M15/H1 覆盖深度、K线密度、最新延迟和后台同步来源。",
           "safety": {
             "localOnly": true,
             "focusOnly": true,

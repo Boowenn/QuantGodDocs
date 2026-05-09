@@ -9,6 +9,8 @@ runtime/backtest/usdjpy.sqlite
 runtime/backtest/QuantGod_StrategyBacktestReport.json
 runtime/backtest/QuantGod_StrategyTrades.csv
 runtime/backtest/QuantGod_StrategyEquityCurve.csv
+runtime/backtest/QuantGod_USDJPYHistoricalKlineSyncReport.json
+runtime/backtest/QuantGod_USDJPYHistoryProductionStatus.json
 ```
 
 ## What It Does
@@ -20,6 +22,8 @@ runtime/backtest/QuantGod_StrategyEquityCurve.csv
   `USDJPY_TOKYO_RANGE_BREAKOUT`, `USDJPY_NIGHT_REVERSION_SAFE`, and
   `USDJPY_H4_TREND_PULLBACK`.
 - Loads all available USDJPY SQLite timeframes (`M1`, `M5`, `M15`, `H1`, `H4`, `D1`) and lets the runner pick the primary execution timeframe from the Strategy JSON.
+- Syncs production history from MT5 Python when available, or from real MT5 `MQL5/Files/backtest/exported_klines` CopyRates CSV exports on macOS.
+- Writes a production status report that checks M1/M5/M15/H1 coverage depth, density, and latest-bar lag before GA treats the history as production-grade evidence.
 - Applies a deterministic research cost model for spread, slippage, and commission pips.
 - Produces `netR`, pips, profit factor, win rate, max drawdown R, Sharpe, Sortino, loss streak, MFE/MAE and profit capture ratio.
 - Persists each run into SQLite `strategy_runs`, `strategy_trades`, and `equity_curves` tables.
@@ -47,6 +51,9 @@ It only writes local research evidence under `runtime/backtest`.
 cd /Users/bowen/Desktop/Quard/QuantGodBackend
 
 python3 tools/run_usdjpy_strategy_backtest.py --runtime-dir ./runtime sample --overwrite
+python3 tools/run_usdjpy_strategy_backtest.py --runtime-dir ./runtime sync-klines --months 12 --timeframes M1,M5,M15,H1
+python3 tools/run_usdjpy_strategy_backtest.py --runtime-dir ./runtime production-status
+python3 tools/run_usdjpy_strategy_backtest.py --runtime-dir ./runtime quality
 python3 tools/run_usdjpy_strategy_backtest.py --runtime-dir ./runtime run --write
 python3 tools/run_usdjpy_strategy_backtest.py --runtime-dir ./runtime status
 python3 tools/run_usdjpy_strategy_backtest.py --runtime-dir ./runtime telegram-text --refresh
@@ -60,6 +67,7 @@ POST /api/usdjpy-strategy-lab/strategy-backtest/sample
 POST /api/usdjpy-strategy-lab/strategy-backtest/run
 GET  /api/usdjpy-strategy-lab/strategy-backtest/telegram-text
 POST /api/usdjpy-strategy-lab/strategy-backtest/sync-klines
+GET  /api/usdjpy-strategy-lab/strategy-backtest/production-status
 ```
 
 All endpoints are local, USDJPY-only, and research-only.
