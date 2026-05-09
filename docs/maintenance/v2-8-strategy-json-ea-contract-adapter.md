@@ -12,7 +12,8 @@ Scope:
 - EA-side shadow evaluation ledger:
   `QuantGod_StrategyJsonEAShadowEvaluationStatus.json` and
   `QuantGod_StrategyJsonEAShadowEvaluationLedger.jsonl`.
-- EA-side shadow evaluation currently supports `RSI_Reversal`,
+- EA-side shadow evaluation currently supports `RSI_Reversal`, `MA_Cross`,
+  `BB_Triple`, `MACD_Divergence`, `SR_Breakout`,
   `USDJPY_TOKYO_RANGE_BREAKOUT`, `USDJPY_NIGHT_REVERSION_SAFE`, and
   `USDJPY_H4_TREND_PULLBACK` Strategy JSON families; unsupported families stay
   in adapter-gap evidence until their read-only adapters are added.
