@@ -100,7 +100,12 @@ dailyTodo.requiresAutonomousGovernance=true
 dailyReview.completedByAgent=true
 dailyReview.autoAppliedByAgent=true/false
 dailyReview.requiresAutonomousGovernance=true
+
+historyProductionStatus.status=PASS/WARN/MISSING
+historyProductionStatus.promotionGateStatus=PASS/BLOCKED
 ```
+
+`historyProductionStatus` 会同步进入 Daily Autopilot、Agent 每日复盘和 Telegram 中文摘要。若 USDJPY SQLite 历史生产状态不是 `PASS`，日报会明确说明 GA 当前只能使用 shadow/tester 研究证据，不能把候选晋级为可推广策略。
 
 每条待办都必须标记车道：
 
