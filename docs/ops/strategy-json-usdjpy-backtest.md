@@ -24,6 +24,7 @@ runtime/backtest/QuantGod_USDJPYHistoryProductionStatus.json
 - Loads all available USDJPY SQLite timeframes (`M1`, `M5`, `M15`, `H1`, `H4`, `D1`) and lets the runner pick the primary execution timeframe from the Strategy JSON.
 - Syncs production history from MT5 Python when available, or from real MT5 `MQL5/Files/backtest/exported_klines` CopyRates CSV exports on macOS.
 - Writes a production status report that checks M1/M5/M15/H1 coverage depth, density, and latest-bar lag before GA treats the history as production-grade evidence.
+- Adds `historyProductionStatus` to GA fitness; if production status is not `PASS`, GA candidates are downgraded to shadow/tester evidence and blocked from promotion.
 - Applies a deterministic research cost model for spread, slippage, and commission pips.
 - Produces `netR`, pips, profit factor, win rate, max drawdown R, Sharpe, Sortino, loss streak, MFE/MAE and profit capture ratio.
 - Persists each run into SQLite `strategy_runs`, `strategy_trades`, and `equity_curves` tables.

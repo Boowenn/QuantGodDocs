@@ -77,6 +77,7 @@
 - 每一代记录 generation、candidate、fitness breakdown、blocker、elite、mutation 和 crossover；
 - Case Memory 中 `QUEUED_FOR_GA` 的经验会被转换成 `CASE_MEMORY` shadow seed；
 - GA 使用 Strategy JSON fingerprint 与 evidence signature 缓存 fitness，证据变化后自动失效；
+- GA fitness 会读取 `historyProductionStatus`；若 USDJPY SQLite 历史生产状态不是 `PASS`，候选仍可保留研究证据，但不能晋级为可推广策略；
 - `QuantGod_GALineage.json` 记录 case-memory origin、mutation parent 和 crossover parents；
 - `QuantGod_GARunLimiter.json` 记录最近一次 generation，部署可用 `QG_GA_MIN_RUN_INTERVAL_SECONDS` 控制频率；
 - 候选只能进入 MT5 Shadow、tester-only、paper-live-sim 或 autonomous evidence；
