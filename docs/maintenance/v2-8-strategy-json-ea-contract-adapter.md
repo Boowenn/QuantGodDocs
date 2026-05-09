@@ -9,6 +9,12 @@ Scope:
 - USDJPY strategy-lab API endpoints for status/build/telegram text;
 - MQL5 read-only adapter inside `QuantGod_MultiStrategy.mq5`;
 - frontend Evolution status card and detail section.
+- EA-side shadow evaluation ledger:
+  `QuantGod_StrategyJsonEAShadowEvaluationStatus.json` and
+  `QuantGod_StrategyJsonEAShadowEvaluationLedger.jsonl`.
+- Evidence OS Case Memory consumes EA shadow evaluation rows and turns
+  `SHADOW_WOULD_ENTER`, adapter gaps, or safety rejections into bounded GA seed
+  hints.
 
 Safety:
 
@@ -28,3 +34,12 @@ node --test tests/node/test_strategy_contract_adapter_guard.mjs
 python3 tools/run_strategy_contract_adapter.py --runtime-dir runtime build
 ```
 
+Operational check:
+
+```text
+1. Generate the contract from Backend.
+2. Reload the EA so it reads the new contract file.
+3. Confirm `QuantGod_StrategyJsonEAContractEAStatus.json` appears.
+4. Confirm `QuantGod_StrategyJsonEAShadowEvaluationLedger.jsonl` grows over time.
+5. Run Evidence OS and verify Case Memory can see contract shadow signals.
+```
