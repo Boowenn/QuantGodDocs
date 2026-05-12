@@ -322,10 +322,10 @@ Phase 1/2/3 的 API contract 必须保持本地优先和安全受控：
 | GET | `/api/usdjpy-strategy-lab/evidence-os/execution-feedback` | `read-only` | 重建并读取 USDJPY live execution feedback / execution quality report。 |
 | GET | `/api/usdjpy-strategy-lab/evidence-os/case-memory` | `read-only` | 重建并读取 USDJPY Case Memory，总结错失机会、早出、执行偏差和下一代 GA 线索。 |
 | GET | `/api/usdjpy-strategy-lab/evidence-os/telegram-text` | `read-only` | 生成 USDJPY evidence OS 中文 Telegram 文案；走 push-only Gateway，不接命令。 |
-| GET | `/api/case-memory` | `read-only` | 读取 P4-3 Case Memory → shadow Strategy JSON candidate 状态别名；不执行交易。 |
-| GET | `/api/case-memory/status` | `read-only` | 读取 Case Memory strategy candidate report、parity gate 和 GA seed 线索。 |
-| POST | `/api/case-memory/build` | `read-only` | 把 Case Memory root cause 转成 proposed mutation、shadow Strategy JSON candidate 和 GA seed；PARITY_FAIL 会阻断。 |
-| GET | `/api/case-memory/telegram-text` | `push-preview` | 生成 Case Memory 候选中文 Telegram 文案；push-only，不接交易命令。 |
+| GET | `/api/case-memory` | `read-only` | 读取 P4-7 Case Memory → shadow Strategy JSON candidate / GA seed hint 状态别名；不执行交易。 |
+| GET | `/api/case-memory/status` | `read-only` | 读取 Case Memory strategy structure report、parity gate、shadow Strategy JSON candidate 和 GA seed 线索。 |
+| POST | `/api/case-memory/build` | `read-only` | 把 Case Memory root cause 转成 proposed mutation、shadow Strategy JSON candidate 和 GA seed hint；PARITY_FAIL 会阻断。 |
+| GET | `/api/case-memory/telegram-text` | `push-preview` | 生成 Case Memory 策略结构候选中文 Telegram 文案；push-only，不接交易命令。 |
 | GET | `/api/usdjpy-strategy-lab/ga` | `read-only` | 读取 USDJPY Strategy JSON GA 总状态别名；只展示 GA 过程审计，不直接进入实盘。 |
 | GET | `/api/usdjpy-strategy-lab/ga/status` | `read-only` | 读取 USDJPY Strategy JSON GA 当前代数、种群、最佳 fitness、阻断数量和下一步动作。 |
 | POST | `/api/usdjpy-strategy-lab/ga/run-generation` | `read-only` | 运行一代 USDJPY Strategy JSON GA，写入 generation、candidate、elite、blocker 和 evolution path 证据；不下单、不改 preset。 |

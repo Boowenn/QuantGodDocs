@@ -1,6 +1,9 @@
 # USDJPY Case Memory Strategy Candidates
 
-P4-3 turns existing Case Memory into shadow Strategy JSON candidates and GA seed hints. It is a learning and audit step, not a trading executor.
+P4-3 introduced the first bridge from Case Memory into shadow Strategy JSON candidates and GA seed hints.
+P4-7 productionizes that bridge as a strategy-structure learning layer: it keeps the existing `/api/case-memory/*` surface, adds `strategy_structure_lab` metadata, and makes the root-cause → candidate → GA seed path explicit.
+
+It is still a learning and audit step, not a trading executor.
 
 ## Flow
 
@@ -22,7 +25,16 @@ runtime/evidence_os/QuantGod_CaseMemory.jsonl
 runtime/evidence_os/QuantGod_CaseMemorySummary.json
 runtime/case_memory/QuantGod_CaseMemoryStrategyCandidates.json
 runtime/case_memory/QuantGod_CaseMemoryStrategyCandidateLedger.jsonl
+runtime/strategy-json/candidates/*.json
 ```
+
+The P4-7 compatibility layer is exposed through:
+
+```text
+tools/strategy_structure_lab/
+```
+
+It wraps the existing Case Memory implementation instead of replacing it.
 
 ## CLI
 
@@ -62,4 +74,5 @@ The frontend uses `src/services/caseMemoryApi.js` and the Evolution workspace pa
 - No Telegram trading command.
 - No Polymarket real-money path.
 - Candidates remain `SHADOW_STRATEGY_JSON_CANDIDATE`.
+- Candidates remain GA seed hints until replay, backtest, parity, and promotion evidence accept them.
 - `PARITY_FAIL` blocks candidate generation and promotion evidence.

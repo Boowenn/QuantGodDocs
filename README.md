@@ -93,6 +93,7 @@ Recent maintenance records:
 - [P4-4 Strategy GA Factory](docs/maintenance/p4-4-strategy-ga-factory.md)
 - [P4-4 GA Factory productionization](docs/maintenance/p4-4-ga-factory-productionization.md)
 - [P4-5 Telegram Gateway observability](docs/maintenance/p4-5-telegram-gateway-observability.md)
+- [P4-7 Case Memory strategy structure productionization](docs/maintenance/p4-7-case-memory-strategy-structure-productionization.md)
 
 ## API and Contract Files
 
