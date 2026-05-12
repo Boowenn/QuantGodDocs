@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "project": "QuantGod",
   "generatedFrom": "Phase 1/2/3 design and current backend route surfaces",
-  "lastReviewed": "2026-05-05",
+  "lastReviewed": "2026-05-12",
   "repositories": {
     "backend": "QuantGodBackend",
     "frontend": "QuantGodFrontend",
@@ -2315,6 +2315,102 @@
         },
         {
           "method": "GET",
+          "path": "/api/case-memory",
+          "mode": "read-only",
+          "description": "读取 P4-3 Case Memory → shadow Strategy JSON candidate 状态别名；不执行交易。",
+          "safety": {
+            "localOnly": true,
+            "focusOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "strategyJsonOnly": true,
+            "caseMemoryOnly": true,
+            "shadowCandidateOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false,
+            "polymarketRealMoneyAllowed": false,
+            "liveMutationAllowed": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/case-memory/status",
+          "mode": "read-only",
+          "description": "读取 Case Memory strategy candidate report、parity gate 和 GA seed 线索。",
+          "safety": {
+            "localOnly": true,
+            "focusOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "strategyJsonOnly": true,
+            "caseMemoryOnly": true,
+            "shadowCandidateOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false,
+            "polymarketRealMoneyAllowed": false,
+            "liveMutationAllowed": false
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/api/case-memory/build",
+          "mode": "read-only",
+          "description": "把 Case Memory root cause 转成 proposed mutation、shadow Strategy JSON candidate 和 GA seed；PARITY_FAIL 会阻断。",
+          "safety": {
+            "localOnly": true,
+            "focusOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "strategyJsonOnly": true,
+            "caseMemoryOnly": true,
+            "shadowCandidateOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false,
+            "polymarketRealMoneyAllowed": false,
+            "liveMutationAllowed": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/case-memory/telegram-text",
+          "mode": "push-preview",
+          "description": "生成 Case Memory 候选中文 Telegram 文案；push-only，不接交易命令。",
+          "safety": {
+            "localOnly": true,
+            "focusOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "strategyJsonOnly": true,
+            "caseMemoryOnly": true,
+            "shadowCandidateOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false,
+            "polymarketRealMoneyAllowed": false,
+            "liveMutationAllowed": false
+          }
+        },
+        {
+          "method": "GET",
           "path": "/api/usdjpy-strategy-lab/ga",
           "description": "读取 USDJPY Strategy JSON GA 总状态别名；只展示 GA 过程审计，不直接进入实盘。",
           "safety": {
@@ -2777,6 +2873,50 @@
             "liveMutationAllowed": false,
             "completedByAgent": true,
             "autoAppliedByAgent": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/agent-ops-health",
+          "mode": "read-only",
+          "description": "读取 USDJPY Agent operations health 状态别名；只汇总本地证据与心跳，不执行交易。",
+          "safety": {
+            "localOnly": true,
+            "focusOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "evidenceAuditOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false,
+            "polymarketRealMoneyAllowed": false,
+            "liveMutationAllowed": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/usdjpy-strategy-lab/agent-ops-health/status",
+          "mode": "read-only",
+          "description": "读取 USDJPY Agent loop、Evidence OS、Telegram Gateway 和本地 runtime 健康状态。",
+          "safety": {
+            "localOnly": true,
+            "focusOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "evidenceAuditOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false,
+            "polymarketRealMoneyAllowed": false,
+            "liveMutationAllowed": false
           }
         },
         {
