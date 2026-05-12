@@ -3372,6 +3372,36 @@
           }
         }
       ]
+    },
+    {
+      "id": "p4-6-production-evidence-validation",
+      "name": "P4-6 Production Evidence Validation",
+      "description": "Read-only production evidence validation across USDJPY history, parity, execution feedback, and GA stability.",
+      "safetyDefaults": {
+        "localOnly": true,
+        "readOnlyDataPlane": true,
+        "advisoryOnly": true,
+        "orderSendAllowed": false,
+        "closeAllowed": false,
+        "cancelAllowed": false,
+        "livePresetMutationAllowed": false,
+        "telegramCommandExecutionAllowed": false,
+        "polymarketRealMoneyAllowed": false
+      },
+      "endpoints": [
+        {
+          "method": "GET",
+          "path": "/api/production-evidence-validation/status"
+        },
+        {
+          "method": "POST",
+          "path": "/api/production-evidence-validation/run"
+        },
+        {
+          "method": "GET",
+          "path": "/api/production-evidence-validation/telegram-text"
+        }
+      ]
     }
   ]
 }

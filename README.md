@@ -146,3 +146,4 @@ python3 scripts/check_api_contract_matches_backend.py --contract docs/contracts/
 5. Do not document future work as completed. Strategy JSON GA trace is implemented for shadow/tester research; Telegram Gateway is push-only observability, not a command channel.
 6. Do not include credentials, runtime evidence, account identifiers, wallet keys, or tokens.
 7. Prefer natural-language operator wording over internal endpoint names in user-facing docs.
+- [P4-6 Production Evidence Validation](docs/ops/production-evidence-validation.md)
