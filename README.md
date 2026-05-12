@@ -57,6 +57,7 @@ Live narrow. Simulation broad. Promotion fast. Rollback hard.
 | Strategy JSON USDJPY backtest | [Strategy JSON USDJPY backtest](docs/ops/strategy-json-usdjpy-backtest.md) |
 | Strategy JSON → EA contract | [Strategy JSON EA contract adapter](docs/ops/strategy-json-ea-contract-adapter.md) |
 | USDJPY Evidence OS | [USDJPY Evidence OS](docs/ops/usdjpy-evidence-os.md) |
+| Production evidence validation | [Production Evidence Validation](docs/ops/production-evidence-validation.md) |
 | News gate simplification | [News gate simplification](docs/ops/news-gate-simplification.md) |
 | USDJPY autonomous governance | [USDJPY autonomous Agent](docs/ops/usdjpy-autonomous-agent.md) |
 | USDJPY live loop and daily autopilot | [USDJPY live loop daily autopilot](docs/ops/usdjpy-live-loop-daily-autopilot.md) |
@@ -93,7 +94,9 @@ Recent maintenance records:
 - [P4-4 Strategy GA Factory](docs/maintenance/p4-4-strategy-ga-factory.md)
 - [P4-4 GA Factory productionization](docs/maintenance/p4-4-ga-factory-productionization.md)
 - [P4-5 Telegram Gateway observability](docs/maintenance/p4-5-telegram-gateway-observability.md)
+- [P4-6 Production Evidence Validation](docs/maintenance/p4-6-production-evidence-validation.md)
 - [P4-7 Case Memory strategy structure productionization](docs/maintenance/p4-7-case-memory-strategy-structure-productionization.md)
+- [P4-8A Strategy Family Parity Matrix](docs/maintenance/p4-8a-strategy-family-parity-matrix.md)
 
 ## API and Contract Files
 
@@ -147,4 +150,3 @@ python3 scripts/check_api_contract_matches_backend.py --contract docs/contracts/
 5. Do not document future work as completed. Strategy JSON GA trace is implemented for shadow/tester research; Telegram Gateway is push-only observability, not a command channel.
 6. Do not include credentials, runtime evidence, account identifiers, wallet keys, or tokens.
 7. Prefer natural-language operator wording over internal endpoint names in user-facing docs.
-- [P4-6 Production Evidence Validation](docs/ops/production-evidence-validation.md)

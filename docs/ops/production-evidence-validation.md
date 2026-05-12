@@ -35,6 +35,41 @@ runtime/production_validation/QuantGod_LiveExecutionFeedbackCoverage.json
 runtime/production_validation/QuantGod_GAMultiGenerationStabilityReport.json
 ```
 
+## Strategy Family Parity Matrix
+
+P4-8A upgrades the parity audit from a single-file check into a family coverage matrix. The audit now accounts for:
+
+```text
+runtime/parity/QuantGod_StrategyParityReport.json
+runtime/evidence_os/QuantGod_StrategyParityReport.json
+runtime/parity/QuantGod_StrategyParityLedger.csv
+runtime/backtest/QuantGod_StrategyBacktestReport.json
+MT5 Strategy JSON EA shadow evaluation ledger/status files
+```
+
+Every required USDJPY strategy family must appear in the matrix:
+
+```text
+RSI_Reversal
+MA_Cross
+BB_Triple
+MACD_Divergence
+SR_Breakout
+USDJPY_TOKYO_RANGE_BREAKOUT
+USDJPY_NIGHT_REVERSION_SAFE
+USDJPY_H4_TREND_PULLBACK
+```
+
+Valid non-failing outcomes are:
+
+```text
+PASS
+SHADOW_RESEARCH_ONLY
+WATCH
+```
+
+`PASS` means the live-eligible route or direct parity evidence is covered. `SHADOW_RESEARCH_ONLY` means the family has Strategy JSON backtest coverage but remains a research candidate and cannot seize the USDJPY RSI live lane. `WATCH` means partial shadow adapter evidence exists and should be observed.
+
 ## Safety
 
 The report is advisory and read-only. Any `PARITY_FAIL` must block promotion. Missing execution feedback should keep candidates in observation until more samples are collected.
