@@ -120,6 +120,22 @@ This makes it possible to answer not only which seed won, but where it came from
 limiter is permissive; deployments may set `QG_GA_MIN_RUN_INTERVAL_SECONDS` to
 prevent noisy repeated GA runs.
 
+## GA Factory
+
+P4-4 adds a factory layer under `runtime/ga_factory/`. It reads the GA trace and
+produces:
+
+```text
+QuantGod_GAFactoryState.json
+QuantGod_GAEliteArchive.json
+QuantGod_GAStrategyGraveyard.json
+QuantGod_GALineageTree.json
+QuantGod_GAFactoryLedger.csv
+```
+
+This layer makes elite reuse, blocked-strategy avoidance, and next-generation
+production status visible without granting live execution authority.
+
 ## Strategy JSON Safety
 
 Every seed must validate as `quantgod.strategy.v1`. The validator rejects:

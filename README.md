@@ -51,6 +51,8 @@ Live narrow. Simulation broad. Promotion fast. Rollback hard.
 |---|---|
 | Autonomous multi-lane Agent | [QuantGod v2.5 three-lane Agent](docs/ops/usdjpy-cent-autonomous-multilane-agent.md) |
 | Strategy JSON GA trace | [Strategy JSON GA evolution trace](docs/ops/strategy-json-ga-evolution-trace.md) |
+| Strategy GA Factory | [Strategy GA Factory](docs/ops/strategy-ga-factory.md) |
+| USDJPY GA Factory | [USDJPY GA Factory](docs/ops/usdjpy-ga-factory.md) |
 | Strategy JSON USDJPY backtest | [Strategy JSON USDJPY backtest](docs/ops/strategy-json-usdjpy-backtest.md) |
 | Strategy JSON → EA contract | [Strategy JSON EA contract adapter](docs/ops/strategy-json-ea-contract-adapter.md) |
 | USDJPY Evidence OS | [USDJPY Evidence OS](docs/ops/usdjpy-evidence-os.md) |
@@ -86,6 +88,9 @@ Recent maintenance records:
 - [v2.6.1 Strategy JSON USDJPY backtest](docs/maintenance/v2-6-1-strategy-json-usdjpy-backtest.md)
 - [v2.7 USDJPY Evidence OS](docs/maintenance/v2-7-usdjpy-evidence-os.md)
 - [v2.8 Strategy JSON EA contract adapter](docs/maintenance/v2-8-strategy-json-ea-contract-adapter.md)
+- [P4-3 Case Memory strategy candidate](docs/maintenance/p4-3-case-memory-strategy-candidate.md)
+- [P4-4 Strategy GA Factory](docs/maintenance/p4-4-strategy-ga-factory.md)
+- [P4-4 GA Factory productionization](docs/maintenance/p4-4-ga-factory-productionization.md)
 
 ## API and Contract Files
 

@@ -57,6 +57,9 @@ BACKEND_ROUTE_FILES = [
     "Dashboard/dashboard_server.js",
     "Dashboard/automation_chain_api_routes.js",
     "Dashboard/usdjpy_strategy_lab_api_routes.js",
+    "Dashboard/case_memory_api_routes.js",
+    "Dashboard/strategy_ga_factory_api_routes.js",
+    "Dashboard/ga_factory_api_routes.js",
 ]
 
 

@@ -2921,6 +2921,246 @@
         },
         {
           "method": "GET",
+          "path": "/api/strategy-ga-factory",
+          "mode": "read-only",
+          "description": "读取 P4-4 Strategy JSON GA Factory 状态别名；只做工厂归档，不执行交易。",
+          "safety": {
+            "localOnly": true,
+            "focusOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "strategyJsonOnly": true,
+            "gaFactoryAuditOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false,
+            "polymarketRealMoneyAllowed": false,
+            "liveMutationAllowed": false,
+            "gaFactoryDirectLiveAllowed": false,
+            "allowedPromotionStages": [
+              "SHADOW",
+              "FAST_SHADOW",
+              "TESTER_ONLY",
+              "PAPER_LIVE_SIM"
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/strategy-ga-factory/status",
+          "mode": "read-only",
+          "description": "读取 GA Factory state、elite archive、strategy graveyard 和 lineage tree 摘要。",
+          "safety": {
+            "localOnly": true,
+            "focusOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "strategyJsonOnly": true,
+            "gaFactoryAuditOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false,
+            "polymarketRealMoneyAllowed": false,
+            "liveMutationAllowed": false,
+            "gaFactoryDirectLiveAllowed": false,
+            "allowedPromotionStages": [
+              "SHADOW",
+              "FAST_SHADOW",
+              "TESTER_ONLY",
+              "PAPER_LIVE_SIM"
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/api/strategy-ga-factory/build",
+          "mode": "read-only",
+          "description": "生成 GA Factory state、elite archive、strategy graveyard、lineage tree 和 ledger；不下单、不改 preset。",
+          "safety": {
+            "localOnly": true,
+            "focusOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "strategyJsonOnly": true,
+            "gaFactoryAuditOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false,
+            "polymarketRealMoneyAllowed": false,
+            "liveMutationAllowed": false,
+            "gaFactoryDirectLiveAllowed": false,
+            "allowedPromotionStages": [
+              "SHADOW",
+              "FAST_SHADOW",
+              "TESTER_ONLY",
+              "PAPER_LIVE_SIM"
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/strategy-ga-factory/telegram-text",
+          "mode": "push-preview",
+          "description": "生成 GA Factory 中文 Telegram 文案；push-only，不接交易命令。",
+          "safety": {
+            "localOnly": true,
+            "focusOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "strategyJsonOnly": true,
+            "gaFactoryAuditOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false,
+            "polymarketRealMoneyAllowed": false,
+            "liveMutationAllowed": false,
+            "gaFactoryDirectLiveAllowed": false,
+            "allowedPromotionStages": [
+              "SHADOW",
+              "FAST_SHADOW",
+              "TESTER_ONLY",
+              "PAPER_LIVE_SIM"
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/ga-factory",
+          "mode": "read-only",
+          "description": "读取 GA Factory 状态短别名；等同 /api/strategy-ga-factory。",
+          "safety": {
+            "localOnly": true,
+            "focusOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "strategyJsonOnly": true,
+            "gaFactoryAuditOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false,
+            "polymarketRealMoneyAllowed": false,
+            "liveMutationAllowed": false,
+            "gaFactoryDirectLiveAllowed": false,
+            "allowedPromotionStages": [
+              "SHADOW",
+              "FAST_SHADOW",
+              "TESTER_ONLY",
+              "PAPER_LIVE_SIM"
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/ga-factory/status",
+          "mode": "read-only",
+          "description": "读取 GA Factory 状态短别名；等同 /api/strategy-ga-factory/status。",
+          "safety": {
+            "localOnly": true,
+            "focusOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "strategyJsonOnly": true,
+            "gaFactoryAuditOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false,
+            "polymarketRealMoneyAllowed": false,
+            "liveMutationAllowed": false,
+            "gaFactoryDirectLiveAllowed": false,
+            "allowedPromotionStages": [
+              "SHADOW",
+              "FAST_SHADOW",
+              "TESTER_ONLY",
+              "PAPER_LIVE_SIM"
+            ]
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/api/ga-factory/build",
+          "mode": "read-only",
+          "description": "构建 GA Factory 短别名；等同 /api/strategy-ga-factory/build。",
+          "safety": {
+            "localOnly": true,
+            "focusOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "strategyJsonOnly": true,
+            "gaFactoryAuditOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false,
+            "polymarketRealMoneyAllowed": false,
+            "liveMutationAllowed": false,
+            "gaFactoryDirectLiveAllowed": false,
+            "allowedPromotionStages": [
+              "SHADOW",
+              "FAST_SHADOW",
+              "TESTER_ONLY",
+              "PAPER_LIVE_SIM"
+            ]
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/ga-factory/telegram-text",
+          "mode": "push-preview",
+          "description": "生成 GA Factory 中文 Telegram 文案短别名。",
+          "safety": {
+            "localOnly": true,
+            "focusOnly": true,
+            "focusSymbol": "USDJPYc",
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "strategyJsonOnly": true,
+            "gaFactoryAuditOnly": true,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false,
+            "polymarketRealMoneyAllowed": false,
+            "liveMutationAllowed": false,
+            "gaFactoryDirectLiveAllowed": false,
+            "allowedPromotionStages": [
+              "SHADOW",
+              "FAST_SHADOW",
+              "TESTER_ONLY",
+              "PAPER_LIVE_SIM"
+            ]
+          }
+        },
+        {
+          "method": "GET",
           "path": "/api/usdjpy-strategy-lab/telegram-gateway/status",
           "description": "读取独立 Telegram Gateway 队列、ledger、去重、限频和 push-only 状态。",
           "safety": {

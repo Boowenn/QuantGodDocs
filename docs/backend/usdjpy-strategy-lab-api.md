@@ -68,6 +68,12 @@
 | `GET /api/case-memory/status` | 读取 P4-3 Case Memory → Strategy JSON candidate 状态 |
 | `POST /api/case-memory/build` | 生成 shadow Strategy JSON candidate 与 GA seed 线索；PARITY_FAIL 阻断 |
 | `GET /api/case-memory/telegram-text` | 生成 Case Memory 候选中文 Telegram 文案 |
+| `GET /api/strategy-ga-factory/status` | 读取 P4-4 Strategy JSON GA Factory 状态 |
+| `POST /api/strategy-ga-factory/build` | 生成 elite archive、strategy graveyard、lineage tree 和 factory ledger |
+| `GET /api/strategy-ga-factory/telegram-text` | 生成 GA Factory 中文 Telegram 文案 |
+| `GET /api/ga-factory/status` | `strategy-ga-factory/status` 的短别名 |
+| `POST /api/ga-factory/build` | `strategy-ga-factory/build` 的短别名 |
+| `GET /api/ga-factory/telegram-text` | `strategy-ga-factory/telegram-text` 的短别名 |
 | `GET /api/usdjpy-strategy-lab/agent-ops-health` | 读取 Agent ops health 状态别名 |
 | `GET /api/usdjpy-strategy-lab/agent-ops-health/status` | 读取 Agent loop、Evidence OS、Telegram Gateway 和 runtime 健康状态 |
 | `GET /api/usdjpy-strategy-lab/telegram-gateway` | `telegram-gateway/status` 的兼容别名 |

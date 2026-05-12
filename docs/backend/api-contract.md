@@ -5,7 +5,7 @@
 
 ## Contract 摘要
 
-- Endpoint 总数：`244`。
+- Endpoint 总数：`252`。
 - Backend API base：`http://127.0.0.1:8080/api`。
 - 任何新增、删除或重命名 `/api/*` route，都必须同步更新 JSON contract、本文档和 Frontend service wrapper。
 
@@ -250,7 +250,7 @@ Phase 1/2/3 的 API contract 必须保持本地优先和安全受控：
 ### P3-14 USDJPY 单品种多策略实验室
 
 - Phase / Domain：`unknown`。
-- Endpoint 数量：`101`。
+- Endpoint 数量：`109`。
 
 | Method | Path | Mode | Notes |
 |---|---|---|---|
@@ -347,6 +347,14 @@ Phase 1/2/3 的 API contract 必须保持本地优先和安全受控：
 | GET | `/api/usdjpy-strategy-lab/autonomous-agent/telegram-text` | `read-only` | 生成或发送 USDJPY 自主治理中文 Telegram 文案。 |
 | GET | `/api/usdjpy-strategy-lab/agent-ops-health` | `read-only` | 读取 USDJPY Agent operations health 状态别名；只汇总本地证据与心跳，不执行交易。 |
 | GET | `/api/usdjpy-strategy-lab/agent-ops-health/status` | `read-only` | 读取 USDJPY Agent loop、Evidence OS、Telegram Gateway 和本地 runtime 健康状态。 |
+| GET | `/api/strategy-ga-factory` | `read-only` | 读取 P4-4 Strategy JSON GA Factory 状态别名；只做工厂归档，不执行交易。 |
+| GET | `/api/strategy-ga-factory/status` | `read-only` | 读取 GA Factory state、elite archive、strategy graveyard 和 lineage tree 摘要。 |
+| POST | `/api/strategy-ga-factory/build` | `read-only` | 生成 GA Factory state、elite archive、strategy graveyard、lineage tree 和 ledger；不下单、不改 preset。 |
+| GET | `/api/strategy-ga-factory/telegram-text` | `push-preview` | 生成 GA Factory 中文 Telegram 文案；push-only，不接交易命令。 |
+| GET | `/api/ga-factory` | `read-only` | 读取 GA Factory 状态短别名；等同 /api/strategy-ga-factory。 |
+| GET | `/api/ga-factory/status` | `read-only` | 读取 GA Factory 状态短别名；等同 /api/strategy-ga-factory/status。 |
+| POST | `/api/ga-factory/build` | `read-only` | 构建 GA Factory 短别名；等同 /api/strategy-ga-factory/build。 |
+| GET | `/api/ga-factory/telegram-text` | `push-preview` | 生成 GA Factory 中文 Telegram 文案短别名。 |
 | GET | `/api/usdjpy-strategy-lab/telegram-gateway/status` | `read-only` | 读取独立 Telegram Gateway 队列、ledger、去重、限频和 push-only 状态。 |
 | POST | `/api/usdjpy-strategy-lab/telegram-gateway/test-event` | `read-only` | 写入中文测试 NotificationEvent 到 Gateway 队列；不发送交易命令。 |
 | POST | `/api/usdjpy-strategy-lab/telegram-gateway/dispatch` | `read-only` | 处理 Gateway 队列；默认只写 ledger，send=1 时仍要求 push allowed 且 commands disabled。 |
