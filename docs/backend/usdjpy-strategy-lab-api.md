@@ -74,6 +74,9 @@
 | `GET /api/ga-factory/status` | `strategy-ga-factory/status` 的短别名 |
 | `POST /api/ga-factory/build` | `strategy-ga-factory/build` 的短别名 |
 | `GET /api/ga-factory/telegram-text` | `strategy-ga-factory/telegram-text` 的短别名 |
+| `GET /api/telegram-gateway/status` | 读取 P4-5 Telegram Gateway 运维观测状态 |
+| `POST /api/telegram-gateway/collect` | 收集日报、GA、Agent 和 Polymarket 报告进入 push-only Gateway 队列 |
+| `GET /api/telegram-gateway/telegram-text` | 生成 Telegram Gateway 运维中文预览 |
 | `GET /api/usdjpy-strategy-lab/agent-ops-health` | 读取 Agent ops health 状态别名 |
 | `GET /api/usdjpy-strategy-lab/agent-ops-health/status` | 读取 Agent loop、Evidence OS、Telegram Gateway 和 runtime 健康状态 |
 | `GET /api/usdjpy-strategy-lab/telegram-gateway` | `telegram-gateway/status` 的兼容别名 |

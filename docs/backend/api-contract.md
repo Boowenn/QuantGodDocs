@@ -5,7 +5,7 @@
 
 ## Contract 摘要
 
-- Endpoint 总数：`252`。
+- Endpoint 总数：`256`。
 - Backend API base：`http://127.0.0.1:8080/api`。
 - 任何新增、删除或重命名 `/api/*` route，都必须同步更新 JSON contract、本文档和 Frontend service wrapper。
 
@@ -250,7 +250,7 @@ Phase 1/2/3 的 API contract 必须保持本地优先和安全受控：
 ### P3-14 USDJPY 单品种多策略实验室
 
 - Phase / Domain：`unknown`。
-- Endpoint 数量：`109`。
+- Endpoint 数量：`113`。
 
 | Method | Path | Mode | Notes |
 |---|---|---|---|
@@ -345,6 +345,10 @@ Phase 1/2/3 的 API contract 必须保持本地优先和安全受控：
 | POST | `/api/usdjpy-strategy-lab/daily-review/run` | `read-only` | 由 Agent 重建并写入每日复盘和下一阶段任务；只写本地证据，不执行交易。 |
 | GET | `/api/usdjpy-strategy-lab/daily-review/telegram-text` | `read-only` | 生成或发送 Agent 每日复盘中文 Telegram 文案，包含下一阶段任务；Telegram 仍只推送，不接命令。 |
 | GET | `/api/usdjpy-strategy-lab/autonomous-agent/telegram-text` | `read-only` | 生成或发送 USDJPY 自主治理中文 Telegram 文案。 |
+| GET | `/api/telegram-gateway` | `read-only` | 读取 P4-5 Telegram Gateway 运维观测状态别名；只做 push-only 队列、去重、限频、ledger 观测。 |
+| GET | `/api/telegram-gateway/status` | `read-only` | 读取 P4-5 Telegram Gateway 运维观测状态，包含队列、待投递、真实发送、抑制、失败和 topic 视图。 |
+| POST | `/api/telegram-gateway/collect` | `push-preview` | 收集 Daily Autopilot、GA、Agent 和 Polymarket 报告进入 push-only Gateway 队列；不接收 Telegram 命令。 |
+| GET | `/api/telegram-gateway/telegram-text` | `push-preview` | 生成 Telegram Gateway 运维中文预览；仍只推送，不接 Telegram 命令。 |
 | GET | `/api/usdjpy-strategy-lab/agent-ops-health` | `read-only` | 读取 USDJPY Agent operations health 状态别名；只汇总本地证据与心跳，不执行交易。 |
 | GET | `/api/usdjpy-strategy-lab/agent-ops-health/status` | `read-only` | 读取 USDJPY Agent loop、Evidence OS、Telegram Gateway 和本地 runtime 健康状态。 |
 | GET | `/api/strategy-ga-factory` | `read-only` | 读取 P4-4 Strategy JSON GA Factory 状态别名；只做工厂归档，不执行交易。 |

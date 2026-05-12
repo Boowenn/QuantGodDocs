@@ -2877,6 +2877,90 @@
         },
         {
           "method": "GET",
+          "path": "/api/telegram-gateway",
+          "mode": "read-only",
+          "description": "读取 P4-5 Telegram Gateway 运维观测状态别名；只做 push-only 队列、去重、限频、ledger 观测。",
+          "safety": {
+            "localOnly": true,
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "pushOnly": true,
+            "telegramGatewayOpsOnly": true,
+            "gatewayReceivesCommands": false,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false,
+            "polymarketRealMoneyAllowed": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/telegram-gateway/status",
+          "mode": "read-only",
+          "description": "读取 P4-5 Telegram Gateway 运维观测状态，包含队列、待投递、真实发送、抑制、失败和 topic 视图。",
+          "safety": {
+            "localOnly": true,
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "pushOnly": true,
+            "telegramGatewayOpsOnly": true,
+            "gatewayReceivesCommands": false,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false,
+            "polymarketRealMoneyAllowed": false
+          }
+        },
+        {
+          "method": "POST",
+          "path": "/api/telegram-gateway/collect",
+          "mode": "push-preview",
+          "description": "收集 Daily Autopilot、GA、Agent 和 Polymarket 报告进入 push-only Gateway 队列；不接收 Telegram 命令。",
+          "safety": {
+            "localOnly": true,
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "pushOnly": true,
+            "telegramGatewayOpsOnly": true,
+            "gatewayReceivesCommands": false,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false,
+            "polymarketRealMoneyAllowed": false
+          }
+        },
+        {
+          "method": "GET",
+          "path": "/api/telegram-gateway/telegram-text",
+          "mode": "push-preview",
+          "description": "生成 Telegram Gateway 运维中文预览；仍只推送，不接 Telegram 命令。",
+          "safety": {
+            "localOnly": true,
+            "readOnlyDataPlane": true,
+            "advisoryOnly": true,
+            "pushOnly": true,
+            "telegramGatewayOpsOnly": true,
+            "gatewayReceivesCommands": false,
+            "orderSendAllowed": false,
+            "closeAllowed": false,
+            "cancelAllowed": false,
+            "livePresetMutationAllowed": false,
+            "writesMt5OrderRequest": false,
+            "telegramCommandExecutionAllowed": false,
+            "polymarketRealMoneyAllowed": false
+          }
+        },
+        {
+          "method": "GET",
           "path": "/api/usdjpy-strategy-lab/agent-ops-health",
           "mode": "read-only",
           "description": "读取 USDJPY Agent operations health 状态别名；只汇总本地证据与心跳，不执行交易。",

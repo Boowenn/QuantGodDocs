@@ -60,6 +60,7 @@ BACKEND_ROUTE_FILES = [
     "Dashboard/case_memory_api_routes.js",
     "Dashboard/strategy_ga_factory_api_routes.js",
     "Dashboard/ga_factory_api_routes.js",
+    "Dashboard/telegram_gateway_ops_api_routes.js",
 ]
 
 

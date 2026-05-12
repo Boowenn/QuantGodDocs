@@ -53,6 +53,7 @@ Live narrow. Simulation broad. Promotion fast. Rollback hard.
 | Strategy JSON GA trace | [Strategy JSON GA evolution trace](docs/ops/strategy-json-ga-evolution-trace.md) |
 | Strategy GA Factory | [Strategy GA Factory](docs/ops/strategy-ga-factory.md) |
 | USDJPY GA Factory | [USDJPY GA Factory](docs/ops/usdjpy-ga-factory.md) |
+| Telegram Gateway observability | [Telegram Gateway observability](docs/ops/telegram-gateway-observability.md) |
 | Strategy JSON USDJPY backtest | [Strategy JSON USDJPY backtest](docs/ops/strategy-json-usdjpy-backtest.md) |
 | Strategy JSON → EA contract | [Strategy JSON EA contract adapter](docs/ops/strategy-json-ea-contract-adapter.md) |
 | USDJPY Evidence OS | [USDJPY Evidence OS](docs/ops/usdjpy-evidence-os.md) |
@@ -91,6 +92,7 @@ Recent maintenance records:
 - [P4-3 Case Memory strategy candidate](docs/maintenance/p4-3-case-memory-strategy-candidate.md)
 - [P4-4 Strategy GA Factory](docs/maintenance/p4-4-strategy-ga-factory.md)
 - [P4-4 GA Factory productionization](docs/maintenance/p4-4-ga-factory-productionization.md)
+- [P4-5 Telegram Gateway observability](docs/maintenance/p4-5-telegram-gateway-observability.md)
 
 ## API and Contract Files
 
@@ -141,6 +143,6 @@ python3 scripts/check_api_contract_matches_backend.py --contract docs/contracts/
 2. Keep relative links valid.
 3. Keep contract JSON parseable and synchronized with backend routes.
 4. Safety documentation takes precedence over feature descriptions.
-5. Do not document future work as completed. Strategy JSON GA trace is implemented for shadow/tester research; Telegram Gateway remains a next-phase task until implemented.
+5. Do not document future work as completed. Strategy JSON GA trace is implemented for shadow/tester research; Telegram Gateway is push-only observability, not a command channel.
 6. Do not include credentials, runtime evidence, account identifiers, wallet keys, or tokens.
 7. Prefer natural-language operator wording over internal endpoint names in user-facing docs.
