@@ -70,6 +70,41 @@ WATCH
 
 `PASS` means the live-eligible route or direct parity evidence is covered. `SHADOW_RESEARCH_ONLY` means the family has Strategy JSON backtest coverage but remains a research candidate and cannot seize the USDJPY RSI live lane. `WATCH` means partial shadow adapter evidence exists and should be observed.
 
+## Execution Feedback Coverage
+
+P4-8B expands the execution feedback section from a coarse sample warning into a coverage report. It measures:
+
+```text
+sampleCount
+completeSamples
+coreCompleteSamples
+fieldCoverage
+coreCoverage
+coverageGrade
+evidenceUsability
+missingFieldCounts
+modeCounts
+eventTypeCounts
+strategyCoverage
+numericSummary
+recommendationsZh
+```
+
+The required execution feedback fields are:
+
+```text
+strategyId
+eventType
+expectedPrice
+fillPrice
+slippagePips
+latencyMs
+spreadAtEntry
+profitR
+mfeR
+maeR
+```
+
 ## Safety
 
 The report is advisory and read-only. Any `PARITY_FAIL` must block promotion. Missing execution feedback should keep candidates in observation until more samples are collected.
