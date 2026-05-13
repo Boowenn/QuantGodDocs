@@ -59,6 +59,7 @@ Live narrow. Simulation broad. Promotion fast. Rollback hard.
 | USDJPY Evidence OS | [USDJPY Evidence OS](docs/ops/usdjpy-evidence-os.md) |
 | Production evidence validation | [Production Evidence Validation](docs/ops/production-evidence-validation.md) |
 | Execution feedback coverage | [Execution Feedback Coverage](docs/ops/execution-feedback-coverage.md) |
+| Execution feedback producer | [Execution Feedback Producer](docs/ops/execution-feedback-producer.md) |
 | News gate simplification | [News gate simplification](docs/ops/news-gate-simplification.md) |
 | USDJPY autonomous governance | [USDJPY autonomous Agent](docs/ops/usdjpy-autonomous-agent.md) |
 | USDJPY live loop and daily autopilot | [USDJPY live loop daily autopilot](docs/ops/usdjpy-live-loop-daily-autopilot.md) |
@@ -99,6 +100,7 @@ Recent maintenance records:
 - [P4-7 Case Memory strategy structure productionization](docs/maintenance/p4-7-case-memory-strategy-structure-productionization.md)
 - [P4-8A Strategy Family Parity Matrix](docs/maintenance/p4-8a-strategy-family-parity-matrix.md)
 - [P4-8B Execution Feedback Sampling Coverage](docs/maintenance/p4-8b-execution-feedback-coverage.md)
+- [P4-8B.1 Execution Feedback Producer](docs/maintenance/p4-8b-1-execution-feedback-producer.md)
 
 ## API and Contract Files
 
